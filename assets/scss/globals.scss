@@ -12,24 +12,24 @@ $fontStack: "Open Sans", Georgia, serif;
 //GLOBAL MIXINS
 //horizontally and vertically centered
 @mixin xy-centered {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin blue-button {
-    -webkit-transition: .1s opacity linear;
-    -moz-transition: .1s opacity linear;
-    -o-transition: .1s opacity linear;
-    transition: .1s opacity linear;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: $white;
-    background-color: $blue-button;
-    border: none;
+  -webkit-transition: .1s opacity linear;
+  -moz-transition: .1s opacity linear;
+  -o-transition: .1s opacity linear;
+  transition: .1s opacity linear;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: $white;
+  background-color: $blue-button;
+  border: none;
 
-    &:hover {
-        opacity: .8;
-    }
+  &:hover {
+    opacity: .8;
+  }
 }
