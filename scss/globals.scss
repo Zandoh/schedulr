@@ -1,0 +1,31 @@
+//global colors
+$blue: #0E6AA8;
+$white: #ffffff;
+$grey: #CFCFCF;
+$black: #222;
+
+//global fonts
+$fontStack: "Open Sans", Georgia, serif;
+
+//global html elements
+h1, h2, h3, h4, h5, h6 {
+    color: $black;
+}
+
+h1 {
+    font-size: 22px;
+}
+
+h2 {
+    font-size: 18px;
+}
+
+h3 {
+    font-size: 15px;
+}
+
+p {
+    font-size: 13px;
+}
+
+//global effects
