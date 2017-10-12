@@ -1,3 +1,8 @@
+<?php
+ include 'handlers/login_handler.php';
+
+?>
+
 <html>
     <head>
         <title></title>
@@ -67,6 +72,10 @@
         </div>
     </div>
 </div>
+
+<?php
+echo getUsers();
+?>
 
 <footer class="container wrapper">
                         <div class="row">

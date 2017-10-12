@@ -17,16 +17,16 @@ class DBcore{
 	}//end of default constructor 
   
 	/*
-	* Follow this
+	* Select all users
 	*/
-	//function selectAllRooms(){
-	//	$data = Array();
-	//	if($stmt = $this->conn->prepare("select roomNumber, roomName from ROOM;")){
-	//		$stmt->execute();
-	//		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	//	}
-	//	return $data;	
-	//}//end of get rooms	
+	function selectAllUsers(){
+		$data = Array();
+		if($stmt = $this->conn->prepare("select user_ID, password, email, phone_number, first_name, last_name, user_type, congregation_ID from USER;")){
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;	
+	}//end of selectAllUsers	
 
 }//end of class
 ?>
