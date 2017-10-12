@@ -6,7 +6,7 @@ class DBcore{
 	//Default constructor
 	function __construct(){
 	//will be the path to our dbInfo
-		require_once('../../../dbinfo.php');
+		require_once('/var/datainfo/dbinfo.php');
 		try{
         		$this->conn = new PDO('mysql:dbname='.$db.';host='.$host.'', $user, $pass, array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
       		}
