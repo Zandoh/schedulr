@@ -1,0 +1,52 @@
+@import '../../globals';
+
+body {
+    background-color: $grey;
+}
+
+.login-container {
+    @include xy-centered;
+    min-height: 75vh;
+    background-color: $grey;
+
+    .login {
+        height: 400px;
+        width: 500px;
+        background-color: $white;
+    }
+
+    .login-title {
+        height: 100px;
+        background-color: $blue;
+        padding: 9px;
+        margin-bottom: 50px;
+        text-align: center;
+
+        img {
+            width: 250px;
+            height: 81px; 
+        }
+    }
+
+    .form-group {
+        @include xy-centered;
+
+        .form-control {
+            height: 45px;
+        }
+    }
+
+    .submit-button[type="submit"] {
+        @include blue-button;
+        cursor: pointer;
+        font-weight: 500;
+        padding: 13px 26px;
+        font-size: 12px;
+        margin: 0 auto;
+    }
+
+    .forgot-password {
+        font-size: 14px;
+        color: $light-grey;
+    }
+}

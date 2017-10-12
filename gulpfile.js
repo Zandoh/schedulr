@@ -9,18 +9,21 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
+var uglify = require('gulp-uglify');        
 
 var paths = {
-  scripts: 'js/modules/**/*.js',
-  sass: 'scss/modules/**/*.scss'
+  scripts: 'assets/js/modules/**/*.js',
+  sass: 'assets/scss/modules/**/*.scss'
 };
 
 gulp.task('scripts', function() {
     gulp.src(paths.scripts)
+        .pipe(concat('scripts.js'))
+        .pipe(gulp.dest('assets/js/'))
+        .pipe(rename('scripts.min.js'))
         .pipe(uglify())
-        .pipe(concat('scripts.min.js'))
-        .pipe(gulp.dest('js/'));
+        .pipe(gulp.dest('assets/js/'));
 });
   
 gulp.task('sass', function() {
@@ -28,7 +31,7 @@ gulp.task('sass', function() {
         .pipe(sass({style: 'expanded'}))
             .on('error', gutil.log)
         .pipe(concat('styles.css'))
-        .pipe(gulp.dest('css/'))
+        .pipe(gulp.dest('assets/css/'))
 });
 
 // Rerun the task when a file changes
