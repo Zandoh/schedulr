@@ -72,6 +72,7 @@
 
 <?php
 echo getUsers();
+echo 'server document root '.$_SERVER["DOCUMENT_ROOT"];
 ?>
 
 <footer class="container wrapper">
