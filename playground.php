@@ -42,37 +42,8 @@
   </div>
 </nav>
 <body>
-<div class="container login-container">
-  <div class="login">
-    <div class="login-title">
-      <img src="assets/img/raihn-logo.png" alt="Raihn Logo">
-    </div>
-    <div class="form-group row">
-      <div class="col-7">
-        <input type="text" class="form-control" placeholder="email">
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-7">
-        <input type="text" class="form-control" placeholder="password">
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-7">
-        <button type="submit" class="submit-button">Login</button>
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-7">
-        <a class="forgot-password" href="#" target="_blank">Forgot your password?</a>
-      </div>
-    </div>
-  </div>
-</div>
 
-<?php
-echo getUsers();
-?>
+<div id="calendar"></div>
 
 <footer class="container wrapper">
   <div class="row">
