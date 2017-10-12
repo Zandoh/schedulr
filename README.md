@@ -36,3 +36,11 @@ Mac/Unix
   - ```dsn => 'mysql:host=127.0.0.1:3306;dbname=schedulrDB'```
   - ```username => 'root'```
   - ```password => '*****'```
+  
+## Push To Live Site
+
+* ``` git remote add live ssh://push@129.21.183.53/var/repo ```
+* ``` git pull ```
+* ``` git add . ``` (Optional)
+* ``` git commit -m 'Your message' ``` (Optional)
+* ``` git push live master --force ```
