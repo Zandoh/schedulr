@@ -39,7 +39,7 @@ Mac/Unix
   
 ## Push To Live Site
 
-* ``` git remote add live ssh://push@129.21.183.53/var/repo ```
+* ``` git remote add live ssh://push@129.21.183.53/var/repo ``` (Only need to do once)
 * ``` git pull ```
 * ``` git add . ``` (Optional)
 * ``` git commit -m 'Your message' ``` (Optional)
