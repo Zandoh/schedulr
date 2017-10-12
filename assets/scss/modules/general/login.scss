@@ -6,7 +6,7 @@ body {
 
 .login-container {
     @include xy-centered;
-    min-height: 75vh;
+    min-height: 80vh;
     background-color: $grey;
 
     .login {
