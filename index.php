@@ -71,6 +71,7 @@
 </div>
 
 <?php
+echo "hello I am going to print the users here";
 echo getUsers();
 ?>
 
