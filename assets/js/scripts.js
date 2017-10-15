@@ -1,4 +1,6 @@
 console.log('bus-test');
+console.log('cong-test');
+console.log('helllllooooo');
 $(document).ready(function() {
 	$('#calendar').fullCalendar({
 		// editable: false, // Don't allow editing of events
@@ -25,6 +27,3 @@ $(document).ready(function() {
 	var event={id:4 , title: 'New event4', start:  new Date()};
 	$('#calendar').fullCalendar('renderEvent', event, true);
 });
-
-console.log('cong-test');
-console.log('helllllooooo');
