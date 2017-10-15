@@ -31,6 +31,17 @@ class DBcore{
 		}
 		return $data;	
 	}//end of selectAllUsers	
+	/*
+	* Select all users
+	*/
+	function selectAllCongregationSchedule(){
+		$data = Array();
+		if($stmt = $this->conn->prepare("select congregation_schedule_ID, congregation_schedule_name, congregation_schedule_start_date, congregation_schedule_end_date from CONGREGATION_SCHEDULE;")){
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;	
+	}//end of selectAllUsers	
 
 }//end of class
 ?>
