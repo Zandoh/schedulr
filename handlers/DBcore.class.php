@@ -42,6 +42,21 @@ class DBcore{
 		}
 		return $data;	
 	}//end of selectAllUsers	
+    
+    /*
+	* Validate user login
+	*/
+    function validateLogin($email,$pass){
+        $secure = hash('sha256', $pass);
+        $data = Array();
+        
+		if($stmt = $this->conn->prepare("select email, password from USER where email=(:user) and password=(:secure);")){
+            $stmt->bindParam(':user', $email);
+            $stmt->bindParam(':secure', $secure);
+            $stmt->execute();
+        }
+        #$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}//end of validateLogin	
 
 }//end of class
 ?>
