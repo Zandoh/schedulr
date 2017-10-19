@@ -4,6 +4,7 @@ body, html {
   margin: 0px;
   height: 100%;
   width: 100%;
+  font-family: $fontStack;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -11,15 +12,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 22px;
+  font-size: 30px;
 }
 
 h2 {
-  font-size: 18px;
+  font-size: 27px;
 }
 
 h3 {
-  font-size: 15px;
+  font-size: 24px;
 }
 
 p {
@@ -39,4 +40,8 @@ nav.navbar {
     margin-right: 35px;
   }
 
+}
+
+footer {
+  margin-top: 200px;
 }

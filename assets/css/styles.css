@@ -1,19 +1,20 @@
 body, html {
   margin: 0px;
   height: 100%;
-  width: 100%; }
+  width: 100%;
+  font-family: "Open Sans", Georgia, serif; }
 
 h1, h2, h3, h4, h5, h6 {
   color: #222; }
 
 h1 {
-  font-size: 22px; }
+  font-size: 30px; }
 
 h2 {
-  font-size: 18px; }
+  font-size: 27px; }
 
 h3 {
-  font-size: 15px; }
+  font-size: 24px; }
 
 p {
   font-size: 13px; }
@@ -27,6 +28,8 @@ nav.navbar {
     font-size: 16px;
     margin-right: 35px; }
 
+footer {
+  margin-top: 200px; }
 
 
 footer.wrapper {
@@ -213,6 +216,62 @@ Colors: Use the following - https://www.google.com/design/spec/style/color.html#
   opacity: .65 !important;
   margin-left: 12px !important;
   padding: 5px !important; }
+
+/* Created for the bus driver availability page */
+.bus-avail-container {
+  margin-top: 50px;
+  margin-bottom: 50px; }
+  .bus-avail-container h1 {
+    margin-bottom: 20px;
+    font-weight: bold; }
+  .bus-avail-container label {
+    font-weight: 600; }
+  .bus-avail-container #date-picker {
+    margin-top: 5px; }
+  .bus-avail-container .add-to-list {
+    -webkit-transition: .1s opacity linear;
+    -moz-transition: .1s opacity linear;
+    -o-transition: .1s opacity linear;
+    transition: .1s opacity linear;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff;
+    background-color: #0066a3;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 13px 26px;
+    font-size: 12px;
+    margin: 10px 15px 25px 15px; }
+    .bus-avail-container .add-to-list:hover {
+      opacity: .8; }
+  .bus-avail-container tbody th {
+    font-weight: normal;
+    vertical-align: middle; }
+  .bus-avail-container thead {
+    font-weight: bold; }
+  .bus-avail-container .fa-minus-circle {
+    color: #FE6464;
+    font-size: 1.5em; }
+  .bus-avail-container .submit {
+    -webkit-transition: .1s opacity linear;
+    -moz-transition: .1s opacity linear;
+    -o-transition: .1s opacity linear;
+    transition: .1s opacity linear;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff;
+    background-color: #0066a3;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 13px 26px;
+    font-size: 12px;
+    margin: 10px 15px 25px 0px; }
+    .bus-avail-container .submit:hover {
+      opacity: .8; }
 
 @charset "UTF-8";
 /*!
