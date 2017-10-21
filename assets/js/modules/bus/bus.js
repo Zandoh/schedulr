@@ -82,7 +82,6 @@ var bus = {
   * ]
   */
   submitAvailability: function() {
-    console.log('submitting availability...');
     var table = $('table#list tbody');
     var allTableRecords = table.find('tr');
     var recordData = [];
