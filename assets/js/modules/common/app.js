@@ -1,6 +1,8 @@
 /* main function to run when the DOM is ready */
 $(document).ready(function() {
 	
+	bus.init();
+
 	//assign and configure a date picker to the div 
 	$("#date-picker").multiDatesPicker({
 		inline: true,

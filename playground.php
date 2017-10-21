@@ -21,7 +21,7 @@
         </div>
         <div class="form-group col-md-4">
           <label for="bus-date">Dates</label>
-          <input typ"text" class="form-control" id="bus-date" placeholder="Select Dates">
+          <input typ"text" class="form-control" id="bus-date" placeholder="Select Dates" disabled>
           <div id="date-picker"></div>
         </div>
         <div class="form-group col-md-4">
@@ -44,16 +44,11 @@
                 <th>Times</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Test Name</th>
-                <th>Test Date</th>
-                <th>Test Time<a id="delete-date" href="#"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></th>
-              </tr>  
+            <tbody> 
             </tbody>
           </table>
           <!-- used to submit full driver information list to the database -->
-          <button type="submit" class="submit">Submit</button>
+          <button type="submit" class="submit" id="driver-avail-submit">Submit</button>
         </div>
       </form>
     </div>
