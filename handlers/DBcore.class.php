@@ -46,7 +46,7 @@ class DBcore{
     /*
 	* Validate user login
 	*/
-    function validateLogin($email,$pass){
+    function login($email,$pass){
         $secure = hash('sha256', $pass);
         $data = Array();
         
