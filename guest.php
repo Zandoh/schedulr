@@ -16,7 +16,7 @@
 
 		echo getCongregationSchedules();
 
-		if isset($_POST['congregationScheduleList']){
+		if (isset($_POST['congregationScheduleList'])){
 			print_r($_POST['congregationScheduleList']);
 			echo createSchedule('1');
 		}
