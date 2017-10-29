@@ -37,8 +37,8 @@ require_once('DBcore.class.php');
 							  </tr>';
 		foreach($eventArr as $row){
 			$tableScheduleStr .= '<tr>
-								    <td>'.$row['csa.scheduled_date_start'].'</td>
-								    <td>'.$row['c.congregation_name'].'</td>
+								    <td>'.$row['scheduled_date_start'].'</td>
+								    <td>'.$row['congregation_name'].'</td>
 								  </tr>';
 
 		}
