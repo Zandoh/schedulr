@@ -7,7 +7,8 @@ require_once('DBcore.class.php');
 		$DBcore = new DBcore();
 		$congArr = array();
 		$congArr = $DBcore->selectAllCongregationSchedule();
-		$congStr = '';
+		$congStr = '<form action="/guest.php" id="congregationform" method="post">
+						<select name="congregationScheduleList" form="congregationScheduleForm">';
 		foreach($congArr as $row){
 			$congregation_schedule_ID = $row['congregation_schedule_ID'];
 			$congregation_schedule_name = $row['congregation_schedule_name'];
@@ -19,7 +20,13 @@ require_once('DBcore.class.php');
 			$congStr .= 'Start Date: '.$congregation_schedule_start_date.'</br></p>';
 			$congStr .= 'End Date: '.$congregation_schedule_end_date.'</br></p>';
 			
+			$congStr .= '<option value='.$congregation_schedule_ID.'>'.$congregation_schedule_name.'</option>';
+
+
 		}//end of foreach
+			$congStr .= '</select>
+						  <input type="submit">
+						</form>';
 		return $congStr;
 	}
 
@@ -33,11 +40,13 @@ require_once('DBcore.class.php');
 		$tableScheduleStr = '<table>
 							  <tr>
 							    <th>Start of Week</th>
+							    <th>End of Week</th>
 							    <th>Scheduled Congregation</th>
 							  </tr>';
 		foreach($eventArr as $row){
 			$tableScheduleStr .= '<tr>
 								    <td>'.$row['scheduled_date_start'].'</td>
+								    <td>'.$row['scheduled_date_end'].'</td>
 								    <td>'.$row['congregation_name'].'</td>
 								  </tr>';
 
@@ -72,4 +81,6 @@ require_once('DBcore.class.php');
 
 	    return($dateArr);
 	}
+
+	
 ?>
