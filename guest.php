@@ -17,7 +17,7 @@
 		echo getCongregationSchedules();
 
 
-		print_r(createSchedule('1'));
+		print_r(createSchedule(1));
 
 
 	include 'assets/includes/footer.php';
