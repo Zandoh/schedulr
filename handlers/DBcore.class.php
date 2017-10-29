@@ -32,7 +32,7 @@ class DBcore{
 		return $data;	
 	}//end of selectAllUsers	
 	/*
-	* Select all users
+	* Select all Congregation Schedules
 	*/
 	function selectAllCongregationSchedule(){
 		$data = array();
@@ -41,7 +41,20 @@ class DBcore{
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 		return $data;	
-	}//end of selectAllUsers	
+	}//end of select all Congregation Schedules
+
+	/*
+	* Select all Congregation Schedule Events from a single congregationschedule
+	*/
+	function selectAllCongregationScheduleEvents($congregationScheduleID){
+		$data = array();
+		if($stmt = $this->conn->prepare("select c.congregation_name, csa.congregation_ID, csa.congregation_schedule_ID, csa.scheduled_date_start, csa.scheduled_date_end from CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION c using(congregation_ID) WHERE csa.congregation_schedule_ID=:scheduleID;")){
+            $stmt->bindParam(':scheduleID', $scheduleID);
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;	
+	}//end of select all Congregation Schedule Events
     
     /*
 	* Validate user login

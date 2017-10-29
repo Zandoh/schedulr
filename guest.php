@@ -17,22 +17,7 @@
 		echo getCongregationSchedules();
 
 
-		$sundayArr = getDateForSpecificDayBetweenDates('2017-01-01', '2017-12-31', 0);
-
-		$tableScheduleStr = '<table>
-							  <tr>
-							    <th>Start of Week</th>
-							    <th>Scheduled Congregation</th>
-							  </tr>';
-		foreach($sundayArr as $sunday){
-			$tableScheduleStr .= '<tr>
-								    <td>'.$sunday.'</td>
-								    <td>A congregation</td>
-								  </tr>';
-
-		}
-		$tableScheduleStr .= '</table>';
-		echo $tableScheduleStr;
+		echo createSchedule('1');
 
 
 	include 'assets/includes/footer.php';

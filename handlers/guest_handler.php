@@ -24,6 +24,28 @@ require_once('DBcore.class.php');
 	}
 
 
+	function createSchedule($scheduleID){
+		$DBcore = new DBcore();
+		$eventArr = array();
+		$eventArr = $DBcore->selectAllCongregationScheduleEvents($scheduleID);
+		//$sundayArr = getDateForSpecificDayBetweenDates('2017-01-01', '2017-12-31', 0);
+
+		$tableScheduleStr = '<table>
+							  <tr>
+							    <th>Start of Week</th>
+							    <th>Scheduled Congregation</th>
+							  </tr>';
+		foreach($eventArr as $row){
+			$tableScheduleStr .= '<tr>
+								    <td>'.$row['scheduled_date_start'].'</td>
+								    <td>'.$row['congregation_name'].'</td>
+								  </tr>';
+
+		}
+		$tableScheduleStr .= '</table>';
+		return $tableScheduleStr;
+	}
+
 
 	//used to get all sundays of a specified date range
 	function getDateForSpecificDayBetweenDates($startDate, $endDate, $weekdayNumber)
