@@ -16,10 +16,10 @@
 
 		echo getCongregationSchedules();
 
-		if isset($_POST['congregationScheduleList']){
-			print_r($_POST['congregationScheduleList']);
+		//if isset($_POST['congregationScheduleList']){
+		//	print_r($_POST['congregationScheduleList']);
 			echo createSchedule('1');
-		}
+		//}
 
 
 	include 'assets/includes/footer.php';
