@@ -24,7 +24,7 @@ class DBcore{
 	* Select all users
 	*/
 	function selectAllUsers(){
-		$data = Array();
+		$data = array();
 		if($stmt = $this->conn->prepare("select user_ID, password, email, phone_number, first_name, last_name, user_type, congregation_ID from USER;")){
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -35,7 +35,7 @@ class DBcore{
 	* Select all users
 	*/
 	function selectAllCongregationSchedule(){
-		$data = Array();
+		$data = array();
 		if($stmt = $this->conn->prepare("select congregation_schedule_ID, congregation_schedule_name, congregation_schedule_start_date, congregation_schedule_end_date from CONGREGATION_SCHEDULE;")){
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -48,7 +48,7 @@ class DBcore{
 	*/
     function login($email,$pass){
         $secure = hash('sha256', $pass);
-        $data = Array();
+        $data = array();
         
 		if($stmt = $this->conn->prepare("select email, password from USER where email=:user and password=:secure;")){
             $stmt->bindParam(':user', $email);
