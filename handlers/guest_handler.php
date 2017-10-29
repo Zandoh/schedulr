@@ -43,7 +43,7 @@ require_once('DBcore.class.php');
 
 		}
 		$tableScheduleStr .= '</table>';
-		return $tableScheduleStr;
+		return $eventArr;
 	}
 
 
