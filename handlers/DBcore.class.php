@@ -46,7 +46,7 @@ class DBcore{
 	/*
 	* Select all Congregation Schedule Events from a single congregationschedule
 	*/
-	function selectAllCongregationScheduleEvents($congregationScheduleID){
+	function selectAllCongregationScheduleEvents($scheduleID){
 		$data = array();
 		if($stmt = $this->conn->prepare("select c.congregation_name, csa.congregation_ID, csa.congregation_schedule_ID, csa.scheduled_date_start, csa.scheduled_date_end from CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION c using(congregation_ID) WHERE csa.congregation_schedule_ID=:scheduleID;")){
             $stmt->bindParam(':scheduleID', $scheduleID);
