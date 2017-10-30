@@ -19,8 +19,7 @@
 		//check if a schedule has been selected to view
 		if (isset($_POST['congregationScheduleForm'])){
 			//if a schedule has been selected from the select then display the congregations as a table
-			var_dump($_POST['congregationScheduleList']);
-			echo createSchedule($_POST['congregationScheduleList']);
+			echo createSchedule(''.$_POST['congregationScheduleList'].'');
 		}
 
 
