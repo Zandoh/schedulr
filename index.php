@@ -15,10 +15,13 @@
         // not logged in
         //can print out the Error message
         var_dump($_SESSION);
+        var_dump("Post failed".$_POST);
+        var_dump('Session failed'.$_SESSION);
     }
     else{
-        var_dump($_SESSION);
         getLogin();
+        var_dump("Post ".$_POST);
+        var_dump('Session '.$_SESSION);
     }
 
 

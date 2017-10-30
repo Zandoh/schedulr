@@ -19,6 +19,7 @@ function getUsers(){
 }
 
 function getLogin(){
+    
     if(isset($_POST['LoginSubmit'])){
         $email = $_POST['account'];
         $pass = $_POST['secure'];
