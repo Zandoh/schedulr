@@ -8,6 +8,8 @@
     //begin session
     session_start(); 
     //Check if the form has been submitted and the SESSION is already set
+
+    getLogin();
     if (isset($_SESSION['userLogin'])) {
         // logged in
         header("Location:login_landing.php");
@@ -20,7 +22,7 @@
         print_r($_POST);
     }
     else{
-        getLogin();
+        //getLogin();
         var_dump("Post <br>");
         print_r($_POST);
         var_dump('Session <br>');
