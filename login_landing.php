@@ -3,6 +3,7 @@
     <?php
     //begin session
     session_start(); 
+    session_name("LoginSession"); 
     //Check if the form has been submitted and the SESSION is already set
     if (isset($_SESSION['userLogin'])) {
         // logged in
