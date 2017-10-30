@@ -4,15 +4,16 @@
 
     include 'handlers/login_handler.php';
     include 'assets/includes/header.php';
+    require_once('DBcore.class.php');
 
     //begin session
     session_start(); 
     //Check if the form has been submitted and the SESSION is already set
-    
+
     if (isset($_SESSION['userLogin'])) {
         // logged in
         header("Location:login_landing.php");
-    } else if(isset($_SESSION['failedLogin'])){
+    } else if(isset($_SESSION['loginStatus'])){
         // not logged in
         //can print out the Error message
         var_dump('Session failed<br>');
@@ -21,11 +22,27 @@
         print_r($_POST);
     }
     else{
-        getLogin();
-        var_dump("Post <br>");
-        print_r($_POST);
-        var_dump('Session <br>');
-        var_dump($_SESSION);
+        if(isset($_POST['LoginSubmit'])){
+            $email = $_POST['account'];
+            $pass = $_POST['secure'];
+            $DBcore = new DBcore();
+            $userArr = array();
+            $userResult = $DBcore->login($email,$pass);
+
+            if($userResult){
+                //Successful login
+                $_SESSION['userLogin'] = $email;
+                $_SESSION['loginStatus'] = "Pass";
+            }else{
+                //not a successful login
+                $_SESSION['loginStatus'] = "Fail";
+            }
+            //Form not completed filled out
+            $_SESSION['loginStatus'] = "Fail";
+            
+        }else{
+                $_SESSION['loginStatus'] = "Fail";
+        }
     }
 
 
