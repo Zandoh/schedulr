@@ -1,8 +1,24 @@
 <html>
 
     <?php
+    //begin session
+    session_start(); 
+    //Check if the form has been submitted and the SESSION is already set
+    if (isset($_SESSION['userLogin'])) {
+        // logged in
+        header("Location:login_landing.php");
+    } else if(isset($_SESSION['failedLogin'])){
+        // not logged in
+        //can print out the Error message
+    }
+    else{
+        getLogin();
+    }
+
     include 'handlers/login_handler.php';
     include 'assets/includes/header.php';
+
+
     ?>
 
     <!-- nav not included; don't need nav links on the homepage -->
@@ -19,7 +35,7 @@
     <body>
         <div class="container login-container">
             <div class="login">
-                <form method="POST" name="loginForm" action="">
+                <form method="POST" name="loginForm" action="index.php">
                     <div class="login-title">
                         <img src="assets/img/raihn-logo.png" alt="Raihn Logo">
                     </div>
@@ -35,7 +51,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-7">
-                            <button type="submit" name="submit" class="submit-button" value="Login">Login</button>
+                            <button type="submit" name="LoginSubmit" class="submit-button" value="Login">Login</button>
                         </div>
                     </div>
                     <div class="row justify-content-center">
