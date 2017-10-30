@@ -1,6 +1,10 @@
 <html>
 
     <?php
+
+    include 'handlers/login_handler.php';
+    include 'assets/includes/header.php';
+    
     //begin session
     session_start(); 
     //Check if the form has been submitted and the SESSION is already set
@@ -15,8 +19,6 @@
         getLogin();
     }
 
-    include 'handlers/login_handler.php';
-    include 'assets/includes/header.php';
 
 
     ?>
