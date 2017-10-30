@@ -8,7 +8,8 @@ require_once('DBcore.class.php');
 		$congArr = array();
 		$congArr = $DBcore->selectAllCongregationSchedule();
 		$congStr = '<form action="guest.php" id="congregationform" method="post" name="congregationScheduleForm">
-						<select name="congregationScheduleList">';
+						<select name="congregationScheduleList">
+						<option selected="selected">-- Select a Schedule --</option>';
 		foreach($congArr as $row){
 			$congregation_schedule_ID = $row['congregation_schedule_ID'];
 			$congregation_schedule_name = $row['congregation_schedule_name'];
