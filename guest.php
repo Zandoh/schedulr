@@ -16,9 +16,11 @@
 		//display a select form with all the schedule options
 		echo getCongregationSchedules();
 
+		//DEFAULTS to the first schedul in the select
 		//check if a schedule has been selected to view
-		if (isset($_POST['congregationScheduleForm'])){
+		if (isset($_POST['congregationScheduleList'])){
 			//if a schedule has been selected from the select then display the congregations as a table
+
 			echo createSchedule($_POST['congregationScheduleList']);
 		}
 
