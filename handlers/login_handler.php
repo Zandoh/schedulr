@@ -19,26 +19,24 @@ function getUsers(){
 }
 
 function getLogin(){
-    
+
     if(isset($_POST['LoginSubmit'])){
         $email = $_POST['account'];
         $pass = $_POST['secure'];
-        if(!empty($email) && !empty($pass)){
-            $DBcore = new DBcore();
-            $userArr = array();
-            $userResult = $DBcore->login($email,$pass);
+        $DBcore = new DBcore();
+        $userArr = array();
+        $userResult = $DBcore->login($email,$pass);
 
-            if($userResult){
-                //Successful login
-                $_SESSION['userLogin'] = $email;
-            }else{
-                //not a successful login
-                $_SESSION['failedLogin'] = "Email or Password was incorrect";
-            }
+        if($userResult){
+            //Successful login
+            $_SESSION['userLogin'] = $email;
         }else{
-            //Form not completed filled out
-            $_SESSION['failedLogin'] = "Fill out all form fields";
-        }   
+            //not a successful login
+            $_SESSION['failedLogin'] = "Email or Password was incorrect";
+        }
+        //Form not completed filled out
+        $_SESSION['failedLogin'] = "Fill out all form fields";
+        
     }else{
             $_SESSION['failedLogin'] = "Form not submitted";
     }
