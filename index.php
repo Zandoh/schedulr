@@ -4,7 +4,7 @@
 
     include 'handlers/login_handler.php';
     include 'assets/includes/header.php';
-    require_once('DBcore.class.php');
+    require_once('handlers/DBcore.class.php');
 
     //begin session
     session_start(); 
