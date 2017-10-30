@@ -4,7 +4,7 @@
 
     include 'handlers/login_handler.php';
     include 'assets/includes/header.php';
-    
+
     //begin session
     session_start(); 
     //Check if the form has been submitted and the SESSION is already set
@@ -14,8 +14,10 @@
     } else if(isset($_SESSION['failedLogin'])){
         // not logged in
         //can print out the Error message
+        var_dump($_SESSION);
     }
     else{
+        var_dump($_SESSION);
         getLogin();
     }
 

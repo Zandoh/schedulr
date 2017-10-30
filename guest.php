@@ -1,9 +1,5 @@
 <!DOCTYPE html>
 
-	<head>
-		<title>RAIHN Guest</title>
-	</head>
-
     <?php
     include 'assets/includes/header.php';
     include 'assets/includes/nav.php';
