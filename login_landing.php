@@ -10,7 +10,7 @@
     }
     else{
         //not logged in
-        header("Location:index.php");
+        header("Location:login.php");
     }
 
     include 'handlers/login_handler.php';
