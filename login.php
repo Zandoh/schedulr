@@ -14,13 +14,6 @@
     if (isset($_SESSION['userLogin'])) {
         // logged in
         header("Location:login_landing.php");
-    } else if(isset($_SESSION['loginStatus'])){
-        // not logged in
-        //can print out the Error message
-        var_dump('Session failed<br>');
-        var_dump($_SESSION);
-        var_dump("Post failed<br>");
-        print_r($_POST);
     }
     else{
         if(isset($_POST['LoginSubmit'])){
@@ -34,15 +27,11 @@
                 //Successful login
                 $_SESSION['userLogin'] = $email;
                 $_SESSION['loginStatus'] = "Pass";
+				header("Location:login_landing.php");
             }else{
                 //not a successful login
                 $_SESSION['loginStatus'] = "Fail";
-            }
-            //Form not completed filled out
-            $_SESSION['loginStatus'] = "Fail";
-            
-        }else{
-                $_SESSION['loginStatus'] = "Fail";
+            }            
         }
     }
 
