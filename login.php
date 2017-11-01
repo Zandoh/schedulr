@@ -54,7 +54,7 @@
     <body>
         <div class="container login-container">
             <div class="login">
-                <form method="POST" name="loginForm" action="index.php">
+                <form method="POST" name="loginForm" action="login.php">
                     <div class="login-title">
                         <img src="assets/img/raihn-logo.png" alt="Raihn Logo">
                     </div>
