@@ -1,18 +1,6 @@
 <html>
 
 <?php
-    //begin session
-    session_start(); 
-    session_name("LoginSession"); 
-    //Check if the form has been submitted and the SESSION is already set
-    if (isset($_SESSION['userLogin'])) {
-        // logged in
-    }
-    else{
-        //not logged in
-        header("Location:login.php");
-    }
-
     include 'handlers/login_handler.php';
     include 'assets/includes/header.php';
     ?>
@@ -30,30 +18,26 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/login.php">Logout</a>
+            <a class="nav-link" href="login_landing.php">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.php">Logout</a>
           </li>
         </ul>
       </div>
     </nav>
 
-    <!-- need to check if admin, show admin panel, else just show bus + cong -->
     <div class="container-fluid landing-container">
       <div class="row justify-content-md-center">
         <div class="col-md-3 text-center landing-boxes">
-          <h2>Admin</h2>
-          <a href="admin.php">
+          <h2>Available</h2>
+          <a href="#">
             <span></span>
           </a>
         </div>
         <div class="col-md-3 text-center landing-boxes">
-          <h2>Bus Drivers</h2>
-          <a href="bus-drivers.php">
-            <span></span>
-          </a>
-        </div>
-        <div class="col-md-3 text-center landing-boxes">
-          <h2>Congregations</h2>
-          <a href="congregations.php">
+          <h2>Schedule</h2>
+          <a href="#">
             <span></span>
           </a>
         </div>
@@ -62,7 +46,7 @@
 
     <?php 
         include 'assets/includes/footer.php';
-        ?>
+    ?>
   </body>
   <script src="assets/js/vendor/jquery-3.2.1.min.js" type="text/javascript"></script>
   <script src="assets/js/vendor/jquery-ui.min.js" type="text/javascript"></script>

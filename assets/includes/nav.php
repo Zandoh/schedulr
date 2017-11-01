@@ -9,13 +9,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">View</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Manage</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Logout</a>
+        <a class="nav-link" href="login.php">Login</a>
       </li>
     </ul>
   </div>
