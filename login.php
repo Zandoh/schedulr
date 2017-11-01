@@ -23,6 +23,9 @@
             $userArr = array();
             $userResult = $DBcore->login($email,$pass);
 
+			//Call database function to pull the user type
+			//Set session user role
+			
             if($userResult){
                 //Successful login
                 $_SESSION['userLogin'] = $email;
