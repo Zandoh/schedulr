@@ -27,6 +27,7 @@
                 //Successful login
                 $_SESSION['userLogin'] = $email;
                 $_SESSION['loginStatus'] = "Pass";
+				print_r($_SESSION);
 				header("Location:login_landing.php");
             }else{
                 //not a successful login
