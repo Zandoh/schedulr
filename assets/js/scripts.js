@@ -1,3 +1,22 @@
+/* main function to run when the DOM is ready */
+$(document).ready(function() {
+	
+	if($("body").hasClass("bus")) {
+		bus.init();
+
+		//assign and configure a date picker to the div 
+		$("#date-picker").multiDatesPicker({
+			inline: true,
+			altField: "#bus-date",
+		});
+		
+		//change the text field when a new date is selected
+		$("#bus-date").change(function(){
+			$("#date-picker").multiDatesPicker("setDate", $(this).val());
+		});
+	}
+});
+
 var bus = {
   /*
   * Method: init()
@@ -6,6 +25,8 @@ var bus = {
   */
   init: function() {
     this.bindEvents();
+    //will a function to fetch the bus drivers then populate the select option 
+      //also get availability data and populate it into the table
   },
 
   /* 
@@ -76,7 +97,7 @@ var bus = {
   * [
   *   {
   *     "name": "John Doe",
-  *     "date": "MM/DD/YYYY",
+  *     "date": "YYYY-MM-DD",
   *     "time": "AM | PM | Both"
   *   }
   * ]
@@ -99,27 +120,10 @@ var bus = {
     })
   
     json = JSON.stringify(recordData, null, 2);
+    alert(json);
+    //backend will need a function we can make a POST request to submit this data
   }
 }
-
-/* main function to run when the DOM is ready */
-$(document).ready(function() {
-	
-	bus.init();
-
-	//assign and configure a date picker to the div 
-	$("#date-picker").multiDatesPicker({
-		inline: true,
-		altField: "#bus-date",
-	});
-
-
-	//change the text field when a new date is selected
-	$("#bus-date").change(function(){
-		$("#date-picker").multiDatesPicker("setDate", $(this).val());
-	});
-
-});
 
 console.log('cong-test');
 console.log('helllllooooo');

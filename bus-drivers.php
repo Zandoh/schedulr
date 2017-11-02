@@ -5,7 +5,7 @@
     include 'assets/includes/header.php';
     ?>
 
-  <body>
+  <body class="bus">
     <!-- navigation for logged in user -->
     <nav class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand" href="/schedulr">
@@ -30,14 +30,14 @@
     <div class="container-fluid landing-container">
       <div class="row justify-content-md-center">
         <div class="col-md-3 text-center landing-boxes">
-          <h2>Available</h2>
-          <a href="#">
+          <h2>Availability</h2>
+          <a href="./bus-avail.php">
             <span></span>
           </a>
         </div>
         <div class="col-md-3 text-center landing-boxes">
           <h2>Schedule</h2>
-          <a href="#">
+          <a href="./bus-schedule.php">
             <span></span>
           </a>
         </div>
