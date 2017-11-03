@@ -29,13 +29,9 @@ Mac/Unix
 
 - If not on campus, VPN in
 - SSH into server: ```ssh -L 3306:127.0.0.1:3306 abc1234@team-blue.ist.rit.edu```
-- Connect to DB: ```mysql -u root -pundercontrol22 --port 3306 -h 127.0.0.1```
-- Edit application/config/database.php
-- Comment out the line that requires dbInfo.php
-- Edit lines 78-80 to match the following:
-  - ```dsn => 'mysql:host=127.0.0.1:3306;dbname=schedulrDB'```
-  - ```username => 'root'```
-  - ```password => '*****'```
+- Connect to DB: ```mysql -u root -p --port 3306 -h 127.0.0.1```
+- Edit DBcore.class.php, change the host variable in the constructor to match below:
+  - ```$host='127.0.0.1:3306';```
   
 ## Push To Live Site
 
