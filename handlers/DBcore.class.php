@@ -9,6 +9,7 @@ class DBcore{
 		//require_once('../../../../datainfo/dbinfo.php');
 		$db='schedulrDB';
 		$host='localhost';
+		//$host='127.0.0.1:3306';
 		$user='root';
 		$pass='undercontrol22';
 		try{
