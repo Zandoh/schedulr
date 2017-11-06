@@ -8,12 +8,12 @@
         // logged in
       print_r($_SESSION);
       //user is a bus driver
-      if($_SESSION['userType'] == "B"){
+      if($_SESSION['userType'] == "b"){
         //redirect the busdriver to put in availability
         header("Location: bus-avail.php");
       }
       //user is a congregation lead
-      elseif($_SESSION['userType'] == "C"){
+      elseif($_SESSION['userType'] == "c"){
         //redirect the congregation lead to put in blackout dates
         header("Location: cong-avail.php");
 
