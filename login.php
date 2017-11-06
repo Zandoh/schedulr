@@ -33,12 +33,12 @@
               $_SESSION['userType'] = $userType;
               $_SESSION['loginStatus'] = "Pass"; 
               //user is a bus driver
-              if($_SESSION['userType'] == "b"){
+              if(strcasecmp($userType,"b") == 0){
                 //redirect the busdriver to put in availability
                 header("Location: bus-avail.php");
               }
               //user is a congregation lead
-              elseif($_SESSION['userType'] == "c"){
+              elseif(strcasecmp($userType,"c") == 0){
                 //redirect the congregation lead to put in blackout dates
                 header("Location: cong-avail.php");
 
