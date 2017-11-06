@@ -31,8 +31,22 @@
 
               $_SESSION['userLogin'] = $email;
               $_SESSION['userType'] = $userType;
-              $_SESSION['loginStatus'] = "Pass";
-      				header("Location:login_landing.php");
+              $_SESSION['loginStatus'] = "Pass"; 
+              //user is a bus driver
+              if($_SESSION['userType'] == "b"){
+                //redirect the busdriver to put in availability
+                header("Location: bus-avail.php");
+              }
+              //user is a congregation lead
+              elseif($_SESSION['userType'] == "c"){
+                //redirect the congregation lead to put in blackout dates
+                header("Location: cong-avail.php");
+
+              }
+              else{
+                //user is a raihn employee
+      				  header("Location:login_landing.php");
+              }
             }else{
               //not a successful login
               $_SESSION['loginStatus'] = "Fail";

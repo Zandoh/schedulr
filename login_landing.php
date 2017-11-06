@@ -6,19 +6,6 @@
     //Check if the SESSION is already set
     if (isset($_SESSION['userLogin'])) {
         // logged in
-      print_r($_SESSION);
-      //user is a bus driver
-      if($_SESSION['userType'] == "b"){
-        //redirect the busdriver to put in availability
-        header("Location: bus-avail.php");
-      }
-      //user is a congregation lead
-      elseif($_SESSION['userType'] == "c"){
-        //redirect the congregation lead to put in blackout dates
-        header("Location: cong-avail.php");
-
-      }
-      //else user is an admin and can stay on this page
     }
     else{
         //not logged in
