@@ -2,7 +2,6 @@
 
 <?php
 
-    include 'handlers/login_handler.php';
     include 'assets/includes/header.php';
     require_once('handlers/DBcore.class.php');
 

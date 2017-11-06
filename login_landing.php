@@ -3,8 +3,8 @@
 <?php
     //begin session
     session_start(); 
-    //Check if the form has been submitted and the SESSION is already set
-    if (isset($_SESSION['userLogin']) && isset($_SESSION['userType'])) {
+    //Check if the SESSION is already set
+    if (isset($_SESSION['userLogin'])) {
         // logged in
       //user is a bus driver
       if($_SESSION['userType'] == "B"){
