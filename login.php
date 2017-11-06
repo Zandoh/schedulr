@@ -27,21 +27,21 @@
 			//Set session user role
 			
             if($userResult){
-                //Successful login
-                $_SESSION['userLogin'] = $email;
-                $_SESSION['loginStatus'] = "Pass";
-				print_r($_SESSION);
-				header("Location:login_landing.php");
+              //Successful login
+              $userType = $DBcore->selectUserType($email);
+
+              $_SESSION['userLogin'] = $email;
+              $_SESSION['userType'] = $userType;
+              $_SESSION['loginStatus'] = "Pass";
+      				header("Location:login_landing.php");
             }else{
-                //not a successful login
-                $_SESSION['loginStatus'] = "Fail";
+              //not a successful login
+              $_SESSION['loginStatus'] = "Fail";
             }            
         }
     }
 
-
-
-    ?>
+?>
 
   <!-- nav not included; don't need nav links on the homepage -->
   <nav class="navbar navbar-expand-lg navbar-dark">

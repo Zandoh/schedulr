@@ -3,17 +3,27 @@
 <?php
     //begin session
     session_start(); 
-    session_name("LoginSession"); 
     //Check if the form has been submitted and the SESSION is already set
-    if (isset($_SESSION['userLogin'])) {
+    if (isset($_SESSION['userLogin']) && isset($_SESSION['userType'])) {
         // logged in
+      //user is a bus driver
+      if($_SESSION['userType'] == "B"){
+        //redirect the busdriver to put in availability
+        header("Location: bus-avail.php");
+      }
+      //user is a congregation lead
+      elseif($_SESSION['userType'] == "C"){
+        //redirect the congregation lead to put in blackout dates
+        header("Location: cong-avail.php");
+
+      }
+      //else user is an admin and can stay on this page
     }
     else{
         //not logged in
         header("Location:login.php");
     }
 
-    include 'handlers/login_handler.php';
     include 'assets/includes/header.php';
     ?>
 
@@ -40,7 +50,7 @@
     <div class="container-fluid landing-container">
       <div class="row justify-content-md-center">
         <div class="col-md-3 text-center landing-boxes">
-          <h2>Admin</h2>
+          <h2>Edit Users</h2>
           <a href="admin.php">
             <span></span>
           </a>

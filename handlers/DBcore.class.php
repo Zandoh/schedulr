@@ -133,5 +133,18 @@ class DBcore{
         return false;
 	}//end of validateLogin	
 
+	/*
+	* Select a user type
+	*/
+	function selectUserType($email){
+		$data = array();
+		if($stmt = $this->conn->prepare("select user_type from USER where email=:email;")){
+			$stmt->bindParam(':email', $email);
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;	
+	}//end of selectAllUsers	
+
 }//end of class
 ?>

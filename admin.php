@@ -1,8 +1,19 @@
 <html>
-
 <?php
-    include 'handlers/login_handler.php';
+    //begin session
+    session_start(); 
+    //Check if the SESSION is already set
+    if (isset($_SESSION['userLogin'])) {
+        // logged in
+    }
+    else{
+        //not logged in
+        header("Location:login.php");
+    }
+
     include 'assets/includes/header.php';
+
+
     ?>
 
   <body>
