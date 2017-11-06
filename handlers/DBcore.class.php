@@ -143,7 +143,11 @@ class DBcore{
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
-		return $data;	
+		$userType = '';
+		foreach($data as $row){
+			$userType .= $row['user_type'];
+		}
+		return $userType;	
 	}//end of selectAllUsers	
 
 }//end of class

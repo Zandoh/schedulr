@@ -6,6 +6,7 @@
     //Check if the SESSION is already set
     if (isset($_SESSION['userLogin'])) {
         // logged in
+      print_r($_SESSION);
       //user is a bus driver
       if($_SESSION['userType'] == "B"){
         //redirect the busdriver to put in availability
