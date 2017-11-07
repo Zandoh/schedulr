@@ -89,6 +89,34 @@ footer {
       opacity: .8; }
 
 
+/* Created for the admin page */
+.admin-container {
+  margin-top: 50px;
+  margin-bottom: 50px; }
+  .admin-container h1 {
+    margin-bottom: 20px;
+    font-weight: bold; }
+  .admin-container label {
+    font-weight: 600; }
+  .admin-container .submit {
+    -webkit-transition: .1s opacity linear;
+    -moz-transition: .1s opacity linear;
+    -o-transition: .1s opacity linear;
+    transition: .1s opacity linear;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff;
+    background-color: #0066a3;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 13px 26px;
+    font-size: 12px;
+    margin: 20px 15px 25px 0px; }
+    .admin-container .submit:hover {
+      opacity: .8; }
+
 footer.wrapper {
   padding: 25px; }
 

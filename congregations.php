@@ -27,7 +27,22 @@
       </div>
     </nav>
 
-
+    <div class="container-fluid landing-container">
+      <div class="row justify-content-md-center">
+        <div class="col-md-3 text-center landing-boxes">
+          <h2>Blackouts</h2>
+          <a href="./blackouts.php">
+            <span></span>
+          </a>
+        </div>
+        <div class="col-md-3 text-center landing-boxes">
+          <h2>Schedule</h2>
+          <a href="./congregation-schedule.php">
+            <span></span>
+          </a>
+        </div>
+      </div>
+    </div>
 
     <?php 
         include 'assets/includes/footer.php';

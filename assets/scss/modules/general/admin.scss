@@ -1,0 +1,26 @@
+@import '../../globals';
+/* Created for the admin page */
+
+.admin-container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    h1 {
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    label {
+        font-weight: 600;
+    }
+
+    .submit {
+        @include blue-button;
+        cursor: pointer;
+        font-weight: 500;
+        padding: 13px 26px;
+        font-size: 12px;
+        margin: 20px 15px 25px 0px;
+    }
+
+}
