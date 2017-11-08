@@ -15,46 +15,6 @@ DROP SCHEMA IF EXISTS `schedulrDB` ;
 CREATE SCHEMA IF NOT EXISTS `schedulrDB` ;
 USE `schedulrDB` ;
 
--- -----------------------------------------------------
--- Table `schedulrDB`.`PERMISSION`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `schedulrDB`.`PERMISSION` (
-  `permission_ID` INT NOT NULL AUTO_INCREMENT,
-  `permission_name` VARCHAR(45) NULL,
-  PRIMARY KEY (`permission_ID`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `schedulrDB`.`USER_ROLE`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `schedulrDB`.`USER_ROLE` (
-  `role_ID` INT NOT NULL AUTO_INCREMENT,
-  `role_name` VARCHAR(100) NULL,
-  `role_description` VARCHAR(255) NULL,
-  PRIMARY KEY (`role_ID`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `schedulrDB`.`ROLE_PERMISSION`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `schedulrDB`.`ROLE_PERMISSION` (
-  `role_ID` INT NOT NULL,
-  `permission_ID` INT NOT NULL,
-  PRIMARY KEY (`role_ID`, `permission_ID`),
-  INDEX `permission_ID_idx` (`permission_ID` ASC),
-  CONSTRAINT `rp_permission_ID_fk`
-    FOREIGN KEY (`permission_ID`)
-    REFERENCES `schedulrDB`.`PERMISSION` (`permission_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `rp_role_ID_fk`
-    FOREIGN KEY (`role_ID`)
-    REFERENCES `schedulrDB`.`USER_ROLE` (`role_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -92,27 +52,6 @@ CREATE TABLE IF NOT EXISTS `schedulrDB`.`USER` (
     REFERENCES `schedulrDB`.`CONGREGATION` (`congregation_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `schedulrDB`.`USER_ACCOUNT_ROLE`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `schedulrDB`.`USER_ACCOUNT_ROLE` (
-  `role_ID` INT NOT NULL,
-  `user_ID` INT NOT NULL,
-  PRIMARY KEY (`role_ID`, `user_ID`),
-  INDEX `user_ID_idx` (`user_ID` ASC),
-  CONSTRAINT `uar_role_ID_fk`
-    FOREIGN KEY (`role_ID`)
-    REFERENCES `schedulrDB`.`USER_ROLE` (`role_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `uar_user_ID_fk`
-    FOREIGN KEY (`user_ID`)
-    REFERENCES `schedulrDB`.`USER` (`user_ID`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
