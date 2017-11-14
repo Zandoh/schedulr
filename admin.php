@@ -12,6 +12,7 @@
     }
 
     include 'assets/includes/header.php';
+    include 'handlers/admin_handler.php';
 
 
     ?>
@@ -47,6 +48,7 @@
             <label for="username-select">Username</label>
             <select class="form-control" id="username-select">
               <!-- TODO: options would be generated here for each user -->
+              <?php echo getUserOption(); ?>
             </select>
             <button type="submit" class="submit" id="admin-edit-submit">Submit</button>
           </div>
