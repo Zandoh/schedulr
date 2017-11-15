@@ -19,4 +19,8 @@ $(document).ready(function() {
 	if($("body").hasClass("admin")) {
 		admin.init();
 	}
+
+	if($("body").hasClass("init_login")) {
+		login.init();
+	}
 });
