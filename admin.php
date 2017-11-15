@@ -17,7 +17,7 @@
 
     ?>
 
-  <body>
+  <body class="admin">
     <!-- navigation for logged in user -->
     <nav class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand" href="/schedulr">

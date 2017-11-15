@@ -1,22 +1,8 @@
-/* main function to run when the DOM is ready */
-$(document).ready(function() {
-	
-	if($("body").hasClass("bus")) {
-		bus.init();
-
-		//assign and configure a date picker to the div 
-		$("#date-picker").multiDatesPicker({
-			inline: true,
-			altField: "#bus-date",
-		});
-		
-		//change the text field when a new date is selected
-		$("#bus-date").change(function(){
-			$("#date-picker").multiDatesPicker("setDate", $(this).val());
-		});
-	}
-});
-
+var admin = {
+  init: function() {
+    ajax.getUsers('returnAdminUsers');
+  }
+}
 var bus = {
   /*
   * Method: init()
@@ -124,6 +110,53 @@ var bus = {
     //backend will need a function we can make a POST request to submit this data
   }
 }
+
+var ajax = {
+
+	ajaxCall: function(getOrPost, data) {
+		return $.ajax({
+			type: getOrPost,
+			async: true,
+			cache: false,
+      url: "mid.php",
+      data: data
+		});
+	},
+	
+	getUsers: function(func, data) {
+		ajax.ajaxCall("GET", {
+      method: func, 
+      file: "admin_handler"
+    }).done(function(jsonObj) {
+      console.log(jsonObj);
+      //do work with response json here
+		}).fail(function(err) {
+      console.log(err);
+    });
+	}
+}
+/* main function to run when the DOM is ready */
+$(document).ready(function() {
+	
+	if($("body").hasClass("bus")) {
+		bus.init();
+
+		//assign and configure a date picker to the div 
+		$("#date-picker").multiDatesPicker({
+			inline: true,
+			altField: "#bus-date",
+		});
+		
+		//change the text field when a new date is selected
+		$("#bus-date").change(function(){
+			$("#date-picker").multiDatesPicker("setDate", $(this).val());
+		});
+	}
+
+	if($("body").hasClass("admin")) {
+		admin.init();
+	}
+});
 
 console.log('cong-test');
 console.log('helllllooooo');

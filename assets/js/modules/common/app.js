@@ -15,4 +15,8 @@ $(document).ready(function() {
 			$("#date-picker").multiDatesPicker("setDate", $(this).val());
 		});
 	}
+
+	if($("body").hasClass("admin")) {
+		admin.init();
+	}
 });
