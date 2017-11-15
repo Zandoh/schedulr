@@ -78,12 +78,12 @@
           </div>
           <div class="form-group row">
             <div class="col-7">
-              <input type="text" name="account" class="form-control" placeholder="email">
+              <input type="text" name="account" class="form-control" placeholder="Email">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-7">
-              <input type="password" name="secure" class="form-control" placeholder="password">
+              <input type="password" name="secure" class="form-control" placeholder="Password">
             </div>
           </div>
           <div class="form-group row">
