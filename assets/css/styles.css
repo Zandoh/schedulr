@@ -20,7 +20,8 @@ p {
   font-size: 13px; }
 
 label.error {
-  color: #cc0000; }
+  color: #cc0000;
+  font-weight: normal !important; }
 
 nav.navbar {
   background-color: #0E6AA8; }

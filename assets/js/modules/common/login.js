@@ -33,15 +33,15 @@ var login = {
     $("form[name='loginForm']").validate({ //use validation plugin
       rules: {
           account: {
-              required: true,
-              email: true
+            required: true,
+            email: true
           },
           secure: {
-              required: true
+            required: true
           }
       },
       submitHandler: function (form) { //return true if everything validates
-          form.submit();
+        form.submit();
       },
 
       messages: { //messages to return if fields are empty

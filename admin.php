@@ -41,30 +41,30 @@
       <div class="row justify-content-md-center">
         <div class="col-md-8">
           <h1>Add User</h1>
-          <form id="add-user">
+          <form id="add-user" name="addUserSubmit">
             <div class="form-group col-md-4">
               <label for="add-email">Email</label>
-              <input type="text" class="form-control" id="add-email" placeholder="Email">
+              <input type="email" class="form-control" id="add-email" placeholder="Email" name="email">
             </div>
             <div class="form-group col-md-4">
               <label for="add-password">Password</label>
-              <input type="text" class="form-control" id="add-password" placeholder="Password">
+              <input type="text" class="form-control" id="add-password" placeholder="Password" name="password">
             </div>
             <div class="form-group col-md-4">
               <label for="add-phone-number">Phone Number</label>
-              <input type="text" class="form-control" id="add-phone-number" placeholder="Phone Number">
+              <input type="text" class="form-control" id="add-phone-number" placeholder="Phone Number" name="phoneNumber">
             </div>
             <div class="form-group col-md-4">
               <label for="add-fName">First Name</label>
-              <input type="text" class="form-control" id="add-fName" placeholder="First Name">
+              <input type="text" class="form-control" id="add-fName" placeholder="First Name" name="firstName">
             </div>
             <div class="form-group col-md-4">
               <label for="add-lName">Last Name</label>
-              <input type="text" class="form-control" id="add-lName" placeholder="Last Name">
+              <input type="text" class="form-control" id="add-lName" placeholder="Last Name" name="lastName">
             </div>
             <div class="form-group col-md-4">
               <label for="add-user-type">User Type</label>
-              <select class="form-control" id="add-user-type">
+              <select class="form-control" id="add-user-type" name="userType">
                 <option value="e">Admin</option>
                 <option value="b">Bus Driver</option>
                 <option value="c">Congregation Lead</option>
@@ -82,6 +82,8 @@
     ?>
   </body>
   <script src="assets/js/vendor/jquery-3.2.1.min.js" type="text/javascript"></script>
+  <script src="assets/js/vendor/jquery.validate.min.js"></script>
+  <script src="assets/js/vendor/additional-methods.min.js"></script>
   <script src="assets/js/vendor/jquery-ui.min.js" type="text/javascript"></script>
   <script src="assets/js/vendor/jquery-ui.multidatespicker.js" text="text/javascript"></script>
   <script src="assets/js/vendor/popper.js" type="text/javascript"></script>
