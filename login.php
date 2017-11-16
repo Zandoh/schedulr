@@ -35,12 +35,12 @@
               //user is a bus driver
               if(strcasecmp($userType,"b") == 0){
                 //redirect the busdriver to put in availability
-                header("Location: bus-avail.php");
+                header("Location: login_landing.php");
               }
               //user is a congregation lead
               elseif(strcasecmp($userType,"c") == 0){
                 //redirect the congregation lead to put in blackout dates
-                header("Location: cong-avail.php");
+                header("Location: login_landing.php");
 
               }
               else{
@@ -69,26 +69,35 @@
 
   <!-- login container for RAIHN admin -->
 
-  <body>
+  <body class="init_login">
     <div class="container login-container">
       <div class="login">
-        <form method="POST" name="loginForm" action="login.php">
+        <form method="POST" onsubmit="return validateLogin();" name="loginForm" action="login.php">
           <div class="login-title">
             <img src="assets/img/raihn-logo.png" alt="Raihn Logo">
           </div>
           <div class="form-group row">
             <div class="col-7">
-              <input type="text" name="account" class="form-control" placeholder="email">
+              <input type="text" name="account" class="form-control" placeholder="Email">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-7">
-              <input type="password" name="secure" class="form-control" placeholder="password">
+              <input type="password" name="secure" class="form-control" placeholder="Password">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-7">
               <button type="submit" name="LoginSubmit" class="submit-button" value="Login">Login</button>
+              <?php 
+                // if the submitted form failed, display error message
+                if(isset($_SESSION['loginStatus'])) {
+                  if($_SESSION['loginStatus'] == "Fail") {
+                    echo "<label class='error' style='margin-top: .5rem;'>Invalid Email and/or Password.</label>";
+                    unset($_SESSION['loginStatus']);
+                  }
+                }
+              ?>
             </div>
           </div>
           <div class="row justify-content-center">
@@ -104,10 +113,10 @@
         ?>
   </body>
   <script src="assets/js/vendor/jquery-3.2.1.min.js" type="text/javascript"></script>
+  <script src="assets/js/vendor/jquery.validate.min.js"></script>
   <script src="assets/js/vendor/jquery-ui.min.js" type="text/javascript"></script>
   <script src="assets/js/vendor/jquery-ui.multidatespicker.js" text="text/javascript"></script>
   <script src="assets/js/vendor/popper.js" type="text/javascript"></script>
   <script src="assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
   <script src="assets/js/scripts.min.js" type="text/javascript"></script>
-
 </html>

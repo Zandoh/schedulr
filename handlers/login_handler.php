@@ -38,7 +38,7 @@ function getLogin(){
         $_SESSION['failedLogin'] = "Fill out all form fields";
         
     }else{
-            $_SESSION['failedLogin'] = "Form not submitted";
+            $_SESSION['failedLogin'] = "Invalid Email and/or Password. Please try again.";
     }
 }
 ?>
