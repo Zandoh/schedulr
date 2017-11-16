@@ -1,3 +1,10 @@
+<?php
+    // if there is no session, resume one
+    if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
+?>
 <nav class="navbar navbar-expand-lg navbar-dark">
   <a class="navbar-brand" href="/schedulr">
     <img src="assets/img/raihn-logo.png" width="187" height="60" class="d-inline-block" alt="RAIHN Logo">
@@ -8,8 +15,26 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
+      <?php
+        // if the user is on certain pages, display different nav items
+        if (strpos($_SERVER['REQUEST_URI'], "admin.php")
+        || strpos($_SERVER['REQUEST_URI'], "bus-drivers.php")
+        || strpos($_SERVER['REQUEST_URI'], "congregation-schedule.php") 
+        || strpos($_SERVER['REQUEST_URI'], "congregations.php")!== false) {
+          echo "<li class='nav-item'>
+                  <a class='nav-link' href='login_landing.php'>Home</a>
+                </li>";
+        }
+      ?>
       <li class="nav-item">
-        <a class="nav-link" href="login.php">Login</a>
+      <?php  
+      // if the user is logged in, add the logout option else login
+      if (isset($_SESSION['userLogin'])) {
+        echo '<a class="nav-link" href="logout.php">Logout</a>';
+      } else {
+        echo '<a class="nav-link" href="login.php">Login</a>';
+      }
+      ?>
       </li>
     </ul>
   </div>

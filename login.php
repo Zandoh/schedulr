@@ -11,8 +11,18 @@
     //Check if the form has been submitted and the SESSION is already set
 
     if (isset($_SESSION['userLogin'])) {
-        // logged in
-        header("Location:login_landing.php");
+        // logged in, check which page to redirect to
+        if(strcasecmp($userType,"b") == 0){
+          header("Location: bus-avail.php");
+        }
+        //user is a congregation lead
+        elseif(strcasecmp($userType,"c") == 0){
+          header("Location: blackouts.php");
+        }
+        else{
+          //user is a raihn employee
+          header("Location:login_landing.php");
+        }
     }
     else{
         if(isset($_POST['LoginSubmit'])){
@@ -35,12 +45,12 @@
               //user is a bus driver
               if(strcasecmp($userType,"b") == 0){
                 //redirect the busdriver to put in availability
-                header("Location: login_landing.php");
+                header("Location: bus-avail.php");
               }
               //user is a congregation lead
               elseif(strcasecmp($userType,"c") == 0){
                 //redirect the congregation lead to put in blackout dates
-                header("Location: login_landing.php");
+                header("Location: blackouts.php");
 
               }
               else{
