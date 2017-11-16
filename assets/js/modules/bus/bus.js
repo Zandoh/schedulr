@@ -6,10 +6,14 @@ var bus = {
   */
   init: function() {
     this.bindEvents();
+    this.populateDrivers();
     //will a function to fetch the bus drivers then populate the select option 
       //also get availability data and populate it into the table
   },
 
+  populateDrivers: function() {
+    ajax.getDrivers('returnDrivers');
+  },
   /* 
   * Method: bindEvents()
   * Description: Function to bind all events for html elements
@@ -34,6 +38,11 @@ var bus = {
     $('table#list').on('click', 'a#delete-date', function(e) {
       e.preventDefault();
       bus.removeDriverRecord(this);
+    });
+
+    $('#bus-driver').on('change', function(e) {
+      //check if value exists, don't want them clicking on the Select Bus Driver and handling that
+      //need to fetch their availability here. Then populate them into the table.
     });
   },
 

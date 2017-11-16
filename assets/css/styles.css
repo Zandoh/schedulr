@@ -35,7 +35,6 @@ footer {
   margin-top: 200px; }
 
 
-
 /* Created for the bus driver availability page */
 .bus-avail-container {
   margin-top: 50px;
@@ -91,6 +90,7 @@ footer {
     margin: 10px 15px 25px 0px; }
     .bus-avail-container .submit:hover {
       opacity: .8; }
+
 
 /* Created for the admin page */
 .admin-container {

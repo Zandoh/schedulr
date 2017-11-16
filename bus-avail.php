@@ -17,7 +17,10 @@
       <form id="bus-avail">
         <div class="form-group col-md-4">
           <label for="bus-name">Bus Driver Name</label>
-          <input type="text" class="form-control" id="bus-name" placeholder="Bus Driver Name">
+          <select class= "form-control" name="bus-name" id="bus-name" disabled="disabled">
+            <option value="" selected>Select Bus Driver</option>
+          </select>
+          <!--<input type="text" class="form-control" id="bus-name" placeholder="Bus Driver Name">-->
         </div>
         <div class="form-group col-md-4">
           <label for="bus-date">Dates</label>
