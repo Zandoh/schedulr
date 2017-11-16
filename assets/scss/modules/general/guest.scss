@@ -1,0 +1,24 @@
+@import '../../globals.scss';
+
+body {
+  background-color: $grey;
+}
+
+.guest-container {
+  margin-top: 35px;
+
+  .submit-button[type="submit"] {
+    @include blue-button;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 10px 26px;
+    font-size: 12px;
+    margin: 0 auto;
+    margin-left: 15px;
+  }
+
+  #congregationform {
+    margin-bottom: 2rem;
+  }
+
+}

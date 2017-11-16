@@ -35,6 +35,7 @@ footer {
   margin-top: 200px; }
 
 
+
 /* Created for the bus driver availability page */
 .bus-avail-container {
   margin-top: 50px;
@@ -90,7 +91,6 @@ footer {
     margin: 10px 15px 25px 0px; }
     .bus-avail-container .submit:hover {
       opacity: .8; }
-
 
 /* Created for the admin page */
 .admin-container {
@@ -168,6 +168,33 @@ footer a:hover {
 
 #calendar {
   height: 100%; }
+
+body {
+  background-color: #CFCFCF; }
+
+.guest-container {
+  margin-top: 35px; }
+  .guest-container .submit-button[type="submit"] {
+    -webkit-transition: .1s opacity linear;
+    -moz-transition: .1s opacity linear;
+    -o-transition: .1s opacity linear;
+    transition: .1s opacity linear;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff;
+    background-color: #0066a3;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 10px 26px;
+    font-size: 12px;
+    margin: 0 auto;
+    margin-left: 15px; }
+    .guest-container .submit-button[type="submit"]:hover {
+      opacity: .8; }
+  .guest-container #congregationform {
+    margin-bottom: 2rem; }
 
 .landing-container {
   margin-top: 10%; }

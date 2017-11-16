@@ -7,8 +7,8 @@ require_once('DBcore.class.php');
 		$DBcore = new DBcore();
 		$congArr = array();
 		$congArr = $DBcore->selectAllCongregationSchedule();
-		$congStr = '<form action="index.php" id="congregationform" method="post" name="congregationScheduleForm">
-						<select name="congregationScheduleList">';
+		$congStr = '<form class="justify-content-center form-inline" action="index.php" id="congregationform" method="post" name="congregationScheduleForm">
+			<div class="form-group text-center"><select class="form-control" name="congregationScheduleList">';
 		foreach($congArr as $row){
 			$congregation_schedule_ID = $row['congregation_schedule_ID'];
 			$congregation_schedule_name = $row['congregation_schedule_name'];
@@ -20,8 +20,8 @@ require_once('DBcore.class.php');
 
 		}//end of foreach
 			$congStr .= '</select>
-						  <input type="submit" name="submit">
-						</form>';
+						  <input class="submit-button" type="submit" name="submit">
+						</form></div>';
 		return $congStr;
 	}
 
@@ -32,12 +32,15 @@ require_once('DBcore.class.php');
 		$eventArr = $DBcore->selectAllCongregationScheduleEvents($scheduleID);
 		//$sundayArr = getDateForSpecificDayBetweenDates('2017-01-01', '2017-12-31', 0);
 
-		$tableScheduleStr = '<table>
-							  <tr>
-							    <th>Start of Week</th>
-							    <th>End of Week</th>
-							    <th>Scheduled Congregation</th>
-							  </tr>';
+		$tableScheduleStr = '<table class="table table-striped table-bordered">
+								<thead>
+									<tr>
+										<th>Start of Week</th>
+										<th>End of Week</th>
+										<th>Scheduled Congregation</th>
+									</tr>
+								</thead>
+								<tbody>';
 		foreach($eventArr as $row){
 			$tableScheduleStr .= '<tr>
 								    <td>'.$row['scheduled_date_start'].'</td>
@@ -46,7 +49,7 @@ require_once('DBcore.class.php');
 								  </tr>';
 
 		}
-		$tableScheduleStr .= '</table>';
+		$tableScheduleStr .= '</tbody></table></div>';
 		return $tableScheduleStr;
 	}
 
