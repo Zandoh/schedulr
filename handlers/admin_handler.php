@@ -39,4 +39,24 @@ function returnAdminUsers() {
     return $jsonstring;
 }
 
+function returnDrivers() {
+    $DBcore = new DBcore();
+    $driverArr = array();
+    $driverArr = $DBcore->selectAllBusDrivers();
+    $json = array();
+
+    foreach($driverArr as $row) {
+        $user = array(
+            'userID' => $row['user_ID'],
+            'firstName' => $row['first_name'],
+            'lastName' => $row['last_name']
+        );
+        array_push($json, $user);
+    }
+
+    $jsonstring = json_encode($json);
+
+    return $jsonstring;
+}
+
 ?>
