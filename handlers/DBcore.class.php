@@ -8,8 +8,8 @@ class DBcore{
 	//will be the path to our dbInfo
 		//require_once('../../../../datainfo/dbinfo.php');
 		$db='schedulrDB';
-		$host='localhost';
-		//$host='127.0.0.1:3306';
+		//$host='localhost';
+		$host='127.0.0.1:3306';
 		$user='root';
 		$pass='undercontrol22';
 		try{

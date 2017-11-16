@@ -87,21 +87,20 @@ var bus = {
     var table = $('table#list tbody');
     var allTableRecords = table.find('tr');
     var recordData = [];
-    var recordDataEntry;
+    var recordDataEntry = {};
     var json;
-
+    
     $(allTableRecords).each(function(i, v) {
-      recordDataEntry = {};
       $(this).children('td').each(function(ii, vv) {
         this.classList.contains('tableDriverName') ? recordDataEntry.name = $(this).text() : '';
         this.classList.contains('tableDriverDate') ? recordDataEntry.date = $(this).text() : '';
         this.classList.contains('tableDriverTime') ? recordDataEntry.time = $(this).text() : '';
-        recordData.push(recordDataEntry);
+        ii == 2 ? recordData.push(recordDataEntry) : '';
       }); 
     })
   
     json = JSON.stringify(recordData, null, 2);
-    alert(json);
+    console.log(json);
     //backend will need a function we can make a POST request to submit this data
   }
 }
