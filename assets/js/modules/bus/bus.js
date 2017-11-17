@@ -11,9 +11,15 @@ var bus = {
       //also get availability data and populate it into the table
   },
 
+  /* 
+  * Method: populateDrivers()
+  * Description: Function to make an ajax call to fetch driver data
+  * Usage: Called when bus is initalized
+  */
   populateDrivers: function() {
     ajax.getDrivers('returnDrivers');
   },
+
   /* 
   * Method: bindEvents()
   * Description: Function to bind all events for html elements
@@ -32,17 +38,25 @@ var bus = {
 
     /* 
     * Interpreted as a click event on the anchor tag with an ID of delete-date
-    * This syntax is used since the anchor tags are dynamically generated and
-    * the event wouldn't bind to it with the above syntax
+    * This syntax is used since the anchor tags are dynamically generated
     */
     $('table#list').on('click', 'a#delete-date', function(e) {
       e.preventDefault();
       bus.removeDriverRecord(this);
     });
 
-    $('#bus-driver').on('change', function(e) {
-      //check if value exists, don't want them clicking on the Select Bus Driver and handling that
-      //need to fetch their availability here. Then populate them into the table.
+    $('#bus-name').on('change', function (e) {
+      console.log('changed......');
+      var optionSelected = $("option:selected", this);
+      var valueSelected = this.value;
+      
+      if(valueSelected != '') {
+        console.log('not null');
+        console.log(valueSelected);
+        //ajax.getDriverAvailability('returnDriverAvailability', valueSelected);
+        //need to fetch their availability here. Then populate them into the table.
+      }
+      
     });
   },
 
@@ -53,7 +67,7 @@ var bus = {
   */
   populateTable: function() {
       var html;
-      var driverName = $('#bus-name').val();
+      var driverName = $('#bus-name').find(":selected").text();;
       var driverDates = $('#bus-date').val();
       var driverDatesArray = driverDates.split(',');
       var driverTime = $('#bus-time').val();
@@ -86,6 +100,7 @@ var bus = {
   * Sample JSON:
   * [
   *   {
+        "id": "1"
   *     "name": "John Doe",
   *     "date": "YYYY-MM-DD",
   *     "time": "AM | PM | Both"
@@ -101,6 +116,8 @@ var bus = {
     
     $(allTableRecords).each(function(i, v) {
       $(this).children('td').each(function(ii, vv) {
+        //will we need the id??
+        recordDataEntry.id = $('#bus-name').val();
         this.classList.contains('tableDriverName') ? recordDataEntry.name = $(this).text() : '';
         this.classList.contains('tableDriverDate') ? recordDataEntry.date = $(this).text() : '';
         this.classList.contains('tableDriverTime') ? recordDataEntry.time = $(this).text() : '';

@@ -59,4 +59,23 @@ function returnDrivers() {
     return $jsonstring;
 }
 
+function returnDriverAvailability($id) {
+    $DBcore = new DBcore();
+    $driverArr = array();
+    $driverArr = $DBcore->selectBusDriverAvailability($id);
+    $json = array();
+
+    foreach($driverArr as $row) {
+        $user = array(
+            'date' => $row['availability_day'],
+            'time' => $row['availabilty_time_of_day']
+        );
+        array_push($json, $user);
+    }
+
+    $jsonstring = json_encode($json);
+
+    return $jsonstring;
+}
+
 ?>
