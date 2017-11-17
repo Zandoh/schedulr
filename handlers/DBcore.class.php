@@ -149,6 +149,34 @@ class DBcore{
 		}
 		return $userType;	
 	}//end of selectAllUsers	
+    
+    
+    
+        /*
+	* Select previous congregation rotation ID
+	*/
+	function selectPreviousRotationID(){
+		$data = 0;
+		if($stmt = $this->conn->prepare("SELECT MAX(csa.congregation_schedule_ID) FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa;")){
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;	
+	}
+    
+    /*
+	* Select previous congregation rotation order
+	*/
+	function selectCongregationRotation(){
+		$data = array();
+		if($stmt = $this->conn->prepare("SELECT cng.congregation_name FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION cng WHERE (csa.congregation_ID = cng.congregation_ID) and (csa.congregation_schedule_ID=1) ORDER BY csa.scheduled_date_start;")){
+            //$stmt->bindParam(':previousRotation', $rotCount);
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;	
+	}
+    
 
 }//end of class
 ?>
