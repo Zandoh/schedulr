@@ -167,6 +167,58 @@ footer a:hover {
   -o-transition: .1s all linear;
   transition: .1s all linear; }
 
+body {
+  background-color: #CFCFCF; }
+
+.forgot-password-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding-bottom: 15px; }
+  .forgot-password-container .forgot-password-form {
+    min-height: 400px;
+    width: 500px;
+    background-color: #ffffff; }
+    .forgot-password-container .forgot-password-form h2 {
+      margin-bottom: 20px; }
+  .forgot-password-container .login-title {
+    height: 100px;
+    background-color: #0E6AA8;
+    padding: 9px;
+    margin-bottom: 50px;
+    text-align: center; }
+    .forgot-password-container .login-title img {
+      width: 250px;
+      height: 81px; }
+  .forgot-password-container .form-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; }
+    .forgot-password-container .form-group .form-control {
+      height: 45px; }
+  .forgot-password-container .submit-button[type="submit"] {
+    -webkit-transition: .1s opacity linear;
+    -moz-transition: .1s opacity linear;
+    -o-transition: .1s opacity linear;
+    transition: .1s opacity linear;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff;
+    background-color: #0066a3;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 13px 26px;
+    font-size: 12px;
+    margin: 0 auto; }
+    .forgot-password-container .submit-button[type="submit"]:hover {
+      opacity: .8; }
+  .forgot-password-container .alert.alert-success {
+    margin-top: 15px; }
+
 #calendar {
   height: 100%; }
 

@@ -112,7 +112,7 @@
           </div>
           <div class="row justify-content-center">
             <div class="col-7">
-              <a class="forgot-password" href="#" target="_blank">Forgot your password?</a>
+              <a class="forgot-password" href="forgot-password.php">Forgot your password?</a>
             </div>
           </div>
         </form>

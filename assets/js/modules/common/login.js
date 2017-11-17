@@ -6,7 +6,8 @@ var login = {
   */
   init: function() {
     this.bindEvents();
-    //will validate the login processes
+    //will validate the login form
+    //will validate the email reset form
   },
 
   /* 
@@ -16,10 +17,11 @@ var login = {
   */
   bindEvents: function() {
     /*
-    * Validate to make sure login is entered correctly
+    * Validate to make sure login and email is entered correctly
     */
     login.validateLogin();
-    
+    login.validateEmail();
+    login.validatePassword();
 
   },
 
@@ -43,7 +45,6 @@ var login = {
       submitHandler: function (form) { //return true if everything validates
         form.submit();
       },
-
       messages: { //messages to return if fields are empty
         account: {  
           required: "Can't leave email empty"
@@ -54,6 +55,64 @@ var login = {
       }
     })
 
+  },
+
+  /*
+  * Method: validateEmail
+  * Description: Function to validate if an email is entered
+  * Usage: Called when the user clicks on the Password Reset button. Returns true if validate, else returns error.
+  */
+  validateEmail: function() {
+
+    $("form[name='passwordReset']").validate({ //use validation plugin
+      rules: {
+        account: {
+          required: true,
+          email: true
+        }
+      },
+      submitHandler: function(form) { //return true if everything validates 
+        form.submit();
+      },
+      messages: { //messages to return if field is not email or empty
+        account: {
+          required: "Can't leave email empty"
+        }
+      }
+    })
+  },
+
+
+  /*
+  * Method: validatePassword
+  * Description: Function to validate a password change
+  * Usage: Called when the user clicks on the Reset Password button. Returns true if validate, else returns error.
+  */
+  validatePassword: function() {
+    
+        $("form[name='newFormPassword']").validate({ //use validation plugin
+          rules: {
+            password: {
+              required: true,
+              minlength: 8
+            },
+            confirm: {
+              required: true,
+              equalTo: "#newPassword"
+            }
+          },
+          submitHandler: function(form) { //return true if everything validates 
+            form.submit();
+          },
+          messages: { //messages to return if field is not email or empty
+            password: {
+              required: "Can't leave password empty"
+            },
+            confirm: {
+              equalTo: "Your confirmed password doesn't match"
+            }
+          }
+        })
   }
 
 }

@@ -52,7 +52,7 @@ var admin = {
       },
       submitHandler: function (form) { //return true if everything validates
         form.submit();
-      },
+      }
     })
 
   }

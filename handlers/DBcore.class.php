@@ -111,8 +111,7 @@ class DBcore{
 	}
 
 
-
-    /*
+  /*
 	* Validate user login
 	*/
     function login($email,$pass){
@@ -133,6 +132,52 @@ class DBcore{
         return false;
 	}//end of validateLogin	
 
+
+	/*
+	* Update user password from email
+	*/
+	function updatePassword($email, $password) {
+		$secure = hash('sha256', $password);
+		$data = array();
+
+		if($stmt = $this->conn->prepare("update USER set password=:secure where email=:user;")) {
+			$stmt->bindParam(':secure', $secure);
+			$stmt->bindParam(':user', $email);
+			$stmt->execute();
+
+			if ($stmt->rowCount()) {
+				return true;
+		  } else {
+				return false;
+			}
+			
+		}
+	}//end of updatePassword
+
+
+	/*
+	* Password Reset; see if the user email exists
+	*/
+	function emailExists($email) {
+		$data = array();
+
+		if($stmt = $this->conn->prepare("select email from USER where email=:user;")) {
+			$stmt->bindParam(':user', $email);
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			if (!$data) {
+				//no user exists for this email
+				return false;
+			} else {
+				//user was found for this email
+				return true;
+			}
+
+		}
+	}//end of emailExists
+
+
 	/*
 	* Select a user type
 	*/
@@ -152,7 +197,7 @@ class DBcore{
     
     
     
-        /*
+  /*
 	* Select previous congregation rotation ID
 	*/
 	function selectPreviousRotationID(){
@@ -164,7 +209,7 @@ class DBcore{
 		return $data;	
 	}
     
-    /*
+  /*
 	* Select previous congregation rotation order
 	*/
 	function selectCongregationRotation(){
