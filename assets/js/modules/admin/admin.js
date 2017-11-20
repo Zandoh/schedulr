@@ -37,17 +37,20 @@ var admin = {
           },
           password: {
             required: true,
-            minlength: 8
+            minlength: 8,
+            maxlength: 50
           },
           phoneNumber: {
             required: true,
             phoneUS: true
           },
           firstName: {
-            required: true
+            required: true,
+            maxlength: 200
           },
           lastName: {
-            required: true
+            required: true,
+            maxlength: 200
           }
       },
       submitHandler: function (form) { //return true if everything validates

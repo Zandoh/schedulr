@@ -56,7 +56,9 @@
                 // if the submitted form failed, display error message
                 if(isset($_SESSION['emailSent'])) {
                   if($_SESSION['emailSent'] == "Fail") {
-                    echo "<label class='error' style='margin-top: .5rem;'>Sorry, we don't have an account with that email.</label>";
+                    echo "<div class='alert alert-success' role='alert'>
+                        If this account exists then we'll send you an email to reset your password.
+                        </div>";
                     unset($_SESSION['emailSent']);
                   }
                 }
@@ -64,11 +66,11 @@
                 // if the email sent fails, let the user know
                 if(isset($_SESSION['emailResult'])) {
                   if($_SESSION['emailResult'] == "Fail") {
-                    echo "<label class='error' style='margin-top: .5rem;'>Sorry, the email failed to send. Please contact RAIHN for assistance.</label>";
+                    echo "<label class='error' style='margin-top: .5rem;'>Sorry, there was an error. Please contact RAIHN.</label>";
                     unset($_SESSION['emailResult']);
                   } else if ($_SESSION['emailResult'] == "Sent") {
                     echo "<div class='alert alert-success' role='alert'>
-                            We've just sent you an email. Click the link in it to reset your password.
+                          If this account exists then we'll send you an email to reset your password.
                           </div>";
                     unset($_SESSION['emailResult']);
                   }

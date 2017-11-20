@@ -13,6 +13,7 @@
     if(isset($_POST['NewPassword'])) {
         if (isset($_GET['key'])) {
           $key = $_GET['key'];
+          
           $email = $_SESSION['email'];
           $password = $_POST['password'];
           $DBcore = new DBcore();
@@ -55,7 +56,7 @@
               //TODO: If form fails to submit, tell them. Else say success!
               if(isset($_SESSION['newPasswordResult'])) {
                 if($_SESSION['newPasswordResult'] == "Failed") {
-                  echo "<label class='error' style='margin-top: .5rem;'>There was an error updating your password. Please contact RAIHN.</label>";
+                  echo "<label class='error' style='margin-top: .5rem;'>There was an error. Your new password may be the same as your old one. Please contact RAIHN.</label>";
                   unset($_SESSION['newPasswordResult']);
                 } else if ($_SESSION['newPasswordResult'] == "Updated") {
                   echo "<div class='alert alert-success' role='alert'>
