@@ -27,6 +27,7 @@
     else{
         if(isset($_POST['LoginSubmit'])){
             $email = $_POST['account'];
+            $_SESSION['user_email'] = $email;
             $pass = $_POST['secure'];
             $DBcore = new DBcore();
             $userArr = array();
