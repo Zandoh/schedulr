@@ -147,19 +147,25 @@ class DBcore{
 
 		//if the url matches what it should be, then update the user info
 		if ($resetKey == $key) {
-			$secure = hash('sha256', $password);
-
-			if($stmt = $this->conn->prepare("update USER set password=:secure where email=:user;")) {
-				$stmt->bindParam(':secure', $secure);
-				$stmt->bindParam(':user', $email);
-				$stmt->execute();
-
-				if ($stmt->rowCount()) {
-					return true;
+			//only let the user reset email if its been under 15 minutes
+			if((time() - $_SESSION['userDateTime']) > 15*60) {
+				return false;
 				} else {
-					return false;
+					$secure = hash('sha256', $password);
+
+					if($stmt = $this->conn->prepare("update USER set password=:secure where email=:user;")) {
+						$stmt->bindParam(':secure', $secure);
+						$stmt->bindParam(':user', $email);
+						$stmt->execute();
+
+						if ($stmt->rowCount()) {
+							return true;
+						} else {
+							return false;
+						}
 				}
 			}
+		
 		} else {
 			return false;
 		}

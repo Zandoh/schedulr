@@ -22,7 +22,9 @@
 
         if($emailResult) {
           $_SESSION['emailResult'] = "Sent";
+          //set session variable for email and datetime for verification security
           $_SESSION['email'] = $email;
+          $_SESSION['userDateTime'] = time();
         } else {
           $_SESSION['emailResult'] = "Fail";
         }
@@ -62,7 +64,7 @@
                 // if the email sent fails, let the user know
                 if(isset($_SESSION['emailResult'])) {
                   if($_SESSION['emailResult'] == "Fail") {
-                    echo "<label class='error' style='margin-top: .5rem;'>Sorry, the email failed to send. Please contact RAIHN for help.</label>";
+                    echo "<label class='error' style='margin-top: .5rem;'>Sorry, the email failed to send. Please contact RAIHN for assistance.</label>";
                     unset($_SESSION['emailResult']);
                   } else if ($_SESSION['emailResult'] == "Sent") {
                     echo "<div class='alert alert-success' role='alert'>
