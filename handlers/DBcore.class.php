@@ -136,21 +136,32 @@ class DBcore{
 	/*
 	* Update user password from email
 	*/
-	function updatePassword($email, $password) {
-		$secure = hash('sha256', $password);
+	function updatePassword($email, $password, $key) {
+
+		//use the same salt as in the EmailUser class
+		$salt = "i7S1xo9pvXG%u1Krd8Fhi3oE2JEZzQ4csCUqeKc07OsiHj96j7*sp3pXcO9C1H9jiM0jqCKfMbb8phzu";
+		
+		//create the reset key to compare its value to our url key
+		$resetKey = hash('sha256', $salt . $email);
 		$data = array();
 
-		if($stmt = $this->conn->prepare("update USER set password=:secure where email=:user;")) {
-			$stmt->bindParam(':secure', $secure);
-			$stmt->bindParam(':user', $email);
-			$stmt->execute();
+		//if the url matches what it should be, then update the user info
+		if ($resetKey == $key) {
+			$secure = hash('sha256', $password);
 
-			if ($stmt->rowCount()) {
-				return true;
-		  } else {
-				return false;
+			if($stmt = $this->conn->prepare("update USER set password=:secure where email=:user;")) {
+				$stmt->bindParam(':secure', $secure);
+				$stmt->bindParam(':user', $email);
+				$stmt->execute();
+
+				if ($stmt->rowCount()) {
+					return true;
+				} else {
+					return false;
+				}
 			}
-			
+		} else {
+			return false;
 		}
 	}//end of updatePassword
 

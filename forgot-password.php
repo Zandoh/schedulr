@@ -4,13 +4,11 @@
     include 'handlers/guest_handler.php';
 
     require_once('handlers/DBcore.class.php');
-    require_once('assets/php/EmailUser.class.php');
+    require_once('handlers/EmailUser.class.php');
     if(!isset($_SESSION)) 
     { 
         session_start(); 
     } 
-
-    //TODO: Check if the form was submitted and if the session is already set
 
     if(isset($_POST['PasswordResetSubmit'])) {
       $email = $_POST['account'];
@@ -24,6 +22,7 @@
 
         if($emailResult) {
           $_SESSION['emailResult'] = "Sent";
+          $_SESSION['email'] = $email;
         } else {
           $_SESSION['emailResult'] = "Fail";
         }

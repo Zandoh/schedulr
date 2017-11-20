@@ -11,11 +11,12 @@
     } 
 
     if(isset($_POST['NewPassword'])) {
-        if (isset($_GET['email'])) {
-          $email = $_GET['email'];
+        if (isset($_GET['key'])) {
+          $key = $_GET['key'];
+          $email = $_SESSION['email'];
           $password = $_POST['password'];
           $DBcore = new DBcore();
-          $newPasswordResult = $DBcore->updatePassword($email, $password);
+          $newPasswordResult = $DBcore->updatePassword($email, $password, $key);
 
           //if returns true, show that the password was updated
           if($newPasswordResult) {
