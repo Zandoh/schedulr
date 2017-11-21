@@ -25,23 +25,32 @@
     <div class="row justify-content-md-center">
       <div class="col-md-8">
         <h1>Edit Users</h1>
-        <form id="admin">
+        <form id="admin" action="admin.php" name="editUser" method="post">
           <div class="form-group col-md-4">
             <label for="username-select">Username</label>
-            <select class="form-control" id="username-select">
-              <!-- TODO: options would be generated here for each user -->
+            <select class="form-control" name= "editUserList" id="username-select">
+              <!-- options generated here for each user -->
               <?php echo getUserOption(); ?>
             </select>
-            <button type="submit" class="submit" id="admin-edit-submit">Submit</button>
+            <button type="submit" name="editUserButton" class="submit" id="admin-edit-submit">Submit</button>
           </div>
         </form>
+<?php
+
+  if(isset($_POST['editUserList'])){
+      $user_ID = $_POST['editUserList'];
+     echo createEditUserForm($user_ID);
+    }//end of if
+?>
+
+
       </div>
     </div>
     <div class="container-fluid admin-container">
       <div class="row justify-content-md-center">
         <div class="col-md-8">
           <h1>Add User</h1>
-          <form id="add-user" name="addUserSubmit">
+          <form id="add-user" name="addUserSubmit" method="post">
             <div class="form-group col-md-4">
               <label for="add-email">Email</label>
               <input type="email" class="form-control" id="add-email" placeholder="Email" name="email">

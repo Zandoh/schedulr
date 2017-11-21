@@ -219,7 +219,7 @@ class DBcore{
 	*/
 	function selectPreviousRotationID(){
 		$data = 0;
-		if($stmt = $this->conn->prepare("SELECT MAX(csa.congregation_schedule_ID) FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa;")){
+		if($stmt = $this->conn->prepare("select MAX(csa.congregation_schedule_ID) FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa;")){
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
@@ -231,14 +231,54 @@ class DBcore{
 	*/
 	function selectCongregationRotation(){
 		$data = array();
-		if($stmt = $this->conn->prepare("SELECT cng.congregation_name FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION cng WHERE (csa.congregation_ID = cng.congregation_ID) and (csa.congregation_schedule_ID=1) ORDER BY csa.scheduled_date_start;")){
+		if($stmt = $this->conn->prepare("select cng.congregation_name FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION cng WHERE (csa.congregation_ID = cng.congregation_ID) and (csa.congregation_schedule_ID=1) ORDER BY csa.scheduled_date_start;")){
             //$stmt->bindParam(':previousRotation', $rotCount);
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 		return $data;	
 	}
+
+	function selectOneUser($user_ID){
+		$data = array();
+		if($stmt = $this->conn->prepare("select user_ID, email, phone_number, first_name, last_name, user_type, congregation_ID from USER where user_ID=:user_ID;")){
+			$stmt->bindParam(':user_ID', $user_ID);
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;
+
+	}
     
+
+	/*
+	* Manage users -- edit a user -- cannot reset a users password
+	*/
+	function editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType, $congregation_ID){
+		$data = array();
+		if($stmt = $this->conn->prepare("update USER set email=:email, phone_number=:phone, first_name=:firstName, last_name=:lastName, userType=:userType, congregation_ID=:congregation_ID where user_ID=:user_ID;")) {
+			$stmt->bindParam(':email', $email);
+			$stmt->bindParam(':phone', $phone);
+			$stmt->bindParam(':first_name', $firstName);
+			$stmt->bindParam(':last_name', $lastName);
+			$stmt->bindParam(':userType', $userType);
+			$stmt->bindParam(':congregation_ID', $congregation_ID);
+			$stmt->execute();
+
+			if ($stmt->rowCount() > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/*
+	* Manage users -- add a user
+	*/
+	function addOneUser($email, $password, $phone, $firstName, $lastName, $userType, $congregation_ID){
+
+	}
 
 }//end of class
 ?>
