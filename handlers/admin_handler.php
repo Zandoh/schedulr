@@ -122,7 +122,7 @@ function createEditUserForm($user_ID){
                                     <option value="c" selected>Congregation Lead</option>';
                 }
            $formStr .= '</select>
-                    <button type="submit" class="submit" name="editUserSubmitButton" value="edit" id="admin-add-user-submit">Submit</button>
+                    <button type="submit" class="submit" name="editUserSubmitButton" value="edit" id="admin-add-user-submit">Save Edits</button>
                   </div>
                 </form>';
         }
@@ -183,6 +183,18 @@ function addUser($email, $password, $phone, $firstName, $lastName, $userType){
     $DBcore = new DBcore();
     $result = array();
     $result = $DBcore->addOneUser($email, $password, $phone, $firstName, $lastName, $userType);
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+function deleteUser($user_ID){
+    $DBcore = new DBcore();
+    $result = array();
+    $result = $DBcore->removeOneUser($user_ID);
     if ($result) {
         return true;
     } else {

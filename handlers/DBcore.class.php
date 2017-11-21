@@ -295,5 +295,20 @@ class DBcore{
 		}
 	}
 
+	/*
+	* Manage users -- delete a user
+	*/
+	function removeOneUser($user_ID){
+		if($stmt = $this->conn->prepare("delete from USER where user_id=:user_ID;")) {
+			$stmt->bindParam(':user_ID', $user_ID);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
 }//end of class
 ?>

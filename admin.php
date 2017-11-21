@@ -35,6 +35,17 @@
           echo 'Failed add';
       }
   }
+  if(isset($_POST['deleteUserButton'])){
+    //did the user submit the delete user button
+    //if so then delete the user from the database
+    $user_ID = $_POST['userList'];
+    $result = deleteUser($user_ID);
+    if ($result) {
+        echo 'Successful delete';
+    } else {
+        echo 'Failed delete';
+    }
+  }
 ?>
   <body class="admin">
     
@@ -47,12 +58,13 @@
         <form id="admin" action="admin.php" name="editUser" method="post">
           <div class="form-group col-md-4">
             <label for="username-select">Username</label>
-            <select class="form-control" name= "editUserList" id="username-select">
+            <select class="form-control" name= "userList" id="username-select">
               <!-- options generated here for each user -->
               <?php echo getUserOption(); ?>
             </select>
             <button type="submit" name="editUserButton" class="submit" value="edit" id="admin-edit-submit">Edit User</button>
             <button type="submit" name="addUserButton" class="submit" value="add" id="admin-edit-submit">Add A New User</button>
+            <button type="submit" name="deleteUserButton" class="submit" value="delete" id="admin-edit-submit">Delete User</button>
           </div>
         </form>
 <?php
@@ -60,7 +72,7 @@
   if(isset($_POST['editUserButton'])){
       //did the user select that they want to edit a user
       //if so then show the edit form populated
-      $user_ID = $_POST['editUserList'];
+      $user_ID = $_POST['userList'];
      echo createEditUserForm($user_ID);
   }//end of if
   
