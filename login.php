@@ -12,11 +12,11 @@
 
     if (isset($_SESSION['userLogin'])) {
         // logged in, check which page to redirect to
-        if(strcasecmp($userType,"b") == 0){
+        if(strcasecmp($_SESSION['userType'],"b") == 0){
           header("Location: bus-avail.php");
         }
         //user is a congregation lead
-        elseif(strcasecmp($userType,"c") == 0){
+        elseif(strcasecmp($_SESSION['userType'],"c") == 0){
           header("Location: blackouts.php");
         }
         else{

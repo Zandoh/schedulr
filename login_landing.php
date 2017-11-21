@@ -8,10 +8,14 @@
         //if the user is not logged in, redirect them to the login page
         header("Location:login.php");
     }
-    // else{
-    //     //not logged in
-    //     header("Location:login.php");
-    // }
+    // logged in, check which page to redirect to
+    elseif(strcasecmp($_SESSION['userType'],"b") == 0){
+      header("Location: bus-avail.php");
+    }
+    //user is a congregation lead
+    elseif(strcasecmp($_SESSION['userType'],"c") == 0){
+      header("Location: blackouts.php");
+    }
 
     include 'assets/includes/header.php';
     ?>
