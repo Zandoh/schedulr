@@ -15,6 +15,16 @@
     include 'handlers/admin_handler.php';
 
 
+  if(isset($_POST['editUserSubmitButton'])){
+      //did the user submit the edit form
+      //if so then make the changes to the database
+      $result = editUser($_POST['user_ID'], $_POST['email'], $_POST['phoneNumber'], $_POST['firstName'], $_POST['lastName'], $_POST['userType']);
+      if ($result) {
+          echo 'Successful edit';
+      } else {
+          echo 'Failed edit';
+      }
+  }
     ?>
 
   <body class="admin">
@@ -36,14 +46,14 @@
           </div>
         </form>
 <?php
-
   if(isset($_POST['editUserList'])){
+      //did the user select that they want to edit a user
+      //if so then show the edit form populated
       $user_ID = $_POST['editUserList'];
      echo createEditUserForm($user_ID);
-    }//end of if
+  }//end of if
+  
 ?>
-
-
       </div>
     </div>
     <div class="container-fluid admin-container">

@@ -143,7 +143,6 @@ class DBcore{
 		
 		//create the reset key to compare its value to our url key
 		$resetKey = hash('sha256', $salt . $email);
-		$data = array();
 
 		//if the url matches what it should be, then update the user info
 		if ($resetKey == $key) {
@@ -254,18 +253,18 @@ class DBcore{
 	/*
 	* Manage users -- edit a user -- cannot reset a users password
 	*/
-	function editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType, $congregation_ID){
-		$data = array();
-		if($stmt = $this->conn->prepare("update USER set email=:email, phone_number=:phone, first_name=:firstName, last_name=:lastName, userType=:userType, congregation_ID=:congregation_ID where user_ID=:user_ID;")) {
+	function editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
+		
+		if($stmt = $this->conn->prepare("update USER set email=:email, phone_number=:phone, first_name=:firstName, last_name=:lastName, userType=:userType where user_ID=:user_ID;")) {
 			$stmt->bindParam(':email', $email);
 			$stmt->bindParam(':phone', $phone);
-			$stmt->bindParam(':first_name', $firstName);
-			$stmt->bindParam(':last_name', $lastName);
+			$stmt->bindParam(':firstName', $firstName);
+			$stmt->bindParam(':lastName', $lastName);
 			$stmt->bindParam(':userType', $userType);
-			$stmt->bindParam(':congregation_ID', $congregation_ID);
+			$stmt->bindParam(':user_ID', $user_ID);
 			$stmt->execute();
 
-			if ($stmt->rowCount() > 0) {
+			if ($stmt->rowCount()) {
 				return true;
 			} else {
 				return false;

@@ -86,21 +86,22 @@ function createEditUserForm($user_ID){
         $userType = $row['user_type'];
         $formStr = '<h1>Edit User</h1>
                 <form id="add-user" name="editUserSubmit" method="post">
+                <input type="hidden" name="user_ID" value="'.$row['user_ID'].'">
                   <div class="form-group col-md-4">
                     <label for="add-email">Email</label>
-                    <input type="email" class="form-control" id="add-email" placeholder="Email" name="email" value='.$row['email'].'>
+                    <input type="email" class="form-control" id="add-email" placeholder="Email" name="email" value="'.$row['email'].'">
                   </div>
                   <div class="form-group col-md-4">
                     <label for="add-phone-number">Phone Number</label>
-                    <input type="text" class="form-control" id="add-phone-number" placeholder="Phone Number" name="phoneNumber" value='.$row['phone_number'].'>
+                    <input type="text" class="form-control" id="add-phone-number" placeholder="Phone Number" name="phoneNumber" value="'.$row['phone_number'].'">
                   </div>
                   <div class="form-group col-md-4">
                     <label for="add-fName">First Name</label>
-                    <input type="text" class="form-control" id="add-fName" placeholder="First Name" name="firstName" value='.$row['first_name'].'>
+                    <input type="text" class="form-control" id="add-fName" placeholder="First Name" name="firstName" value="'.$row['first_name'].'">
                   </div>
                   <div class="form-group col-md-4">
                     <label for="add-lName">Last Name</label>
-                    <input type="text" class="form-control" id="add-lName" placeholder="Last Name" name="lastName" value='.$row['last_name'].'>
+                    <input type="text" class="form-control" id="add-lName" placeholder="Last Name" name="lastName" value="'.$row['last_name'].'">
                   </div>
                   <div class="form-group col-md-4">
                     <label for="add-user-type">User Type</label>
@@ -121,7 +122,7 @@ function createEditUserForm($user_ID){
                                     <option value="c" selected>Congregation Lead</option>';
                 }
            $formStr .= '</select>
-                    <button type="submit" class="submit" id="admin-add-user-submit">Submit</button>
+                    <button type="submit" class="submit" name="editUserSubmitButton" value="edit" id="admin-add-user-submit">Submit</button>
                   </div>
                 </form>';
         }
@@ -129,10 +130,10 @@ function createEditUserForm($user_ID){
 
 }
 
-function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType, $congregation_ID){
+function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
     $DBcore = new DBcore();
     $result = array();
-    $result = $DBcore->editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType, $congregation_ID);
+    $result = $DBcore->editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType);
     if ($result) {
         return true;
     } else {
