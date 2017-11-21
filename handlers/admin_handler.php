@@ -130,6 +130,43 @@ function createEditUserForm($user_ID){
 
 }
 
+function createAddUserForm(){
+    $formStr = '<h1>Add User</h1>
+                  <form id="add-user" name="addUserSubmit" method="post">
+                    <div class="form-group col-md-4">
+                      <label for="add-email">Email</label>
+                      <input type="email" class="form-control" id="add-email" placeholder="Email" name="email">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="add-password">Password</label>
+                      <input type="text" class="form-control" id="add-password" placeholder="Password" name="password">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="add-phone-number">Phone Number</label>
+                      <input type="text" class="form-control" id="add-phone-number" placeholder="Phone Number" name="phoneNumber">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="add-fName">First Name</label>
+                      <input type="text" class="form-control" id="add-fName" placeholder="First Name" name="firstName">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="add-lName">Last Name</label>
+                      <input type="text" class="form-control" id="add-lName" placeholder="Last Name" name="lastName">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="add-user-type">User Type</label>
+                      <select class="form-control" id="add-user-type" name="userType">
+                        <option value="e">Admin</option>
+                        <option value="b">Bus Driver</option>
+                        <option value="c">Congregation Lead</option>
+                      </select>
+                      <button type="submit" class="submit" name="submitAddedUser" value="submitAddedUser" id="admin-add-user-submit">Submit</button>
+                    </div>
+                  </form>';
+
+    return $formStr;
+}
+
 function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
     $DBcore = new DBcore();
     $result = array();
@@ -142,8 +179,15 @@ function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
 }
 
 
-function addUser($email, $password, $phone, $firstName, $lastName, $userType, $congregation_ID){
-
+function addUser($email, $password, $phone, $firstName, $lastName, $userType){
+    $DBcore = new DBcore();
+    $result = array();
+    $result = $DBcore->addOneUser($email, $password, $phone, $firstName, $lastName, $userType);
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
 
 }
 

@@ -25,8 +25,17 @@
           echo 'Failed edit';
       }
   }
-    ?>
-
+  if(isset($_POST['submitAddedUser'])){
+      //did the user submit the add user form
+      //if so then add the user to the database
+      $result = addUser($_POST['email'], $_POST['password'], $_POST['phoneNumber'], $_POST['firstName'], $_POST['lastName'], $_POST['userType']);
+      if ($result) {
+          echo 'Successful add';
+      } else {
+          echo 'Failed add';
+      }
+  }
+?>
   <body class="admin">
     
     <?php include 'assets/includes/nav.php'; ?>
@@ -42,11 +51,13 @@
               <!-- options generated here for each user -->
               <?php echo getUserOption(); ?>
             </select>
-            <button type="submit" name="editUserButton" class="submit" id="admin-edit-submit">Submit</button>
+            <button type="submit" name="editUserButton" class="submit" value="edit" id="admin-edit-submit">Edit User</button>
+            <button type="submit" name="addUserButton" class="submit" value="add" id="admin-edit-submit">Add A New User</button>
           </div>
         </form>
 <?php
-  if(isset($_POST['editUserList'])){
+  
+  if(isset($_POST['editUserButton'])){
       //did the user select that they want to edit a user
       //if so then show the edit form populated
       $user_ID = $_POST['editUserList'];
@@ -59,38 +70,13 @@
     <div class="container-fluid admin-container">
       <div class="row justify-content-md-center">
         <div class="col-md-8">
-          <h1>Add User</h1>
-          <form id="add-user" name="addUserSubmit" method="post">
-            <div class="form-group col-md-4">
-              <label for="add-email">Email</label>
-              <input type="email" class="form-control" id="add-email" placeholder="Email" name="email">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="add-password">Password</label>
-              <input type="text" class="form-control" id="add-password" placeholder="Password" name="password">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="add-phone-number">Phone Number</label>
-              <input type="text" class="form-control" id="add-phone-number" placeholder="Phone Number" name="phoneNumber">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="add-fName">First Name</label>
-              <input type="text" class="form-control" id="add-fName" placeholder="First Name" name="firstName">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="add-lName">Last Name</label>
-              <input type="text" class="form-control" id="add-lName" placeholder="Last Name" name="lastName">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="add-user-type">User Type</label>
-              <select class="form-control" id="add-user-type" name="userType">
-                <option value="e">Admin</option>
-                <option value="b">Bus Driver</option>
-                <option value="c">Congregation Lead</option>
-              </select>
-              <button type="submit" class="submit" id="admin-add-user-submit">Submit</button>
-            </div>
-          </form>
+          <?php
+            if(isset($_POST['addUserButton'])){
+                //did the user select that they want to add a user
+                //if so then show the add form populated
+               echo createAddUserForm();
+            }//end of if
+          ?>
         </div>
       </div>
     </div>

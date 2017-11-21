@@ -255,7 +255,7 @@ class DBcore{
 	*/
 	function editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
 		
-		if($stmt = $this->conn->prepare("update USER set email=:email, phone_number=:phone, first_name=:firstName, last_name=:lastName, userType=:userType where user_ID=:user_ID;")) {
+		if($stmt = $this->conn->prepare("update USER set email=:email, phone_number=:phone, first_name=:firstName, last_name=:lastName, user_type=:userType where user_ID=:user_ID;")) {
 			$stmt->bindParam(':email', $email);
 			$stmt->bindParam(':phone', $phone);
 			$stmt->bindParam(':firstName', $firstName);
@@ -275,8 +275,24 @@ class DBcore{
 	/*
 	* Manage users -- add a user
 	*/
-	function addOneUser($email, $password, $phone, $firstName, $lastName, $userType, $congregation_ID){
+	function addOneUser($email, $password, $phone, $firstName, $lastName, $userType){
+		
+        $secure = hash('sha256', $password);
+		if($stmt = $this->conn->prepare("insert into USER (email, password, phone_number, first_name, last_name, user_type) values (:email, :password, :phone_number, :first_name, :last_name, :user_type);")) {
+			$stmt->bindParam(':email', $email);
+			$stmt->bindParam(':password', $secure);
+			$stmt->bindParam(':phone_number', $phone);
+			$stmt->bindParam(':first_name', $firstName);
+			$stmt->bindParam(':last_name', $lastName);
+			$stmt->bindParam(':user_type', $userType);
+			$stmt->execute();
 
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 
 }//end of class
