@@ -276,9 +276,9 @@ class DBcore{
 	* Manage users -- add a user
 	*/
 	function addOneUser($email, $password, $phone, $firstName, $lastName, $userType){
-		
+
         $secure = hash('sha256', $password);
-		if($stmt = $this->conn->prepare("insert into USER (email, password, phone_number, first_name, last_name, user_type) values (:email, :password, :phone_number, :first_name, :last_name, :user_type);")) {
+		if($stmt = $this->conn->prepare("insert into USER (email, password, phone_number, first_name, last_name, user_type, congregation_ID) values (:email, :password, :phone_number, :first_name, :last_name, :user_type, 1);")) {
 			$stmt->bindParam(':email', $email);
 			$stmt->bindParam(':password', $secure);
 			$stmt->bindParam(':phone_number', $phone);
