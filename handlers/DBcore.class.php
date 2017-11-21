@@ -76,7 +76,7 @@ class DBcore{
 	*/
 	function selectBusDriverAvailability($user_ID){
 		$data = array();
-		if($stmt = $this->conn->prepare("select ad.availability_day, ad.availabilty_time_of_day from AVAILABILTY_DATE ad JOIN BUS_DRIVER_AVAILABILTY bda using(availability_date_ID) WHERE bda.user_ID=:user_ID;")){
+		if($stmt = $this->conn->prepare("select ad.availability_day, ad.availability_time_of_day from AVAILABILITY_DATE ad JOIN BUS_DRIVER_AVAILABILITY bda using(availability_date_ID) WHERE bda.user_ID=:user_ID;")){
             $stmt->bindParam(':user_ID', $user_ID);
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
