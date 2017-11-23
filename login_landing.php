@@ -47,6 +47,12 @@
             <span></span>
           </a>
         </div>
+          <div class="col-md-3 text-center landing-boxes">
+          <h2>Manage Congregations</h2>
+          <a href="manage-congregation.php">
+            <span></span>
+          </a>
+        </div>
       </div>
     </div>
 
