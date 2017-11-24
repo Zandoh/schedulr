@@ -36,6 +36,7 @@
           </select>
         </div>
         <!-- used to add driver information to list -->
+        <div id="error-container" class="form-group col-md-4"></div>
         <button type="add-to-list" class="add-to-list">Add To List</button>
         <div class="form-group col-md-12">
           <label for="list">List of Dates</label>

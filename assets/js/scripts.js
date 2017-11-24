@@ -27,8 +27,30 @@ var bus = {
   */
   bindEvents: function() {
     $('.add-to-list').on('click', function(e) {
+      var error = false;
+      
       e.preventDefault();
-      bus.populateTable();
+      
+      $("#error-container").empty();
+      
+      if($('#bus-name').val() == "") {
+        error = true;
+        $('#error-container').append("<p>A driver is required.</p>");
+      }
+      
+      if($('#bus-date').val() == "") {
+        error = true;
+        $('#error-container').append("<p>Date(s) is/are required.</p>");
+      }
+      
+      if($('#bus-time').val() == "") {
+        error = true;
+        $('#error-container').append("<p>Time is required.</p>");
+      }
+
+      if(!error){
+        bus.populateTable();
+      }
     });
 
     $('#driver-avail-submit').on('click', function(e) {
@@ -53,7 +75,7 @@ var bus = {
       if(valueSelected != '') {
         console.log('not null');
         console.log(valueSelected);
-        //ajax.getDriverAvailability('returnDriverAvailability', valueSelected);
+        ajax.getDriverAvailability('returnDriverAvailability', valueSelected);
         //need to fetch their availability here. Then populate them into the table.
       }
       
@@ -362,6 +384,8 @@ var login = {
 
 }
 
+console.log('cong-test');
+console.log('helllllooooo');
 var admin = {
   /*
   * Method: init()
@@ -426,5 +450,3 @@ var admin = {
 
 
 }
-console.log('cong-test');
-console.log('helllllooooo');

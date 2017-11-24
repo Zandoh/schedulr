@@ -73,6 +73,8 @@ footer {
   .bus-avail-container .fa-minus-circle {
     color: #FE6464;
     font-size: 1.5em; }
+    .bus-avail-container .fa-minus-circle:hover {
+      cursor: pointer; }
   .bus-avail-container .submit {
     -webkit-transition: .1s opacity linear;
     -moz-transition: .1s opacity linear;
@@ -91,6 +93,8 @@ footer {
     margin: 10px 15px 25px 0px; }
     .bus-avail-container .submit:hover {
       opacity: .8; }
+  .bus-avail-container #error-container {
+    color: red; }
 
 
 /* Created for the admin page */
