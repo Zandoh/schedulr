@@ -22,35 +22,17 @@ require_once('DBcore.class.php');
 	}
 
 /*
-* Select previous congregation rotation order
+* Select previous congregation rotation ID
 */
 function getPreviousRotation(){
 		$DBcore = new DBcore();
 		$congArr = array();
         $congStr = '';
-		$congArr = $DBcore->selectCongregationRotation();
+        $congStr .= '<p>Cong Array: </br>';
+		$congArr = $DBcore->selectPreviousRotation();
 		foreach($congArr as $row){
 			$congregation_name = $row['congregation_name'];
-			
-			$congStr .= '<p>Congname: '.$congregation_name.'</br>';
-			
-		}//end of foreach
-		return $congStr;
-	}
-
-/*
-* Select previous congregation rotation ID
-*/
-function getPreviousRotationNumber(){
-		$DBcore = new DBcore();
-		$congArr = array();
-        $congStr = '';
-		$congArr = $DBcore->selectPreviousRotationID();
-		foreach($congArr as $row){
-			$congregation_schedule_ID = $row['MAX(csa.congregation_schedule_ID)'];
-			
-			$congStr .= '<p>ID_Number: '.$congregation_schedule_ID.'</br>';
-			
+			$congStr .=$congregation_name.'</br>';
 		}//end of foreach
 		return $congStr;
 	}

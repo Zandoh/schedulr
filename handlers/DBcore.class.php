@@ -49,7 +49,7 @@ class DBcore{
 	*/
 	function selectAllCongregationScheduleEvents($scheduleID){
 		$data = array();
-		if($stmt = $this->conn->prepare("select c.congregation_name, csa.congregation_ID, csa.congregation_schedule_ID, csa.scheduled_date_start, csa.scheduled_date_end from CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION c using(congregation_ID) WHERE csa.congregation_schedule_ID=:scheduleID;")){
+		if($stmt = $this->conn->prepare("select c.congregation_name, csa.congregation_ID, csa.congregation_schedule_ID, csa.scheduled_date_start, csa.scheduled_date_end from CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION c using(congregation_ID) WHERE csa.congregation_schedule_ID=:scheduleID order by csa.scheduled_date_start;")){
             $stmt->bindParam(':scheduleID', $scheduleID);
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -216,27 +216,15 @@ class DBcore{
   /*
 	* Select previous congregation rotation ID
 	*/
-	function selectPreviousRotationID(){
+	function selectPreviousRotation(){
 		$data = 0;
-		if($stmt = $this->conn->prepare("select MAX(csa.congregation_schedule_ID) FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa;")){
+		if($stmt = $this->conn->prepare("select cng.congregation_name FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION cng ON csa.congregation_ID = cng.congregation_ID WHERE csa.congregation_schedule_ID= ANY(select MAX(csa.congregation_schedule_ID) FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa) ORDER BY csa.scheduled_date_start;")){
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 		return $data;	
 	}
     
-  /*
-	* Select previous congregation rotation order
-	*/
-	function selectCongregationRotation(){
-		$data = array();
-		if($stmt = $this->conn->prepare("select cng.congregation_name FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION cng WHERE (csa.congregation_ID = cng.congregation_ID) and (csa.congregation_schedule_ID=1) ORDER BY csa.scheduled_date_start;")){
-            //$stmt->bindParam(':previousRotation', $rotCount);
-			$stmt->execute();
-			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		}
-		return $data;	
-	}
 
 	function selectOneUser($user_ID){
 		$data = array();
