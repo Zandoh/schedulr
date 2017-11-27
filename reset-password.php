@@ -14,20 +14,20 @@
     }
 
     if(isset($_POST['NewPassword'])) {
-        if (isset($_GET['key'])) {
-          $key = $_GET['key'];
-          
-          $email = $_SESSION['email'];
-          $password = $_POST['password'];
-          $DBcore = new DBcore();
-          $newPasswordResult = $DBcore->updatePassword($email, $password, $key);
+      if (isset($_GET['key']) && isset($_SESSION['email']) && isset($_POST['password'])) {
+        $key = $_GET['key'];
+        $email = $_SESSION['email'];
+        $password = $_POST['password'];
 
-          //if returns true, show that the password was updated
-          if($newPasswordResult) {
-            $_SESSION['newPasswordResult'] = "Updated";
-          } else {
-            $_SESSION['newPasswordResult'] = "Failed";
-          }
+        $DBcore = new DBcore();
+        $newPasswordResult = $DBcore->updatePassword($email, $password, $key);
+
+        //if returns true, show that the password was updated
+        if($newPasswordResult) {
+          $_SESSION['newPasswordResult'] = "Updated";
+        } else {
+          $_SESSION['newPasswordResult'] = "Failed";
+        }
       } else {
         $_SESSION['newPasswordResult'] = "Failed";
       }
