@@ -1,17 +1,17 @@
 <html>
 <?php
-    //begin session
+    // begin session
     session_start(); 
-    //Check if the SESSION is already set
+    // Check if the SESSION is already set
    if (!isset($_SESSION['userLogin'])) {
-        //if the user is not logged in, redirect them to the login page
+        // if the user is not logged in, redirect them to the login page
         header("Location:login.php");
     }
     // logged in, check which page to redirect to
     elseif(strcasecmp($_SESSION['userType'],"b") == 0){
       header("Location: bus-avail.php");
     }
-    //user is a congregation lead
+    // user is a congregation lead
     elseif(strcasecmp($_SESSION['userType'],"c") == 0){
       header("Location: blackouts.php");
     }
@@ -21,8 +21,8 @@
 
 
   if(isset($_POST['editUserSubmitButton'])){
-      //did the user submit the edit form
-      //if so then make the changes to the database
+      // did the user submit the edit form
+      // if so then make the changes to the database
       $result = editUser($_POST['user_ID'], $_POST['email'], $_POST['phoneNumber'], $_POST['firstName'], $_POST['lastName'], $_POST['userType']);
       if ($result) {
         $_SESSION['editUserResult'] = "True";
@@ -31,8 +31,8 @@
       }
   }
   if(isset($_POST['submitAddedUser'])){
-      //did the user submit the add user form
-      //if so then add the user to the database
+      // did the user submit the add user form
+      // if so then add the user to the database
       $result = addUser($_POST['email'], $_POST['password'], $_POST['phoneNumber'], $_POST['firstName'], $_POST['lastName'], $_POST['userType']);
       if ($result) {
         $_SESSION['addUserResult'] = "True";
@@ -41,8 +41,8 @@
       }
   }
   if(isset($_POST['deleteUserButton'])){
-    //did the user submit the delete user button
-    //if so then delete the user from the database
+    // did the user submit the delete user button
+    // if so then delete the user from the database
     $user_ID = $_POST['userList'];
     $result = deleteUser($user_ID);
     if ($result) {
@@ -117,8 +117,8 @@
 <?php
   
   if(isset($_POST['editUserButton'])){
-      //did the user select that they want to edit a user
-      //if so then show the edit form populated
+      // did the user select that they want to edit a user
+      // if so then show the edit form populated
       $user_ID = $_POST['userList'];
      echo createEditUserForm($user_ID);
   }//end of if
@@ -131,8 +131,8 @@
         <div class="col-md-8">
           <?php
             if(isset($_POST['addUserButton'])){
-                //did the user select that they want to add a user
-                //if so then show the add form populated
+                // did the user select that they want to add a user
+                // if so then show the add form populated
                echo createAddUserForm();
             }//end of if
           ?>

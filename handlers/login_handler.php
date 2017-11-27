@@ -1,6 +1,10 @@
 <?php
+/* Used to handle the login functions */
 require_once('DBcore.class.php');
 
+/*
+* Gets and sends back all users
+*/
 function getUsers(){
     $DBcore = new DBcore();
     $userArr = array();
@@ -18,6 +22,9 @@ function getUsers(){
     return $userStr;
 }
 
+/*
+* Checks to see if user can log in successfully
+*/
 function getLogin(){
 
     if(isset($_POST['LoginSubmit'])){
@@ -28,16 +35,16 @@ function getLogin(){
         $userResult = $DBcore->login($email,$pass);
 
         if($userResult){
-            //Successful login
+            // successful login
             $_SESSION['userLogin'] = $email;
         }else{
-            //not a successful login
+            // not a successful login
             $_SESSION['failedLogin'] = "Email or Password was incorrect";
         }
-        //Form not completed filled out
+        // form not completed filled out
         $_SESSION['failedLogin'] = "Fill out all form fields";
         
-    }else{
+    }else {
             $_SESSION['failedLogin'] = "Invalid Email and/or Password. Please try again.";
     }
 }

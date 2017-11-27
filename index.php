@@ -10,13 +10,13 @@
       <div class="row justify-content-center">
         <div class="col col-md-8">
           <?php
-            //display a select form with all the schedule options
+            // display a select form with all the schedule options
             echo getCongregationSchedules();
 
-            //DEFAULTS to the first schedule in the select
-            //check if a schedule has been selected to view
+            // DEFAULTS to the first schedule in the select
+            // check if a schedule has been selected to view
             if (isset($_POST['congregationScheduleList'])){
-              //if a schedule has been selected from the select then display the congregations as a table
+              // if a schedule has been selected from the select then display the congregations as a table
 
               echo createSchedule($_POST['congregationScheduleList']);
             }

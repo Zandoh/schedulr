@@ -6,9 +6,9 @@ var bus = {
   */
   init: function() {
     this.bindEvents();
+    // a function to fetch the bus drivers then populate the select option 
+    // also gets availability data and populates it into the table
     this.populateDrivers();
-    //will a function to fetch the bus drivers then populate the select option 
-      //also get availability data and populate it into the table
   },
 
   /* 
@@ -33,6 +33,7 @@ var bus = {
       
       $("#error-container").empty();
       
+      // make sure fields aren't empty
       if($('#bus-name').val() == "") {
         error = true;
         $('#error-container').append("<p>A driver is required.</p>");
@@ -138,7 +139,7 @@ var bus = {
     
     $(allTableRecords).each(function(i, v) {
       $(this).children('td').each(function(ii, vv) {
-        //will we need the id??
+        // will we need the id??
         recordDataEntry.id = $('#bus-name').val();
         this.classList.contains('tableDriverName') ? recordDataEntry.name = $(this).text() : '';
         this.classList.contains('tableDriverDate') ? recordDataEntry.date = $(this).text() : '';
@@ -149,6 +150,6 @@ var bus = {
   
     json = JSON.stringify(recordData, null, 2);
     console.log(json);
-    //backend will need a function we can make a POST request to submit this data
+    // backend will need a function we can make a POST request to submit this data
   }
 }

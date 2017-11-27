@@ -5,26 +5,27 @@
     include 'assets/includes/header.php';
     require_once('handlers/DBcore.class.php');
 
-    //begin session
+    // begin session
     session_start();
     session_name("LoginSession"); 
-    //Check if the form has been submitted and the SESSION is already set
+    // Check if the form has been submitted and the SESSION is already set
 
     if (isset($_SESSION['userLogin'])) {
         // logged in, check which page to redirect to
         if(strcasecmp($_SESSION['userType'],"b") == 0){
           header("Location: bus-avail.php");
         }
-        //user is a congregation lead
+        // user is a congregation lead
         elseif(strcasecmp($_SESSION['userType'],"c") == 0){
           header("Location: blackouts.php");
         }
         else{
-          //user is a raihn employee
+          // user is a raihn employee
           header("Location:login_landing.php");
         }
     }
     else{
+        // if the login button was pressed
         if(isset($_POST['LoginSubmit'])){
             $email = $_POST['account'];
             $_SESSION['user_email'] = $email;
@@ -33,33 +34,33 @@
             $userArr = array();
             $userResult = $DBcore->login($email,$pass);
 
-			//Call database function to pull the user type
-			//Set session user role
+			      // Call database function to pull the user type
+			      // Set session user role
 			
             if($userResult){
-              //Successful login
+              // successful login
               $userType = $DBcore->selectUserType($email);
 
               $_SESSION['userLogin'] = $email;
               $_SESSION['userType'] = $userType;
               $_SESSION['loginStatus'] = "Pass"; 
-              //user is a bus driver
+              // user is a bus driver
               if(strcasecmp($userType,"b") == 0){
-                //redirect the busdriver to put in availability
+                // redirect the busdriver to put in availability
                 header("Location: bus-avail.php");
               }
-              //user is a congregation lead
+              // user is a congregation lead
               elseif(strcasecmp($userType,"c") == 0){
-                //redirect the congregation lead to put in blackout dates
+                // redirect the congregation lead to put in blackout dates
                 header("Location: blackouts.php");
 
               }
               else{
-                //user is a raihn employee
+                // user is a raihn employee
       				  header("Location:login_landing.php");
               }
             }else{
-              //not a successful login
+              // not a successful login
               $_SESSION['loginStatus'] = "Fail";
             }            
         }

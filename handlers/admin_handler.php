@@ -1,7 +1,9 @@
 <?php
 require_once('DBcore.class.php');
 
-
+/*
+ * Gets and populates all users for the select list
+ */
 function getUserOption(){
 	$DBcore = new DBcore();
     $userArr = array();
@@ -15,11 +17,14 @@ function getUserOption(){
 
         $optionStr .= '<option value="'.$user_ID.'">'.$email.'</option>';
 
-    }//end of foreach
+    }// end of foreach
 
     return $optionStr;
 }
 
+/*
+ * Returns all the admin users in json
+ */
 function returnAdminUsers() {
     $DBcore = new DBcore();
     $userArr = array();
@@ -39,6 +44,9 @@ function returnAdminUsers() {
     return $jsonstring;
 }
 
+/*
+ * Returns all bus drivers in json
+ */
 function returnDrivers() {
     $DBcore = new DBcore();
     $driverArr = array();
@@ -59,6 +67,9 @@ function returnDrivers() {
     return $jsonstring;
 }
 
+/*
+ * Returns the day and time for bus drivers
+ */
 function returnDriverAvailability($id) {
     $DBcore = new DBcore();
     $driverArr = array();
@@ -78,6 +89,9 @@ function returnDriverAvailability($id) {
     return $jsonstring;
 }
 
+/*
+ * Creates the edit user form on the admin page
+ */
 function createEditUserForm($user_ID){
     $DBcore = new DBcore();
     $user = array();
@@ -130,6 +144,9 @@ function createEditUserForm($user_ID){
 
 }
 
+/*
+ * Creates the add user form on the admin page
+ */
 function createAddUserForm(){
     $formStr = '<h1>Add User</h1>
                   <form id="add-user" name="addUserSubmit" method="post">
@@ -167,6 +184,9 @@ function createAddUserForm(){
     return $formStr;
 }
 
+/*
+ * Returns true if a user was edited in the db
+ */
 function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
     $DBcore = new DBcore();
     $result = array();
@@ -178,7 +198,9 @@ function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
     }
 }
 
-
+/*
+ * Returns true if a user was added to the db
+ */
 function addUser($email, $password, $phone, $firstName, $lastName, $userType){
     $DBcore = new DBcore();
     $result = array();
@@ -191,6 +213,9 @@ function addUser($email, $password, $phone, $firstName, $lastName, $userType){
 
 }
 
+/*
+ * Returns true if a user was deleted from the db
+ */
 function deleteUser($user_ID){
     $DBcore = new DBcore();
     $result = array();

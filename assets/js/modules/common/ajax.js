@@ -28,9 +28,9 @@ var ajax = {
     }).done(function(jsonResponse) {
 			console.log('getting users..... ');
       console.log(jsonResponse);
-      //do work with response json here
+      // do work with response json here
 		}).fail(function(err) {
-      //console.log(err);
+      // console.log(err);
     });
 	},
 
@@ -52,9 +52,9 @@ var ajax = {
 				}));
 			});
 			$('#bus-name').removeAttr('disabled');
-      //do work with response json here
+      // do work with response json here
 		}).fail(function(err) {
-      //console.log(err);
+      // console.log(err);
     });
 	},
 
@@ -73,11 +73,11 @@ var ajax = {
 			console.log('availability here......');
 			console.log(jsonResponse);
 			$.each($.parseJSON(jsonResponse), function (i, driver) {
-				//append items to the table here
+				// append items to the table here
 			});
-      //do work with response json here
+      // do work with response json here
 		}).fail(function(err) {
-      //console.log(err);
+      // console.log(err);
     });
 	}
 

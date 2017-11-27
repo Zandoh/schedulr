@@ -15,14 +15,14 @@
       $DBcore = new DBcore();
       $userResult = $DBcore->emailExists($email);
 
-      //if returns true, send user an email
+      // if returns true, send user an email
       if($userResult) {
         $EmailUser = new EmailUser();
         $emailResult = $EmailUser->emailUser($email);
 
         if($emailResult) {
           $_SESSION['emailResult'] = "Sent";
-          //set session variable for email and datetime for verification security
+          // set session variable for email and datetime for verification security
           $_SESSION['email'] = $email;
           $_SESSION['userDateTime'] = time();
         } else {

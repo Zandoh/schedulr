@@ -90,7 +90,7 @@ var login = {
   */
   validatePassword: function() {
     
-        $("form[name='newFormPassword']").validate({ //use validation plugin
+        $("form[name='newFormPassword']").validate({ // use validation plugin
           rules: {
             password: {
               required: true,
@@ -102,10 +102,10 @@ var login = {
               equalTo: "#newPassword"
             }
           },
-          submitHandler: function(form) { //return true if everything validates 
+          submitHandler: function(form) { // return true if everything validates 
             form.submit();
           },
-          messages: { //messages to return if field is not email or empty
+          messages: { // messages to return if field is not email or empty
             password: {
               required: "Can't leave password empty"
             },
