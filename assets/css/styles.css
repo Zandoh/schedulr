@@ -96,7 +96,6 @@ footer {
   .bus-avail-container #error-container {
     color: red; }
 
-
 /* Created for the admin page */
 .admin-container {
   margin-top: 50px;
@@ -265,6 +264,7 @@ body {
   .landing-container .landing-boxes {
     margin-left: 20px;
     margin-right: 20px;
+    margin-bottom: 40px;
     height: 200px;
     display: flex;
     justify-content: center;
@@ -419,6 +419,7 @@ Colors: Use the following - https://www.google.com/design/spec/style/color.html#
   opacity: .65 !important;
   margin-left: 12px !important;
   padding: 5px !important; }
+
 
 @charset "UTF-8";
 /*!

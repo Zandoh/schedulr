@@ -29,25 +29,27 @@
     <!-- need to check if admin, show admin panel, else just show bus + cong -->
     <div class="container-fluid landing-container">
       <div class="row justify-content-md-center">
-        <div class="col-md-3 text-center landing-boxes">
-          <h2>Edit Users</h2>
-          <a href="admin.php">
-            <span></span>
-          </a>
-        </div>
-        <div class="col-md-3 text-center landing-boxes">
-          <h2>Bus Drivers</h2>
-          <a href="bus-drivers.php">
-            <span></span>
-          </a>
-        </div>
+          <div class="col-md-3 text-center landing-boxes">
+            <h2>Edit Users</h2>
+            <a href="admin.php">
+              <span></span>
+            </a>
+          </div>
+          <div class="col-md-3 text-center landing-boxes">
+            <h2>Bus Drivers</h2>
+            <a href="bus-drivers.php">
+              <span></span>
+            </a>
+          </div>
+      </div>
+      <div class="row justify-content-md-center">
         <div class="col-md-3 text-center landing-boxes">
           <h2>Congregations</h2>
           <a href="congregations.php">
             <span></span>
           </a>
         </div>
-          <div class="col-md-3 text-center landing-boxes">
+        <div class="col-md-3 text-center landing-boxes">
           <h2>Manage Congregations</h2>
           <a href="manage-congregation.php">
             <span></span>
