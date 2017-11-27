@@ -1,8 +1,10 @@
 <?php
-
+/* Handles the functions for the guest page */
 require_once('DBcore.class.php');
 
-	
+	/*
+	* Populates a select for every congregation year
+	*/
 	function getCongregationSchedules(){
 		$DBcore = new DBcore();
 		$congArr = array();
@@ -25,7 +27,9 @@ require_once('DBcore.class.php');
 		return $congStr;
 	}
 
-
+	/*
+	* Creates the congregation table when the user selects a specific year
+	*/
 	function createSchedule($scheduleID){
 		$DBcore = new DBcore();
 		$eventArr = array();
@@ -53,8 +57,9 @@ require_once('DBcore.class.php');
 		return $tableScheduleStr;
 	}
 
-
-	//used to get all sundays of a specified date range
+	/*
+	* Used to get all Sundays of a specified date range
+	*/
 	function getDateForSpecificDayBetweenDates($startDate, $endDate, $weekdayNumber)
 	{
 	    $startDate = strtotime($startDate);

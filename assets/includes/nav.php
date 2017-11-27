@@ -26,14 +26,14 @@
                 </li>";
         }
 
-        //if the user is an admin, display certain pages
+        // if the user is an admin, display certain pages
         if (strpos($_SERVER['REQUEST_URI'], "bus-avail.php")) {
           if (isset($_SESSION["user_email"])) {
             $email = $_SESSION["user_email"];
             $DBcore = new DBcore();
             $userType = $DBcore->selectUserType($email);
               if(strcasecmp($userType,"e") == 0) {
-                //show the home link for the admin
+                // show the home link for the admin
                 echo "<li class='nav-item'>
                       <a class='nav-link' href='login_landing.php'>Home</a>
                       </li>";
@@ -44,7 +44,7 @@
       ?>
       <li class="nav-item">
       <?php  
-      // if the user is logged in, add the logout option else login
+      // if the user is logged in, add the logout option else just the login
       if (isset($_SESSION['userLogin'])) {
         echo '<a class="nav-link" href="logout.php">Logout</a>';
       } else {

@@ -29,7 +29,7 @@ var admin = {
   */
   validateLogin: function() {
     
-    $("form[name='addUserSubmit']").validate({ //use validation plugin
+    $("form[name='addUserSubmit']").validate({ // use validation plugin
       rules: {
           email: {
             required: true,
@@ -53,7 +53,7 @@ var admin = {
             maxlength: 200
           }
       },
-      submitHandler: function (form) { //return true if everything validates
+      submitHandler: function (form) { // return true if everything validates
         form.submit();
       }
     })
@@ -70,9 +70,9 @@ var bus = {
   */
   init: function() {
     this.bindEvents();
+    // a function to fetch the bus drivers then populate the select option 
+    // also gets availability data and populates it into the table
     this.populateDrivers();
-    //will a function to fetch the bus drivers then populate the select option 
-      //also get availability data and populate it into the table
   },
 
   /* 
@@ -97,6 +97,7 @@ var bus = {
       
       $("#error-container").empty();
       
+      // make sure fields aren't empty
       if($('#bus-name').val() == "") {
         error = true;
         $('#error-container').append("<p>A driver is required.</p>");
@@ -202,7 +203,7 @@ var bus = {
     
     $(allTableRecords).each(function(i, v) {
       $(this).children('td').each(function(ii, vv) {
-        //will we need the id??
+        // will we need the id??
         recordDataEntry.id = $('#bus-name').val();
         this.classList.contains('tableDriverName') ? recordDataEntry.name = $(this).text() : '';
         this.classList.contains('tableDriverDate') ? recordDataEntry.date = $(this).text() : '';
@@ -213,7 +214,7 @@ var bus = {
   
     json = JSON.stringify(recordData, null, 2);
     console.log(json);
-    //backend will need a function we can make a POST request to submit this data
+    // backend will need a function we can make a POST request to submit this data
   }
 }
 
@@ -247,9 +248,9 @@ var ajax = {
     }).done(function(jsonResponse) {
 			console.log('getting users..... ');
       console.log(jsonResponse);
-      //do work with response json here
+      // do work with response json here
 		}).fail(function(err) {
-      //console.log(err);
+      // console.log(err);
     });
 	},
 
@@ -271,9 +272,9 @@ var ajax = {
 				}));
 			});
 			$('#bus-name').removeAttr('disabled');
-      //do work with response json here
+      // do work with response json here
 		}).fail(function(err) {
-      //console.log(err);
+      // console.log(err);
     });
 	},
 
@@ -292,37 +293,39 @@ var ajax = {
 			console.log('availability here......');
 			console.log(jsonResponse);
 			$.each($.parseJSON(jsonResponse), function (i, driver) {
-				//append items to the table here
+				// append items to the table here
 			});
-      //do work with response json here
+      // do work with response json here
 		}).fail(function(err) {
-      //console.log(err);
+      // console.log(err);
     });
 	}
 
 }
-/* main function to run when the DOM is ready */
+/* Main function to run when the DOM is ready */
 $(document).ready(function() {
 	
 	if($("body").hasClass("bus")) {
 		bus.init();
 
-		//assign and configure a date picker to the div 
+		// assign and configure a date picker to the div 
 		$("#date-picker").multiDatesPicker({
 			inline: true,
 			altField: "#bus-date",
 		});
 		
-		//change the text field when a new date is selected
+		// change the text field when a new date is selected
 		$("#bus-date").change(function(){
 			$("#date-picker").multiDatesPicker("setDate", $(this).val());
 		});
 	}
 
+	// run functions on the admin page
 	if($("body").hasClass("admin")) {
 		admin.init();
 	}
 
+	// run functions on the login page
 	if($("body").hasClass("init_login")) {
 		login.init();
 	}
@@ -420,7 +423,7 @@ var login = {
   */
   validatePassword: function() {
     
-        $("form[name='newFormPassword']").validate({ //use validation plugin
+        $("form[name='newFormPassword']").validate({ // use validation plugin
           rules: {
             password: {
               required: true,
@@ -432,10 +435,10 @@ var login = {
               equalTo: "#newPassword"
             }
           },
-          submitHandler: function(form) { //return true if everything validates 
+          submitHandler: function(form) { // return true if everything validates 
             form.submit();
           },
-          messages: { //messages to return if field is not email or empty
+          messages: { // messages to return if field is not email or empty
             password: {
               required: "Can't leave password empty"
             },

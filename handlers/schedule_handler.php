@@ -1,4 +1,5 @@
 <?php
+/* Used to handle the congregation schedule */
 require_once('DBcore.class.php');
 
 	function getCongregationSchedule(){

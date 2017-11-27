@@ -1,14 +1,14 @@
 <?php
-class DBcore{
-	//connection object
+class DBcore {
+	// connection object
 	private $conn;
 		
-	//Default constructor
+	// Default constructor
 	function __construct(){
-	//will be the path to our dbInfo
-		//require_once('../../../../datainfo/dbinfo.php');
+	// will be the path to our dbInfo
+		// require_once('../../../../datainfo/dbinfo.php');
 		$db='schedulrDB';
-		//$host='localhost';
+		// $host='localhost';
 		$host='127.0.0.1:3306';
 		$user='root';
 		$pass='undercontrol22';
@@ -16,10 +16,10 @@ class DBcore{
         		$this->conn = new PDO('mysql:dbname='.$db.';host='.$host.'', $user, $pass, array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
       		}
       		catch(PDOException $e){
-        	//used for developing
+        	// used for developing
         	echo'Connection Failed: '.$e->getMessage();
       		}
-	}//end of default constructor 
+	}// end of default constructor 
   
 	/*
 	* Select all users
@@ -32,6 +32,7 @@ class DBcore{
 		}
 		return $data;	
 	}//end of selectAllUsers	
+
 	/*
 	* Select all Congregation Schedules
 	*/
@@ -57,7 +58,6 @@ class DBcore{
 		return $data;	
 	}//end of select all Congregation Schedule Events
     
-    
 	/*
 	* Select all Bus Drivers
 	*/
@@ -69,7 +69,6 @@ class DBcore{
 		}
 		return $data;	
 	}
-
 
 	/*
 	* Select a Bus Drivers availability
@@ -96,7 +95,6 @@ class DBcore{
 		return $data;	
 	}//end of select all Congregations
 
-
 	/*
 	* Select a Congregations blackout dates
 	*/
@@ -110,9 +108,8 @@ class DBcore{
 		return $data;	
 	}
 
-
   /*
-	* Validate user login
+	* Validate user login and returns true if user exists
 	*/
     function login($email,$pass){
         $secure = hash('sha256', $pass);
@@ -132,21 +129,20 @@ class DBcore{
         return false;
 	}//end of validateLogin	
 
-
 	/*
-	* Update user password from email
+	* Update user password using email, password, and a key
 	*/
 	function updatePassword($email, $password, $key) {
 
-		//use the same salt as in the EmailUser class
+		// use the same salt as in the EmailUser class
 		$salt = "i7S1xo9pvXG%u1Krd8Fhi3oE2JEZzQ4csCUqeKc07OsiHj96j7*sp3pXcO9C1H9jiM0jqCKfMbb8phzu";
 		
-		//create the reset key to compare its value to our url key
+		// create the reset key to compare its value to our url key
 		$resetKey = hash('sha256', $salt . $email);
 
-		//if the url matches what it should be, then update the user info
+		// if the url matches what it should be, then update the user info
 		if ($resetKey == $key) {
-			//only let the user reset email if its been under 15 minutes
+			// only let the user reset email if its been under 15 minutes
 			if((time() - $_SESSION['userDateTime']) > 15*60) {
 				return false;
 				} else {
@@ -170,7 +166,6 @@ class DBcore{
 		}
 	}//end of updatePassword
 
-
 	/*
 	* Password Reset; see if the user email exists
 	*/
@@ -193,7 +188,6 @@ class DBcore{
 		}
 	}//end of emailExists
 
-
 	/*
 	* Select a user type
 	*/
@@ -211,8 +205,6 @@ class DBcore{
 		return $userType;	
 	}//end of selectAllUsers	
     
-    
-    
   /*
 	* Select previous congregation rotation ID
 	*/
@@ -225,7 +217,9 @@ class DBcore{
 		return $data;	
 	}
     
-
+  /*
+	* Select a specific user from their id
+	*/
 	function selectOneUser($user_ID){
 		$data = array();
 		if($stmt = $this->conn->prepare("select user_ID, email, phone_number, first_name, last_name, user_type, congregation_ID from USER where user_ID=:user_ID;")){
@@ -237,9 +231,8 @@ class DBcore{
 
 	}
     
-
 	/*
-	* Manage users -- edit a user -- cannot reset a users password
+	* Manage users -- edit a user (cannot edit their password)
 	*/
 	function editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
 		
@@ -265,21 +258,21 @@ class DBcore{
 	*/
 	function addOneUser($email, $password, $phone, $firstName, $lastName, $userType){
 
-        $secure = hash('sha256', $password);
-		if($stmt = $this->conn->prepare("insert into USER (email, password, phone_number, first_name, last_name, user_type, congregation_ID) values (:email, :password, :phone_number, :first_name, :last_name, :user_type, 1);")) {
-			$stmt->bindParam(':email', $email);
-			$stmt->bindParam(':password', $secure);
-			$stmt->bindParam(':phone_number', $phone);
-			$stmt->bindParam(':first_name', $firstName);
-			$stmt->bindParam(':last_name', $lastName);
-			$stmt->bindParam(':user_type', $userType);
-			$stmt->execute();
+      $secure = hash('sha256', $password);
+		  if($stmt = $this->conn->prepare("insert into USER (email, password, phone_number, first_name, last_name, user_type, congregation_ID) values (:email, :password, :phone_number, :first_name, :last_name, :user_type, 1);")) {
+				$stmt->bindParam(':email', $email);
+				$stmt->bindParam(':password', $secure);
+				$stmt->bindParam(':phone_number', $phone);
+				$stmt->bindParam(':first_name', $firstName);
+				$stmt->bindParam(':last_name', $lastName);
+				$stmt->bindParam(':user_type', $userType);
+				$stmt->execute();
 
-			if ($stmt->rowCount()) {
-				return true;
-			} else {
-				return false;
-			}
+				if ($stmt->rowCount()) {
+					return true;
+				} else {
+					return false;
+				}
 		}
 	}
 

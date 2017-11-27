@@ -29,7 +29,7 @@ var admin = {
   */
   validateLogin: function() {
     
-    $("form[name='addUserSubmit']").validate({ //use validation plugin
+    $("form[name='addUserSubmit']").validate({ // use validation plugin
       rules: {
           email: {
             required: true,
@@ -53,7 +53,7 @@ var admin = {
             maxlength: 200
           }
       },
-      submitHandler: function (form) { //return true if everything validates
+      submitHandler: function (form) { // return true if everything validates
         form.submit();
       }
     })

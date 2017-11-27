@@ -13,7 +13,9 @@
       header("Location: login.php");
     }
 
+    // if the user pressed the reset password button
     if(isset($_POST['NewPassword'])) {
+      // check to make sure all values exist first
       if (isset($_GET['key']) && isset($_SESSION['email']) && isset($_POST['password'])) {
         $key = $_GET['key'];
         $email = $_SESSION['email'];
@@ -22,7 +24,7 @@
         $DBcore = new DBcore();
         $newPasswordResult = $DBcore->updatePassword($email, $password, $key);
 
-        //if returns true, show that the password was updated
+        // if returns true, show that the password was updated
         if($newPasswordResult) {
           $_SESSION['newPasswordResult'] = "Updated";
         } else {
