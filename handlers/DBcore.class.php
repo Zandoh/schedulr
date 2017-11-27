@@ -89,7 +89,7 @@ class DBcore{
 	*/
 	function selectAllCongregations(){
 		$data = array();
-		if($stmt = $this->conn->prepare("select congregation_ID, congregation_name from CONGREGATION;")){
+		if($stmt = $this->conn->prepare("select congregation_ID, congregation_name, congregation_street_address, congregation_phone, congregation_bus_need, congregation_city, congregation_state, congregation_zip from CONGREGATION;")){
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
@@ -234,9 +234,17 @@ class DBcore{
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 		return $data;
-
 	}
     
+	function selectOneCongregation($congregation_ID){
+		$data = array();
+		if($stmt = $this->conn->prepare("select congregation_ID, congregation_name, congregation_street_address, congregation_phone, congregation_bus_need, congregation_city, congregation_state, congregation_zip from CONGREGATION where congregation_ID=:congregation_ID;")){
+			$stmt->bindParam(':congregation_ID', $congregation_ID);
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;
+	}
 
 	/*
 	* Manage users -- edit a user -- cannot reset a users password
@@ -297,6 +305,69 @@ class DBcore{
 			}
 		}
 	}
+
+/*
+	* Manage congregations -- edit a congregation 
+	*/
+	function editOneCongregation($congregation_ID, $congregation_name, $congregation_street_address, $congregation_phone, $congregation_bus_need, $congregation_city, $congregation_state, $congregation_zip){
+		
+		if($stmt = $this->conn->prepare("update CONGREGATION set congregation_name=:congregation_name, congregation_street_address=:congregation_street_address, congregation_phone=:congregation_phone, congregation_bus_need=:congregation_bus_need, congregation_city=:congregation_city, congregation_state=:congregation_state, congregation_zip=:congregation_zip where congregation_ID=:congregation_ID;")) {
+			$stmt->bindParam(':congregation_name', $congregation_name);
+			$stmt->bindParam(':congregation_street_address', $congregation_street_address);
+			$stmt->bindParam(':congregation_phone', $congregation_phone);
+			$stmt->bindParam(':congregation_bus_need', $congregation_bus_need);
+			$stmt->bindParam(':congregation_city', $congregation_city);
+			$stmt->bindParam(':congregation_state', $congregation_state);
+			$stmt->bindParam(':congregation_zip', $congregation_zip);
+			$stmt->bindParam(':congregation_ID', $congregation_ID);
+			$stmt->execute();
+
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/*
+	* Manage congregations -- add a congregation
+	*/
+	function addOneCongregation($congregation_name, $congregation_street_address, $congregation_phone, $congregation_bus_need, $congregation_city, $congregation_state, $congregation_zip){
+
+		if($stmt = $this->conn->prepare("insert into CONGREGATION (congregation_name, congregation_street_address, congregation_phone, congregation_bus_need, congregation_city, congregation_state, congregation_zip) values (:congregation_name, :congregation_street_address, :congregation_phone, :congregation_bus_need, :congregation_city, :congregation_state, :congregation_zip);")) {
+			$stmt->bindParam(':congregation_name', $congregation_name);
+			$stmt->bindParam(':congregation_street_address', $congregation_street_address);
+			$stmt->bindParam(':congregation_phone', $congregation_phone);
+			$stmt->bindParam(':congregation_bus_need', $congregation_bus_need);
+			$stmt->bindParam(':congregation_city', $congregation_city);
+			$stmt->bindParam(':congregation_state', $congregation_state);
+			$stmt->bindParam(':congregation_zip', $congregation_zip);
+			$stmt->execute();
+
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/*
+	* Manage congregations -- delete a congregation
+	*/
+	function removeOneCongregation($congregation_ID){
+		if($stmt = $this->conn->prepare("delete from CONGREGATION where congregation_ID=:congregation_ID;")) {
+			$stmt->bindParam(':congregation_ID', $congregation_ID);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
 
 }//end of class
 ?>
