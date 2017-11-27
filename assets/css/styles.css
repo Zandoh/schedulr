@@ -36,6 +36,7 @@ footer {
   margin-top: 200px; }
 
 
+
 /* Created for the bus driver availability page */
 .bus-avail-container {
   margin-top: 50px;
@@ -120,9 +121,11 @@ footer {
     font-weight: 500;
     padding: 13px 26px;
     font-size: 12px;
-    margin: 20px 15px 25px 0px; }
+    margin: 20px 15px 0px 0px; }
     .admin-container .submit:hover {
       opacity: .8; }
+  .admin-container .alert-success {
+    margin-top: 15px; }
 
 footer.wrapper {
   padding: 25px; }
@@ -419,7 +422,6 @@ Colors: Use the following - https://www.google.com/design/spec/style/color.html#
   opacity: .65 !important;
   margin-left: 12px !important;
   padding: 5px !important; }
-
 
 @charset "UTF-8";
 /*!

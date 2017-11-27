@@ -25,9 +25,9 @@
       //if so then make the changes to the database
       $result = editUser($_POST['user_ID'], $_POST['email'], $_POST['phoneNumber'], $_POST['firstName'], $_POST['lastName'], $_POST['userType']);
       if ($result) {
-          echo 'Successful edit';
+        $_SESSION['editUserResult'] = "True";
       } else {
-          echo 'Failed edit';
+        $_SESSION['editUserResult'] = "False";
       }
   }
   if(isset($_POST['submitAddedUser'])){
@@ -35,9 +35,9 @@
       //if so then add the user to the database
       $result = addUser($_POST['email'], $_POST['password'], $_POST['phoneNumber'], $_POST['firstName'], $_POST['lastName'], $_POST['userType']);
       if ($result) {
-          echo 'Successful add';
+        $_SESSION['addUserResult'] = "True";
       } else {
-          echo 'Failed add';
+        $_SESSION['addUserResult'] = "False";
       }
   }
   if(isset($_POST['deleteUserButton'])){
@@ -46,9 +46,9 @@
     $user_ID = $_POST['userList'];
     $result = deleteUser($user_ID);
     if ($result) {
-        echo 'Successful delete';
+      $_SESSION['deleteUserResult'] = "True";
     } else {
-        echo 'Failed delete';
+      $_SESSION['deleteUserResult'] = "False";
     }
   }
 ?>
@@ -68,8 +68,50 @@
               <?php echo getUserOption(); ?>
             </select>
             <button type="submit" name="editUserButton" class="submit" value="edit" id="admin-edit-submit">Edit User</button>
+            <?php
+              // if the user was edited show success
+              if(isset($_SESSION['editUserResult'])) {
+                if($_SESSION['editUserResult'] == "True") {
+                  echo "<div class='alert alert-success' role='alert'>
+                        The user has been edited.
+                        </div>";
+                  unset($_SESSION['editUserResult']);
+                } else if ($_SESSION['editUserResult'] == "False") {
+                  echo "<label class='error' style='margin-top: .5rem;'>There was an error editing the user.</label>";
+                  unset($_SESSION['editUserResult']);
+                }
+              }
+            ?>
+            <button type="submit" onclick="return confirm('Are you sure you want to delete this user?');" name="deleteUserButton" class="submit" value="delete" id="admin-edit-submit">Delete User</button>
+            <?php
+              // if the user was deleted show success
+              if(isset($_SESSION['deleteUserResult'])) {
+                if($_SESSION['deleteUserResult'] == "True") {
+                  echo "<div class='alert alert-success' role='alert'>
+                        The user has been deleted.
+                        </div>";
+                  unset($_SESSION['deleteUserResult']);
+                } else if ($_SESSION['deleteUserResult'] == "False") {
+                  echo "<label class='error' style='margin-top: .5rem;'>There was an error deleting the user.</label>";
+                  unset($_SESSION['deleteUserResult']);
+                }
+              }
+            ?>
             <button type="submit" name="addUserButton" class="submit" value="add" id="admin-edit-submit">Add A New User</button>
-            <button type="submit" name="deleteUserButton" class="submit" value="delete" id="admin-edit-submit">Delete User</button>
+            <?php
+              // if the user was added correctly, show response
+              if(isset($_SESSION['addUserResult'])) {
+                if($_SESSION['addUserResult'] == "True") {
+                  echo "<div class='alert alert-success' role='alert'>
+                        The user has been added.
+                        </div>";
+                  unset($_SESSION['addUserResult']);
+                } else if ($_SESSION['addUserResult'] == "False") {
+                  echo "<label class='error' style='margin-top: .5rem;'>There was an error adding the user.</label>";
+                  unset($_SESSION['addUserResult']);
+                }
+              }
+            ?>
           </div>
         </form>
 <?php
