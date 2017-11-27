@@ -3,12 +3,15 @@
     include 'assets/includes/nav.php';
     include 'handlers/guest_handler.php';
 
-    //TODO: Check to see if user has authentication to access this URL
-
     require_once('handlers/DBcore.class.php');
     if(!isset($_SESSION)) { 
         session_start(); 
     } 
+
+    // if there's no key parameter, kick the user back to the login
+    if(!isset($_GET['key'])) {
+      header("Location: login.php");
+    }
 
     if(isset($_POST['NewPassword'])) {
         if (isset($_GET['key'])) {
@@ -25,6 +28,8 @@
           } else {
             $_SESSION['newPasswordResult'] = "Failed";
           }
+      } else {
+        $_SESSION['newPasswordResult'] = "Failed";
       }
     }
 
@@ -41,17 +46,44 @@
         <p></p>
         <div class="form-group row">
           <div class="col-7">
-            <input type="password" name="password" class="form-control" placeholder="Password" id="newPassword">
+            <input type="password" name="password" class="form-control" placeholder="Password" id="newPassword"
+            <?php
+              // if the password was put in, disable the form fields
+              if(isset($_SESSION['newPasswordResult'])) {
+                if ($_SESSION['newPasswordResult'] == "Updated") {
+                  echo " disabled";
+                }
+              }
+            ?>
+            >
           </div>
         </div>
         <div class="form-group row">
           <div class="col-7">
-            <input type="password" name="confirm" class="form-control" placeholder="Confirm Password">
+            <input type="password" name="confirm" class="form-control" placeholder="Confirm Password"
+            <?php
+              // if the password was put in, disable the form fields
+              if(isset($_SESSION['newPasswordResult'])) {
+                if ($_SESSION['newPasswordResult'] == "Updated") {
+                  echo " disabled";
+                }
+              }
+            ?>
+            >
           </div>
         </div>
         <div class="form-group row">
           <div class="col-7">
-            <button type="submit" name="NewPassword" class="submit-button" value="NewPassword">Reset Password</button>
+            <button type="submit" name="NewPassword" class="submit-button" value="NewPassword"
+            <?php 
+              // if the password was put in, disable the button
+              if(isset($_SESSION['newPasswordResult'])) {
+                if ($_SESSION['newPasswordResult'] == "Updated") {
+                  echo " disabled";
+                }
+              }
+            ?>
+            >Reset Password</button>
             <?php 
               //TODO: If form fails to submit, tell them. Else say success!
               if(isset($_SESSION['newPasswordResult'])) {
