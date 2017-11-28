@@ -142,7 +142,8 @@ function createEditUserForm($user_ID){
                     <div class="form-group col-md-4">
                         <label for="username-select">Congregation Name</label>
                         <select class="form-control" name="congregationList" id="username-select">
-                          <!-- options generated here for each congregation -->';
+                          <!-- options generated here for each congregation -->
+                          <option value="null">Select a Congregation</option>';
                $formStr .=  getCongregationOption();
                 $formStr .= ' </select>
 
