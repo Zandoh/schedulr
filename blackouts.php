@@ -12,10 +12,6 @@
     elseif(strcasecmp($_SESSION['userType'],"b") == 0){
       header("Location: bus-avail.php");
     }
-    // user is a congregation lead
-    elseif(strcasecmp($_SESSION['userType'],"c") == 0){
-      header("Location: blackouts.php");
-    }
     include 'handlers/login_handler.php';
     include 'assets/includes/header.php';
     ?>
