@@ -155,6 +155,6 @@
   <script src="assets/js/vendor/jquery-ui.multidatespicker.js" text="text/javascript"></script>
   <script src="assets/js/vendor/popper.js" type="text/javascript"></script>
   <script src="assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
-  <script src="assets/js/scripts.min.js" type="text/javascript"></script>
+  <script src="assets/js/scripts.js" type="text/javascript"></script>
 
 </html>

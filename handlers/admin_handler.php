@@ -97,6 +97,7 @@ function createEditUserForm($user_ID){
     $DBcore = new DBcore();
     $user = array();
     $user = $DBcore->selectOneUser($user_ID);
+    $displayDefault = 'style="display: none;"';
      foreach($user as $row) {  
         $userType = $row['user_type'];
         $formStr = '<div class="container-fluid admin-container">
@@ -136,17 +137,20 @@ function createEditUserForm($user_ID){
                     $formStr .= '<option value="e">Admin</option>
                                     <option value="b">Bus Driver</option>
                                     <option value="c" selected>Congregation Lead</option>';
+                      $displayDefault = '';
                 }
            $formStr .= '</select>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4" id="congregation-select-div" '.$displayDefault.'>
                         <label for="username-select">Congregation Name</label>
-                        <select class="form-control" name="congregationList" id="username-select">
+                        <select class="form-control" name="congregationList" id="congregation-select">
                           <!-- options generated here for each congregation -->
                           <option value="null">Select a Congregation</option>';
                $formStr .=  getCongregationOption();
                 $formStr .= ' </select>
 
+                      </div>
+                    <div class="form-group col-md-4">
                     <button type="submit" class="submit" name="editUserSubmitButton" value="edit" id="admin-add-user-submit">Save Edits</button>
                   </div>
                 </form>
@@ -190,12 +194,15 @@ function createAddUserForm(){
                         <option value="c">Congregation Lead</option>
                       </select>
                       </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4" id="congregation-select-div" style="display: none;">
                         <label for="username-select">Congregation Name</label>
-                        <select class="form-control" name="congregationList" id="username-select">
-                          <!-- options generated here for each congregation -->';
+                        <select class="form-control" name="congregationList" id="congregation-select">
+                          <!-- options generated here for each congregation -->
+                          <option value="null">Select a Congregation</option>';
                $formStr .=  getCongregationOption();
                 $formStr .= ' </select>
+                      </div>
+                    <div class="form-group col-md-4">
                       <button type="submit" class="submit" name="submitAddedUser" value="submitAddedUser" id="admin-add-user-submit">Submit</button>
                     </div>
                   </form>';
