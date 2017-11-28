@@ -28,7 +28,8 @@ function createEditCongregationForm($congregation_ID){
     $congregation = $DBcore->selectOneCongregation($congregation_ID);
     //congregation_ID, congregation_name, congregation_street_address, congregation_phone, congregation_bus_need, congregation_city, congregation_state, congregation_zip
      foreach($congregation as $row) {  
-        $formStr = '<h1>Edit Congregation</h1>
+        $formStr = '<div class="container-fluid admin-container">
+                <h1>Edit Congregation</h1>
                 <form id="add-user" name="editUserSubmit" method="post">
                 <input type="hidden" name="congregation_ID" value="'.$row['congregation_ID'].'">
                   <div class="form-group col-md-4">
@@ -58,7 +59,8 @@ function createEditCongregationForm($congregation_ID){
                   <div class="form-group col-md-4">
                    <button type="submit" class="submit" name="editCongregationSubmitButton" value="edit" id="admin-add-user-submit">Save Edits</button>
                   </div>
-                </form>';
+                </form>
+                </div>';
         }
             return $formStr;
 

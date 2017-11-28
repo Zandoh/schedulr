@@ -67,6 +67,7 @@
               <!-- options generated here for each user -->
               <?php echo getUserOption(); ?>
             </select>
+            <div class="btn-group" role="group">
             <button type="submit" name="editUserButton" class="submit" value="edit" id="admin-edit-submit">Edit User</button>
             <?php
               // if the user was edited show success
@@ -112,6 +113,7 @@
                 }
               }
             ?>
+            </div>
           </div>
         </form>
 <?php

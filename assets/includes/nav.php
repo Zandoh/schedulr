@@ -20,7 +20,8 @@
         if (strpos($_SERVER['REQUEST_URI'], "admin.php")
         || strpos($_SERVER['REQUEST_URI'], "bus-drivers.php")
         || strpos($_SERVER['REQUEST_URI'], "congregation-schedule.php") 
-        || strpos($_SERVER['REQUEST_URI'], "congregations.php")!== false) {
+        || strpos($_SERVER['REQUEST_URI'], "congregations.php")
+        || strpos($_SERVER['REQUEST_URI'], "manage-congregation.php")!== false) {
           echo "<li class='nav-item'>
                   <a class='nav-link' href='login_landing.php'>Home</a>
                 </li>";

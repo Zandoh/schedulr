@@ -1,3 +1,4 @@
+/* Created to define SCSS values for use throughout the website */
 /* Created for generic html elements throughout the website */
 body, html {
   margin: 0px;
@@ -36,7 +37,9 @@ nav.navbar {
 footer {
   margin-top: 200px; }
 
+/* Created to define SCSS values for use throughout the website */
 
+/* Created to define SCSS values for use throughout the website */
 /* Created for the bus driver availability page */
 .bus-avail-container {
   margin-top: 50px;
@@ -97,7 +100,7 @@ footer {
   .bus-avail-container #error-container {
     color: red; }
 
-
+/* Created to define SCSS values for use throughout the website */
 /* Created for the admin page */
 .admin-container {
   margin-top: 50px;
@@ -107,6 +110,8 @@ footer {
     font-weight: bold; }
   .admin-container label {
     font-weight: 600; }
+  .admin-container .btn-group button {
+    width: 170px; }
   .admin-container .submit {
     -webkit-transition: .1s opacity linear;
     -moz-transition: .1s opacity linear;
@@ -128,6 +133,7 @@ footer {
   .admin-container .alert-success {
     margin-top: 15px; }
 
+/* Created to define SCSS values for use throughout the website */
 /* Created for the footer */
 footer.wrapper {
   padding: 25px; }
@@ -175,6 +181,7 @@ footer a:hover {
   -o-transition: .1s all linear;
   transition: .1s all linear; }
 
+/* Created to define SCSS values for use throughout the website */
 /* Created for the forgot password page */
 body {
   background-color: #CFCFCF; }
@@ -228,6 +235,7 @@ body {
   .forgot-password-container .alert.alert-success {
     margin-top: 15px; }
 
+/* Created to define SCSS values for use throughout the website */
 /* Created for the initial guest landing page */
 body {
   background-color: #CFCFCF; }
@@ -256,6 +264,7 @@ body {
   .guest-container #congregationform {
     margin-bottom: 2rem; }
 
+/* Created to define SCSS values for use throughout the website */
 /* Created for the initial landing page */
 .landing-container {
   margin-top: 10%; }
@@ -289,6 +298,7 @@ body {
       .landing-container .landing-boxes:hover h2 {
         color: #ffffff; }
 
+/* Created to define SCSS values for use throughout the website */
 /* Created for the login page */
 body {
   background-color: #CFCFCF; }
@@ -339,6 +349,8 @@ body {
   .login-container .forgot-password {
     font-size: 14px;
     color: #808080; }
+
+/* Created to define SCSS values for use throughout the website */
 
 @charset "UTF-8";
 /*!

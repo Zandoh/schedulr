@@ -98,7 +98,8 @@ function createEditUserForm($user_ID){
     $user = $DBcore->selectOneUser($user_ID);
      foreach($user as $row) {  
         $userType = $row['user_type'];
-        $formStr = '<h1>Edit User</h1>
+        $formStr = '<div class="container-fluid admin-container">
+                <h1>Edit User</h1>
                 <form id="add-user" name="editUserSubmit" method="post">
                 <input type="hidden" name="user_ID" value="'.$row['user_ID'].'">
                   <div class="form-group col-md-4">
@@ -138,7 +139,8 @@ function createEditUserForm($user_ID){
            $formStr .= '</select>
                     <button type="submit" class="submit" name="editUserSubmitButton" value="edit" id="admin-add-user-submit">Save Edits</button>
                   </div>
-                </form>';
+                </form>
+                </div>';
         }
             return $formStr;
 

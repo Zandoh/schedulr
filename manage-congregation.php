@@ -1,9 +1,29 @@
 <html>
 
 <?php
-    include 'handlers/login_handler.php';
-    include 'assets/includes/header.php';
-    include 'handlers/congregation_handler.php';
+
+  // if there is no session, resume one
+  if(!isset($_SESSION)) 
+  { 
+      session_start(); 
+  } 
+  // Check to make sure users have access to this page
+  if (!isset($_SESSION['userLogin'])) {
+    // if the user is not logged in, redirect them to the login page
+    header("Location:login.php");
+  }
+  // logged in, check which page to redirect to
+  elseif(strcasecmp($_SESSION['userType'],"b") == 0){
+    header("Location: bus-avail.php");
+  }
+  // user is a congregation lead
+  elseif(strcasecmp($_SESSION['userType'],"c") == 0){
+    header("Location: blackouts.php");
+  }
+
+  include 'handlers/login_handler.php';
+  include 'assets/includes/header.php';
+  include 'handlers/congregation_handler.php';
    
   if(isset($_POST['editCongregationSubmitButton'])){
       //did the user submit the edit form
@@ -57,6 +77,7 @@
               <!-- options generated here for each user -->
               <?php echo getCongregationOption(); ?>
             </select>
+            <div class="btn-group" role="group">
             <button type="submit" name="editCongregationButton" class="submit" value="edit" id="admin-edit-submit">Edit Congregation</button>
             <?php
               // if the congregation was edited show success
@@ -102,6 +123,7 @@
                 }
               }
             ?>
+            </div>
           </div>
         </form>
 <?php
