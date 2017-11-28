@@ -191,6 +191,29 @@ var admin = {
 
 
 }
+var bus_schedule = {
+  /*
+  * Method: init()
+  * Description: initializes the bus namespace
+  * Usage: Called in App.js
+  */
+  init: function() {
+    this.bindEvents();
+    
+  },
+
+  /* 
+  * Method: bindEvents()
+  * Description: Function to bind all events for html elements
+  * Usage: Called when bus is initalized
+  */
+  bindEvents: function() {
+    console.log("bus schedule test");
+  }
+
+    
+}
+
 var bus = {
   /*
   * Method: init()
@@ -474,7 +497,7 @@ $(document).ready(function() {
 		// assign and configure a date picker to the div 
 		$("#date-picker").multiDatesPicker({
 			inline: true,
-			altField: "#bus-date",
+			altField: "#bus-date"
 		});
 		
 		// change the text field when a new date is selected
@@ -492,6 +515,25 @@ $(document).ready(function() {
 	if($("body").hasClass("init_login")) {
 		login.init();
 	}
+
+	if($("body").hasClass("bus-schedule")) {
+		bus_schedule.init();
+
+		// assign and configure a date picker to the div
+		$("#bus-schedule").multiDatesPicker({
+			inline: true,
+			maxPicks: 1,
+			altField: "#alt-Input",
+			onSelect: function() {
+				//assign the "Day" label to be the date the user selected
+				var hiddenDate = $("#alt-Input").attr('value');
+				$("#schedule-header-date").text(hiddenDate);
+				console.log(hiddenDate);
+			}
+		});
+
+	}
+
 });
 
 var login = {
