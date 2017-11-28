@@ -21,12 +21,9 @@
     ?>
 
   <body>
-    <?php include 'assets/includes/nav.php'; ?>
-
-    
-
     <?php 
-        include 'assets/includes/footer.php';
+      include 'assets/includes/nav.php';
+      include 'assets/includes/footer.php';
     ?>
   </body>
   <script src="assets/js/vendor/jquery-3.2.1.min.js" type="text/javascript"></script>
