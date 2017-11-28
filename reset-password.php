@@ -2,6 +2,7 @@
     include 'assets/includes/header.php';
     include 'assets/includes/nav.php';
     include 'handlers/guest_handler.php';
+    include 'assets/includes/common.php';
 
     require_once('handlers/DBcore.class.php');
     if(!isset($_SESSION)) { 
@@ -19,7 +20,7 @@
       if (isset($_GET['key']) && isset($_SESSION['email']) && isset($_POST['password'])) {
         $key = $_GET['key'];
         $email = $_SESSION['email'];
-        $password = $_POST['password'];
+        $password = sanitize($_POST['password']);
 
         $DBcore = new DBcore();
         $newPasswordResult = $DBcore->updatePassword($email, $password, $key);
