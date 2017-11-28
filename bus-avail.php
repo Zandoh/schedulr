@@ -1,31 +1,12 @@
+<?php
+  include 'handlers/login_handler.php';
+?>
 <html>
 <head>
 <?php
-// begin session
-    session_start(); 
-    // Check if the SESSION is already set
-   if (!isset($_SESSION['userLogin'])) {
-        // if the user is not logged in, redirect them to the login page
-        header("Location:login.php");
-    }
-    // logged in, check which page to redirect to
-    elseif(strcasecmp($_SESSION['userType'],"b") == 0){
-      header("Location: bus-avail.php");
-    }
-    // user is a congregation lead
-    elseif(strcasecmp($_SESSION['userType'],"c") == 0){
-      header("Location: blackouts.php");
-    }
-
-  include 'handlers/login_handler.php';
   include 'assets/includes/header.php';
   include 'assets/includes/nav.php';
 ?>
-
-<script> 
-       var userT = "<?php  echo $_SESSION['userType'] ?>";
-       var userI = "<?php  echo $_SESSION['userID'] ?>";
-  </script>
 
 <!-- container used for adding RAIHN bus driver available dates and times -->
 <body class="bus">
