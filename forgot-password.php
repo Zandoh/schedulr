@@ -1,6 +1,7 @@
 <?php
     include 'assets/includes/header.php';
     include 'assets/includes/nav.php';
+    include 'assets/includes/common.php';
     include 'handlers/guest_handler.php';
 
     require_once('handlers/DBcore.class.php');
@@ -11,7 +12,7 @@
     } 
 
     if(isset($_POST['PasswordResetSubmit'])) {
-      $email = $_POST['account'];
+      $email = sanitize($_POST['account']);
       $DBcore = new DBcore();
       $userResult = $DBcore->emailExists($email);
 
