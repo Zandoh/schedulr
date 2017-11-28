@@ -62,7 +62,7 @@
 
     ?>
 
-  <body>
+  <body class="admin">
     <?php include 'assets/includes/nav.php'; ?>
 
     
@@ -78,47 +78,47 @@
               <?php echo getCongregationOption(); ?>
             </select>
             <div class="btn-group" role="group">
-            <button type="submit" name="editCongregationButton" class="submit" value="edit" id="admin-edit-submit">Edit Congregation</button>
+            <button type="submit" name="editCongregationButton" class="submit longer-button" value="edit" id="admin-edit-submit">Edit Congregation</button>
             <?php
               // if the congregation was edited show success
               if(isset($_SESSION['editCongregationResult'])) {
                 if($_SESSION['editCongregationResult'] == "True") {
-                  echo "<div class='alert alert-success' role='alert'>
+                  echo "<div class='alert alert-success align-alert' role='alert'>
                         The congregation has been edited.
                         </div>";
                   unset($_SESSION['editCongregationResult']);
                 } else if ($_SESSION['editCongregationResult'] == "False") {
-                  echo "<label class='error' style='margin-top: .5rem;'>There was an error editing the congregation.</label>";
+                  echo "<label class='error align-alert' style='margin-top: .5rem;'>There was an error editing the congregation.</label>";
                   unset($_SESSION['editCongregationResult']);
                 }
               }
             ?>
-            <button type="submit" onclick="return confirm('Are you sure you want to delete this congregation?');" name="deleteCongregationButton" class="submit" value="delete" id="admin-edit-submit">Delete Congregation</button>
+            <button type="submit" onclick="return confirm('Are you sure you want to delete this congregation?');" name="deleteCongregationButton" class="submit longer-button" value="delete" id="admin-edit-submit">Delete Congregation</button>
             <?php
               // if the congregation was deleted show success
               if(isset($_SESSION['deleteCongregationResult'])) {
                 if($_SESSION['deleteCongregationResult'] == "True") {
-                  echo "<div class='alert alert-success' role='alert'>
+                  echo "<div class='alert alert-success align-alert' role='alert'>
                         The congregation has been deleted.
                         </div>";
                   unset($_SESSION['deleteCongregationResult']);
                 } else if ($_SESSION['deleteCongregationResult'] == "False") {
-                  echo "<label class='error' style='margin-top: .5rem;'>There was an error deleting the congregation.</label>";
+                  echo "<label class='error align-alert' style='margin-top: .5rem;'>There was an error deleting the congregation.</label>";
                   unset($_SESSION['deleteCongregationResult']);
                 }
               }
             ?>
-            <button type="submit" name="addCongregationButton" class="submit" value="add" id="admin-edit-submit">Add A New Congregation</button>
+            <button type="submit" name="addCongregationButton" class="submit longer-button" value="add" id="admin-edit-submit">Add A New Congregation</button>
             <?php
               // if the congregation was added correctly, show response
               if(isset($_SESSION['addCongregationResult'])) {
                 if($_SESSION['addCongregationResult'] == "True") {
-                  echo "<div class='alert alert-success' role='alert'>
+                  echo "<div class='alert alert-success align-alert' role='alert'>
                         The congregation has been added.
                         </div>";
                   unset($_SESSION['addCongregationResult']);
                 } else if ($_SESSION['addCongregationResult'] == "False") {
-                  echo "<label class='error' style='margin-top: .5rem;'>There was an error adding the congregation.</label>";
+                  echo "<label class='error align-alert' style='margin-top: .5rem;'>There was an error adding the congregation.</label>";
                   unset($_SESSION['addCongregationResult']);
                 }
               }
@@ -158,6 +158,8 @@
     ?>
   </body>
   <script src="assets/js/vendor/jquery-3.2.1.min.js" type="text/javascript"></script>
+  <script src="assets/js/vendor/jquery.validate.min.js"></script>
+  <script src="assets/js/vendor/additional-methods.min.js"></script>
   <script src="assets/js/vendor/jquery-ui.min.js" type="text/javascript"></script>
   <script src="assets/js/vendor/jquery-ui.multidatespicker.js" text="text/javascript"></script>
   <script src="assets/js/vendor/popper.js" type="text/javascript"></script>

@@ -101,6 +101,8 @@ footer {
     color: red; }
 
 /* Created to define SCSS values for use throughout the website */
+
+/* Created to define SCSS values for use throughout the website */
 /* Created for the admin page */
 .admin-container {
   margin-top: 50px;
@@ -112,6 +114,11 @@ footer {
     font-weight: 600; }
   .admin-container .btn-group button {
     width: 170px; }
+  .admin-container .btn-group button.longer-button {
+    width: 240px; }
+  .admin-container .align-alert {
+    position: absolute;
+    top: 70; }
   .admin-container .submit {
     -webkit-transition: .1s opacity linear;
     -moz-transition: .1s opacity linear;
@@ -349,8 +356,6 @@ body {
   .login-container .forgot-password {
     font-size: 14px;
     color: #808080; }
-
-/* Created to define SCSS values for use throughout the website */
 
 @charset "UTF-8";
 /*!

@@ -30,31 +30,31 @@ function createEditCongregationForm($congregation_ID){
      foreach($congregation as $row) {  
         $formStr = '<div class="container-fluid admin-container">
                 <h1>Edit Congregation</h1>
-                <form id="add-user" name="editUserSubmit" method="post">
+                <form id="add-user" name="editCongSubmit" method="post">
                 <input type="hidden" name="congregation_ID" value="'.$row['congregation_ID'].'">
                   <div class="form-group col-md-4">
-                    <label for="add-email">Name</label>
-                    <input type="text" class="form-control" id="add-email" placeholder="Name" name="congregation_name" value="'.$row['congregation_name'].'">
+                    <label for="edit-cong-name">Name</label>
+                    <input type="text" class="form-control" id="edit-cong-name" placeholder="Name" name="congregation_name" value="'.$row['congregation_name'].'">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="add-phone-number">Phone Number</label>
-                    <input type="text" class="form-control" id="add-phone-number" placeholder="Phone Number" name="congregation_phone" value="'.$row['congregation_phone'].'">
+                    <label for="edit-cong-number">Phone Number</label>
+                    <input type="text" class="form-control" id="edit-cong-number" placeholder="Phone Number" name="congregation_phone" value="'.$row['congregation_phone'].'">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="add-email">Street Address</label>
-                    <input type="text" class="form-control" id="add-email" placeholder="Address" name="congregation_street_address" value="'.$row['congregation_street_address'].'">
+                    <label for="edit-cong-address">Street Address</label>
+                    <input type="text" class="form-control" id="add-cong-address" placeholder="Address" name="congregation_street_address" value="'.$row['congregation_street_address'].'">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="add-fName">City</label>
-                    <input type="text" class="form-control" id="add-fName" placeholder="City" name="congregation_city" value="'.$row['congregation_city'].'">
+                    <label for="edit-cong-city">City</label>
+                    <input type="text" class="form-control" id="edit-cong-city" placeholder="City" name="congregation_city" value="'.$row['congregation_city'].'">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="add-lName">State</label>
-                    <input type="text" class="form-control" id="add-lName" placeholder="State" name="congregation_state" value="'.$row['congregation_state'].'">
+                    <label for="edit-cong-state">State</label>
+                    <input type="text" class="form-control" id="edit-cong-state" placeholder="State" name="congregation_state" value="'.$row['congregation_state'].'">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="add-lName">Zip Code</label>
-                    <input type="text" class="form-control" id="add-lName" placeholder="Zip" name="congregation_zip" value="'.$row['congregation_zip'].'">
+                    <label for="edit-cong-zip">Zip Code</label>
+                    <input type="text" class="form-control" id="edit-cong-zip" placeholder="Zip" name="congregation_zip" value="'.$row['congregation_zip'].'">
                   </div>
                   <div class="form-group col-md-4">
                    <button type="submit" class="submit" name="editCongregationSubmitButton" value="edit" id="admin-add-user-submit">Save Edits</button>
@@ -68,31 +68,31 @@ function createEditCongregationForm($congregation_ID){
 
 function createAddCongregationForm(){
     $formStr = '<h1>Add Congregation</h1>
-                <form id="add-user" name="addCongregationSubmit" method="post">
+                <form id="add-user" name="addCongSubmit" method="post">
                 <input type="hidden" name="congregation_ID">
                   <div class="form-group col-md-4">
-                    <label for="add-email">Name</label>
-                    <input type="text" class="form-control" id="add-email" placeholder="Name" name="congregation_name">
+                    <label for="add-congName">Name</label>
+                    <input type="text" class="form-control" id="add-congName" placeholder="Name" name="congregation_name">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="add-phone-number">Phone Number</label>
-                    <input type="text" class="form-control" id="add-phone-number" placeholder="Phone Number" name="congregation_phone">
+                    <label for="add-cong-number">Phone Number</label>
+                    <input type="text" class="form-control" id="add-cong-number" placeholder="Phone Number" name="congregation_phone">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="add-email">Street Address</label>
-                    <input type="text" class="form-control" id="add-email" placeholder="Address" name="congregation_street_address">
+                    <label for="add-cong-street">Street Address</label>
+                    <input type="text" class="form-control" id="add-cong-street" placeholder="Address" name="congregation_street_address">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="add-fName">City</label>
-                    <input type="text" class="form-control" id="add-fName" placeholder="City" name="congregation_city">
+                    <label for="add-cong-city">City</label>
+                    <input type="text" class="form-control" id="add-cong-city" placeholder="City" name="congregation_city">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="add-lName">State</label>
-                    <input type="text" class="form-control" id="add-lName" placeholder="State" name="congregation_state">
+                    <label for="add-cong-state">State</label>
+                    <input type="text" class="form-control" id="add-cong-state" placeholder="State" name="congregation_state">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="add-lName">Zip Code</label>
-                    <input type="text" class="form-control" id="add-lName" placeholder="Zip" name="congregation_zip">
+                    <label for="add-cong-zip">Zip Code</label>
+                    <input type="text" class="form-control" id="add-cong-zip" placeholder="Zip" name="congregation_zip">
                   </div>
                   <div class="form-group col-md-4">
                    <button type="submit" class="submit" name="submitAddedCongregation" value="submitAddedCongregation" id="admin-add-user-submit">Add Congregation</button>

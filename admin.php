@@ -73,12 +73,12 @@
               // if the user was edited show success
               if(isset($_SESSION['editUserResult'])) {
                 if($_SESSION['editUserResult'] == "True") {
-                  echo "<div class='alert alert-success' role='alert'>
+                  echo "<div class='alert alert-success align-alert' role='alert'>
                         The user has been edited.
                         </div>";
                   unset($_SESSION['editUserResult']);
                 } else if ($_SESSION['editUserResult'] == "False") {
-                  echo "<label class='error' style='margin-top: .5rem;'>There was an error editing the user.</label>";
+                  echo "<label class='error align-alert' style='margin-top: .5rem;'>There was an error editing the user.</label>";
                   unset($_SESSION['editUserResult']);
                 }
               }
@@ -88,12 +88,12 @@
               // if the user was deleted show success
               if(isset($_SESSION['deleteUserResult'])) {
                 if($_SESSION['deleteUserResult'] == "True") {
-                  echo "<div class='alert alert-success' role='alert'>
+                  echo "<div class='alert alert-success align-alert' role='alert'>
                         The user has been deleted.
                         </div>";
                   unset($_SESSION['deleteUserResult']);
                 } else if ($_SESSION['deleteUserResult'] == "False") {
-                  echo "<label class='error' style='margin-top: .5rem;'>There was an error deleting the user.</label>";
+                  echo "<label class='error align-alert' style='margin-top: .5rem;'>There was an error deleting the user.</label>";
                   unset($_SESSION['deleteUserResult']);
                 }
               }
@@ -103,12 +103,12 @@
               // if the user was added correctly, show response
               if(isset($_SESSION['addUserResult'])) {
                 if($_SESSION['addUserResult'] == "True") {
-                  echo "<div class='alert alert-success' role='alert'>
+                  echo "<div class='alert alert-success align-alert' role='alert'>
                         The user has been added.
                         </div>";
                   unset($_SESSION['addUserResult']);
                 } else if ($_SESSION['addUserResult'] == "False") {
-                  echo "<label class='error' style='margin-top: .5rem;'>There was an error adding the user.</label>";
+                  echo "<label class='error align-alert' style='margin-top: .5rem;'>There was an error adding the user.</label>";
                   unset($_SESSION['addUserResult']);
                 }
               }

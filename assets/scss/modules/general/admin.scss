@@ -18,6 +18,15 @@
         width: 170px;
     }
 
+    .btn-group button.longer-button {
+        width: 240px;
+    }
+
+    .align-alert {
+        position: absolute;
+        top: 70;
+    }
+
     .submit {
         @include blue-button;
         cursor: pointer;
