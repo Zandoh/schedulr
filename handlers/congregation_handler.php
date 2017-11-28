@@ -21,6 +21,29 @@ function getCongregationOption(){
 }
 
 
+function getCongregationSelected($congregation_Current){
+  $DBcore = new DBcore();
+    $congArr = array();
+    $congArr = $DBcore->selectAllCongregations();
+    $optionStr = '';
+
+    foreach($congArr as $row){
+        $congregation_ID = $row['congregation_ID'];
+        $congregation_name = $row['congregation_name'];
+
+        if($congregation_Current == $congregation_ID){
+          $optionStr .= '<option value="'.$congregation_ID.'" selected>'.$congregation_name.'</option>';
+        }
+        else{
+          $optionStr .= '<option value="'.$congregation_ID.'">'.$congregation_name.'</option>';
+        }
+
+    }//end of foreach
+
+    return $optionStr;
+}
+
+
 
 function createEditCongregationForm($congregation_ID){
     $DBcore = new DBcore();

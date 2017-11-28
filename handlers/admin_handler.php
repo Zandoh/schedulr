@@ -146,7 +146,7 @@ function createEditUserForm($user_ID){
                         <select class="form-control" name="congregationList" id="congregation-select">
                           <!-- options generated here for each congregation -->
                           <option value="null">Select a Congregation</option>';
-               $formStr .=  getCongregationOption();
+               $formStr .=  getCongregationSelected($row['congregation_ID']);
                 $formStr .= ' </select>
 
                       </div>
@@ -213,10 +213,10 @@ function createAddUserForm(){
 /*
  * Returns true if a user was edited in the db
  */
-function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
+function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType, $congregation_ID){
     $DBcore = new DBcore();
     $result = array();
-    $result = $DBcore->editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType);
+    $result = $DBcore->editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType, $congregation_ID);
     if ($result) {
         return true;
     } else {
@@ -227,10 +227,10 @@ function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
 /*
  * Returns true if a user was added to the db
  */
-function addUser($email, $password, $phone, $firstName, $lastName, $userType){
+function addUser($email, $password, $phone, $firstName, $lastName, $userType, $congregation_ID){
     $DBcore = new DBcore();
     $result = array();
-    $result = $DBcore->addOneUser($email, $password, $phone, $firstName, $lastName, $userType);
+    $result = $DBcore->addOneUser($email, $password, $phone, $firstName, $lastName, $userType, $congregation_ID);
     if ($result) {
         return true;
     } else {
