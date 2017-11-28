@@ -206,6 +206,25 @@ class DBcore {
 		return $userType;	
 	}//end of selectAllUsers	
     
+
+	/*
+	* Select a user ID
+	*/
+	function selectUserID($email){
+		$data = array();
+		if($stmt = $this->conn->prepare("select user_ID from USER where email=:email;")){
+			$stmt->bindParam(':email', $email);
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		$userType = '';
+		foreach($data as $row){
+			$userType .= $row['user_ID'];
+		}
+		return $userType;	
+	}//end of selectAllUsers
+
+
   /*
 	* Select previous congregation rotation ID
 	*/
