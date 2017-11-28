@@ -1,5 +1,6 @@
 <?php
 require_once('DBcore.class.php');
+include 'congregation_handler.php';
 
 /*
  * Gets and populates all users for the select list
@@ -137,6 +138,14 @@ function createEditUserForm($user_ID){
                                     <option value="c" selected>Congregation Lead</option>';
                 }
            $formStr .= '</select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="username-select">Congregation Name</label>
+                        <select class="form-control" name="congregationList" id="username-select">
+                          <!-- options generated here for each congregation -->';
+               $formStr .=  getCongregationOption();
+                $formStr .= ' </select>
+
                     <button type="submit" class="submit" name="editUserSubmitButton" value="edit" id="admin-add-user-submit">Save Edits</button>
                   </div>
                 </form>
@@ -179,6 +188,13 @@ function createAddUserForm(){
                         <option value="b">Bus Driver</option>
                         <option value="c">Congregation Lead</option>
                       </select>
+                      </div>
+                    <div class="form-group col-md-4">
+                        <label for="username-select">Congregation Name</label>
+                        <select class="form-control" name="congregationList" id="username-select">
+                          <!-- options generated here for each congregation -->';
+               $formStr .=  getCongregationOption();
+                $formStr .= ' </select>
                       <button type="submit" class="submit" name="submitAddedUser" value="submitAddedUser" id="admin-add-user-submit">Submit</button>
                     </div>
                   </form>';
