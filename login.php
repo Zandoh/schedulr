@@ -3,6 +3,7 @@
 <?php
 
     include 'assets/includes/header.php';
+    include 'assets/includes/common.php';
     require_once('handlers/DBcore.class.php');
 
     // begin session
@@ -27,9 +28,9 @@
     else{
         // if the login button was pressed
         if(isset($_POST['LoginSubmit'])){
-            $email = $_POST['account'];
+            $email = sanitize($_POST['account']);
             $_SESSION['user_email'] = $email;
-            $pass = $_POST['secure'];
+            $pass = sanitize($_POST['secure']);
             $DBcore = new DBcore();
             $userArr = array();
             $userResult = $DBcore->login($email,$pass);
