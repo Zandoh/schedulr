@@ -39,9 +39,22 @@ $(document).ready(function() {
 				var hiddenDate = $("#alt-Input").attr('value');
 				$("#schedule-header-date").text(hiddenDate);
 				console.log(hiddenDate);
+				//go get availabilities on this date
 			}
 		});
 
 	}
 
+	if($(".generatePDF")){
+		//bind click events 
+			//utils.saveAsPDF();
+	}
 });
+
+var utils = {
+	saveAsPDF: function() {
+		//going to tie this to a button click event
+		//each schedule that needs to be saved as a PDF will have a data-attribute on it as data-pdfMe="1"
+		//get that div with the data-attribute
+	}
+};
