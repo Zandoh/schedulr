@@ -1,5 +1,6 @@
 <?php
 require_once('DBcore.class.php');
+include 'congregation_handler.php';
 
 /*
  * Gets and populates all users for the select list
@@ -96,6 +97,7 @@ function createEditUserForm($user_ID){
     $DBcore = new DBcore();
     $user = array();
     $user = $DBcore->selectOneUser($user_ID);
+    $displayDefault = 'style="display: none;"';
      foreach($user as $row) {  
         $userType = $row['user_type'];
         $formStr = '<div class="container-fluid admin-container">
@@ -135,8 +137,20 @@ function createEditUserForm($user_ID){
                     $formStr .= '<option value="e">Admin</option>
                                     <option value="b">Bus Driver</option>
                                     <option value="c" selected>Congregation Lead</option>';
+                      $displayDefault = '';
                 }
            $formStr .= '</select>
+                    </div>
+                    <div class="form-group col-md-4" id="congregation-select-div" '.$displayDefault.'>
+                        <label for="username-select">Congregation Name</label>
+                        <select class="form-control" name="congregationList" id="congregation-select">
+                          <!-- options generated here for each congregation -->
+                          <option value="null">Select a Congregation</option>';
+               $formStr .=  getCongregationSelected($row['congregation_ID']);
+                $formStr .= ' </select>
+
+                      </div>
+                    <div class="form-group col-md-4">
                     <button type="submit" class="submit" name="editUserSubmitButton" value="edit" id="admin-add-user-submit">Save Edits</button>
                   </div>
                 </form>
@@ -179,6 +193,16 @@ function createAddUserForm(){
                         <option value="b">Bus Driver</option>
                         <option value="c">Congregation Lead</option>
                       </select>
+                      </div>
+                    <div class="form-group col-md-4" id="congregation-select-div" style="display: none;">
+                        <label for="username-select">Congregation Name</label>
+                        <select class="form-control" name="congregationList" id="congregation-select">
+                          <!-- options generated here for each congregation -->
+                          <option value="null">Select a Congregation</option>';
+               $formStr .=  getCongregationOption();
+                $formStr .= ' </select>
+                      </div>
+                    <div class="form-group col-md-4">
                       <button type="submit" class="submit" name="submitAddedUser" value="submitAddedUser" id="admin-add-user-submit">Submit</button>
                     </div>
                   </form>';
@@ -189,10 +213,10 @@ function createAddUserForm(){
 /*
  * Returns true if a user was edited in the db
  */
-function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
+function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType, $congregation_ID){
     $DBcore = new DBcore();
     $result = array();
-    $result = $DBcore->editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType);
+    $result = $DBcore->editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType, $congregation_ID);
     if ($result) {
         return true;
     } else {
@@ -203,10 +227,10 @@ function editUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
 /*
  * Returns true if a user was added to the db
  */
-function addUser($email, $password, $phone, $firstName, $lastName, $userType){
+function addUser($email, $password, $phone, $firstName, $lastName, $userType, $congregation_ID){
     $DBcore = new DBcore();
     $result = array();
-    $result = $DBcore->addOneUser($email, $password, $phone, $firstName, $lastName, $userType);
+    $result = $DBcore->addOneUser($email, $password, $phone, $firstName, $lastName, $userType, $congregation_ID);
     if ($result) {
         return true;
     } else {

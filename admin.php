@@ -24,7 +24,13 @@
   if(isset($_POST['editUserSubmitButton'])){
       // did the user submit the edit form
       // if so then make the changes to the database
-      $result = editUser(sanitize($_POST['user_ID']), sanitize($_POST['email']), sanitize($_POST['phoneNumber']), sanitize($_POST['firstName']), sanitize($_POST['lastName']), sanitize($_POST['userType']));
+     $congValue = sanitize($_POST['congregationList']);
+     $userType = sanitize($_POST['userType']);
+     if( $userType == 'b' || $userType == 'e'){
+      $congValue = 'null';
+     }
+
+      $result = editUser(sanitize($_POST['user_ID']), sanitize($_POST['email']), sanitize($_POST['phoneNumber']), sanitize($_POST['firstName']), sanitize($_POST['lastName']), $userType, $congValue);
       if ($result) {
         $_SESSION['editUserResult'] = "True";
       } else {
@@ -34,7 +40,7 @@
   if(isset($_POST['submitAddedUser'])){
       // did the user submit the add user form
       // if so then add the user to the database
-      $result = addUser(sanitize($_POST['email']), sanitize($_POST['password']), sanitize($_POST['phoneNumber']), sanitize($_POST['firstName']), sanitize($_POST['lastName']), sanitize($_POST['userType']));
+      $result = addUser(sanitize($_POST['email']), sanitize($_POST['password']), sanitize($_POST['phoneNumber']), sanitize($_POST['firstName']), sanitize($_POST['lastName']), sanitize($_POST['userType']), sanitize($_POST['congregationList']));
       if ($result) {
         $_SESSION['addUserResult'] = "True";
       } else {
@@ -155,6 +161,6 @@
   <script src="assets/js/vendor/jquery-ui.multidatespicker.js" text="text/javascript"></script>
   <script src="assets/js/vendor/popper.js" type="text/javascript"></script>
   <script src="assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
-  <script src="assets/js/scripts.min.js" type="text/javascript"></script>
+  <script src="assets/js/scripts.js" type="text/javascript"></script>
 
 </html>

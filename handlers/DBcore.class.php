@@ -6,7 +6,7 @@ class DBcore {
 	// Default constructor
 	function __construct(){
 	// will be the path to our dbInfo
-		// require_once('../../../../datainfo/dbinfo.php');
+		//require_once(__DIR__ . '../../../../datainfo/dbinfo.php');
 		$db='schedulrDB';
 		// $host='localhost';
 		$host='127.0.0.1:3306';
@@ -94,6 +94,7 @@ class DBcore {
 		}
 		return $data;	
 	}//end of select all Congregations
+
 
 	/*
 	* Select a Congregations blackout dates
@@ -243,14 +244,15 @@ class DBcore {
 	/*
 	* Manage users -- edit a user (cannot edit their password)
 	*/
-	function editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType){
+	function editOneUser($user_ID, $email, $phone, $firstName, $lastName, $userType, $congregation_ID){
 		
-		if($stmt = $this->conn->prepare("update USER set email=:email, phone_number=:phone, first_name=:firstName, last_name=:lastName, user_type=:userType where user_ID=:user_ID;")) {
+		if($stmt = $this->conn->prepare("update USER set email=:email, phone_number=:phone, first_name=:firstName, last_name=:lastName, user_type=:userType, congregation_ID =:congregation_ID where user_ID=:user_ID;")) {
 			$stmt->bindParam(':email', $email);
 			$stmt->bindParam(':phone', $phone);
 			$stmt->bindParam(':firstName', $firstName);
 			$stmt->bindParam(':lastName', $lastName);
 			$stmt->bindParam(':userType', $userType);
+			$stmt->bindParam(':congregation_ID', $congregation_ID);
 			$stmt->bindParam(':user_ID', $user_ID);
 			$stmt->execute();
 
@@ -265,16 +267,17 @@ class DBcore {
 	/*
 	* Manage users -- add a user
 	*/
-	function addOneUser($email, $password, $phone, $firstName, $lastName, $userType){
+	function addOneUser($email, $password, $phone, $firstName, $lastName, $userType, $congregation_ID){
 
       $secure = hash('sha256', $password);
-		  if($stmt = $this->conn->prepare("insert into USER (email, password, phone_number, first_name, last_name, user_type, congregation_ID) values (:email, :password, :phone_number, :first_name, :last_name, :user_type, 1);")) {
+		  if($stmt = $this->conn->prepare("insert into USER (email, password, phone_number, first_name, last_name, user_type, congregation_ID) values (:email, :password, :phone_number, :first_name, :last_name, :user_type, :congregation_ID);")) {
 				$stmt->bindParam(':email', $email);
 				$stmt->bindParam(':password', $secure);
 				$stmt->bindParam(':phone_number', $phone);
 				$stmt->bindParam(':first_name', $firstName);
 				$stmt->bindParam(':last_name', $lastName);
 				$stmt->bindParam(':user_type', $userType);
+				$stmt->bindParam(':congregation_ID', $congregation_ID);
 				$stmt->execute();
 
 				if ($stmt->rowCount()) {
