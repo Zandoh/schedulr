@@ -23,13 +23,14 @@
 
   include 'handlers/login_handler.php';
   include 'assets/includes/header.php';
+  include 'assets/includes/common.php';
   include 'handlers/congregation_handler.php';
    
   if(isset($_POST['editCongregationSubmitButton'])){
       //did the user submit the edit form
       //if so then make the changes to the database
       //assumes all congregations need a bus
-      $result = editCongregation($_POST['congregation_ID'], $_POST['congregation_name'], $_POST['congregation_street_address'], $_POST['congregation_phone'], 1, $_POST['congregation_city'], $_POST['congregation_state'], $_POST['congregation_zip']);
+      $result = editCongregation(sanitize($_POST['congregation_ID']), sanitize($_POST['congregation_name']), sanitize($_POST['congregation_street_address']), sanitize($_POST['congregation_phone']), sanitize(1), sanitize($_POST['congregation_city']), sanitize($_POST['congregation_state']), sanitize($_POST['congregation_zip']));
       if ($result) {
         $_SESSION['editCongregationResult'] = "True";
       } else {
@@ -40,7 +41,7 @@
       //did the user submit the add congregation form
       //if so then add the user to the database
       //assumes all congregations need a bus
-      $result = addCongregation($_POST['congregation_name'], $_POST['congregation_street_address'], $_POST['congregation_phone'], 1, $_POST['congregation_city'], $_POST['congregation_state'], $_POST['congregation_zip']);
+      $result = addCongregation(sanitize($_POST['congregation_name']), sanitize($_POST['congregation_street_address']), sanitize($_POST['congregation_phone']), sanitize(1), sanitize($_POST['congregation_city']), sanitize($_POST['congregation_state']), sanitize($_POST['congregation_zip']));
       if ($result) {
         $_SESSION['addCongregationResult'] = "True";
       } else {
@@ -50,7 +51,7 @@
   if(isset($_POST['deleteCongregationButton'])){
     //did the user submit the delete congregation button
     //if so then delete the user from the database
-    $congregation_ID = $_POST['congregationList'];
+    $congregation_ID = sanitize($_POST['congregationList']);
     $result = deleteCongregation($congregation_ID);
     if ($result) {
       $_SESSION['deleteCongregationResult'] = "True";
@@ -131,7 +132,7 @@
   if(isset($_POST['editCongregationButton'])){
       //did the user select that they want to edit a congregation
       //if so then show the edit form populated
-      $congregation_ID = $_POST['congregationList'];
+      $congregation_ID = sanitize($_POST['congregationList']);
      echo createEditCongregationForm($congregation_ID);
   }//end of if
   

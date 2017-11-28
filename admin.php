@@ -17,13 +17,14 @@
     }
 
     include 'assets/includes/header.php';
+    include 'assets/includes/common.php';
     include 'handlers/admin_handler.php';
 
 
   if(isset($_POST['editUserSubmitButton'])){
       // did the user submit the edit form
       // if so then make the changes to the database
-      $result = editUser($_POST['user_ID'], $_POST['email'], $_POST['phoneNumber'], $_POST['firstName'], $_POST['lastName'], $_POST['userType']);
+      $result = editUser(sanitize($_POST['user_ID']), sanitize($_POST['email']), sanitize($_POST['phoneNumber']), sanitize($_POST['firstName']), sanitize($_POST['lastName']), sanitize($_POST['userType']));
       if ($result) {
         $_SESSION['editUserResult'] = "True";
       } else {
@@ -33,7 +34,7 @@
   if(isset($_POST['submitAddedUser'])){
       // did the user submit the add user form
       // if so then add the user to the database
-      $result = addUser($_POST['email'], $_POST['password'], $_POST['phoneNumber'], $_POST['firstName'], $_POST['lastName'], $_POST['userType']);
+      $result = addUser(sanitize($_POST['email']), sanitize($_POST['password']), sanitize($_POST['phoneNumber']), sanitize($_POST['firstName']), sanitize($_POST['lastName']), sanitize($_POST['userType']));
       if ($result) {
         $_SESSION['addUserResult'] = "True";
       } else {
@@ -43,7 +44,7 @@
   if(isset($_POST['deleteUserButton'])){
     // did the user submit the delete user button
     // if so then delete the user from the database
-    $user_ID = $_POST['userList'];
+    $user_ID = sanitize($_POST['userList']);
     $result = deleteUser($user_ID);
     if ($result) {
       $_SESSION['deleteUserResult'] = "True";
@@ -121,7 +122,7 @@
   if(isset($_POST['editUserButton'])){
       // did the user select that they want to edit a user
       // if so then show the edit form populated
-      $user_ID = $_POST['userList'];
+      $user_ID = sanitize($_POST['userList']);
      echo createEditUserForm($user_ID);
   }//end of if
   
