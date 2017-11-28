@@ -101,6 +101,8 @@ footer {
     color: red; }
 
 /* Created to define SCSS values for use throughout the website */
+
+/* Created to define SCSS values for use throughout the website */
 /* Created for the admin page */
 .admin-container {
   margin-top: 50px;
@@ -349,8 +351,6 @@ body {
   .login-container .forgot-password {
     font-size: 14px;
     color: #808080; }
-
-/* Created to define SCSS values for use throughout the website */
 
 @charset "UTF-8";
 /*!

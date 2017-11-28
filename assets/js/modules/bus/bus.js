@@ -69,13 +69,10 @@ var bus = {
     });
 
     $('#bus-name').on('change', function (e) {
-      console.log('changed......');
       var optionSelected = $("option:selected", this);
       var valueSelected = this.value;
       
       if(valueSelected != '') {
-        console.log('not null');
-        console.log(valueSelected);
         ajax.getDriverAvailability('returnDriverAvailability', valueSelected);
         //need to fetch their availability here. Then populate them into the table.
       }
@@ -89,13 +86,16 @@ var bus = {
   * Usage: Called from the click event of the Add To List button on the Driver Availability page
   */
   populateTable: function() {
-      var html;
-      var driverName = $('#bus-name').find(":selected").text();;
-      var driverDates = $('#bus-date').val();
-      var driverDatesArray = driverDates.split(',');
-      var driverTime = $('#bus-time').val();
-      var table = $('table#list tbody');
+    var html;
+    var driverName = $('#bus-name').find(":selected").text();
+    var driverDates = $('#bus-date').val();
+    var driverDatesArray = driverDates.split(', ');
+    var driverTime = $('#bus-time').val();
+    var table = $('table#list tbody');
 
+    var exists = bus.checkExists(driverDatesArray);
+
+    if(exists == false) {
       for(var i = 0; i < driverDatesArray.length; i++) {
         html =  '<tr>';
         html +=   '<td scope="row" class="tableDriverName">' + driverName +'</td>';
@@ -105,8 +105,42 @@ var bus = {
     
         table.append(html);
       }
+    }
   },
 
+  /*
+  * Method: checkExists()
+  * @param: date - selected date(s) from the calendar as an array
+  * Description: utility to check if a date already exists in the availability table
+  * Returns: true or false
+  */
+  checkExists: function(dates) {
+    var errorContainer = $('#error-container');
+    errorContainer.empty();
+    var table = $('table#list tbody');
+    var tableRows = $('table#list tbody > tr > td.tableDriverDate');
+    if(tableRows.length > 0) {
+      $.each(dates, function(i, date) {
+        $.each(tableRows, function(j, rowDate) {
+          var currentRowDate = $(rowDate).text();
+          if(currentRowDate == date) {
+            errorContainer.append('<p>Availability Already Exists on ' + date + '</p>');
+          }
+        });
+      });
+    } else {
+      return false;
+    }
+  },
+
+  /*
+  * Method: alreadyExists()
+  * @param: date - date that already exists in the user availability table
+  * Description: utility to display a meaninful message to the user that the availability already exists
+  */
+  alreadyExists: function(date) {
+    //display message saying user already available that day
+  },
   /*
   * Method: removeDriverRecord()
   * Description: Removes a record from the List of Dates table
