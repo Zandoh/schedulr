@@ -41,7 +41,8 @@
             if($userResult){
               // successful login
               $userType = $DBcore->selectUserType($email);
-
+              $userID =  $DBcore->selectUserID($email);
+              $_SESSION['userID'] = $userID;
               $_SESSION['userLogin'] = $email;
               $_SESSION['userType'] = $userType;
               $_SESSION['loginStatus'] = "Pass"; 

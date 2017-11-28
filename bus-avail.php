@@ -43,7 +43,7 @@
         </div>
         <div class="form-group col-md-4">
           <label for="bus-date">Dates</label>
-          <input typ"text" class="form-control" id="bus-date" placeholder="Select Dates" disabled>
+          <input type="text" class="form-control" id="bus-date" placeholder="Select Dates" disabled>
           <div id="date-picker"></div>
         </div>
         <div class="form-group col-md-4">

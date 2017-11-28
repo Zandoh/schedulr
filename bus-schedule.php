@@ -24,7 +24,30 @@
   <body>
     <?php include 'assets/includes/nav.php'; ?>
 
-    
+    <!-- container used for scheduling bus drivers -->
+    <body class="bus-schedule">
+      <div class="container-fluid bus-schedule-container">
+        <div class="row justify-content-md-center">
+          <div class="col-md-5">
+            <h1>Bus Scheduling</h1>
+            <div id="bus-schedule"></div>
+            <input id="alt-Input" type="hidden" value="test">
+          </div>
+          <div class="col-md-5">
+            <h1>Day: <span id="schedule-header-date"></span></h1>
+            <table class="table table-hover table-bordered" id="schedule-list">
+              <thead>
+                <tr>
+                  <th>Driver Name</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody> 
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
     <?php 
         include 'assets/includes/footer.php';
