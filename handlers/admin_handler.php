@@ -80,7 +80,7 @@ function returnDriverAvailability($id) {
     foreach($driverArr as $row) {
         $user = array(
             'date' => $row['availability_day'],
-            'time' => $row['availabilty_time_of_day']
+            'time' => $row['availability_time_of_day']
         );
         array_push($json, $user);
     }
@@ -252,6 +252,25 @@ function deleteUser($user_ID){
         return false;
     }
 
+}
+
+function returnAvailabilityOnDay($date) {
+    $DBcore = new DBcore();
+    $driverArr = array();
+    $driverArr = $DBcore->selectBusDriverAvailability($date);
+    $json = array();
+
+    foreach($driverArr as $row) {
+        $user = array(
+            'date' => $row['availability_day'],
+            'time' => $row['availabilty_time_of_day']
+        );
+        array_push($json, $user);
+    }
+
+    $jsonstring = json_encode($json);
+
+    return $jsonstring;
 }
 
 ?>
