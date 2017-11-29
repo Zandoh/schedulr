@@ -115,21 +115,26 @@ var bus = {
   */
   checkExists: function(dates) {
     var errorContainer = $('#error-container');
-    errorContainer.empty();
     var table = $('table#list tbody');
     var tableRows = $('table#list tbody > tr > td.tableDriverDate');
+    var exists = false;
+
+    errorContainer.empty();
+
     if(tableRows.length > 0) {
       $.each(dates, function(i, date) {
         $.each(tableRows, function(j, rowDate) {
           var currentRowDate = $(rowDate).text();
           if(currentRowDate == date) {
             errorContainer.append('<p>Availability Already Exists on ' + date + '</p>');
+            exists = true;
           }
         });
       });
     } else {
-      return false;
+      exists = false;
     }
+    return exists;
   },
   /*
   * Method: removeDriverRecord()
