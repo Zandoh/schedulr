@@ -52,6 +52,14 @@ var ajax = {
 				}));
 			});
 			$('#bus-name').removeAttr('disabled');
+            if(user.type == "b"){
+                    $("select#bus-name option").each(function() {
+                        if ($(this).val() == user.id) {
+                            $(this).attr("selected","selected");
+                            $('#bus-name').attr("disabled","disabled");
+                        }
+                    });
+                }
       // do work with response json here
 		}).fail(function(err) {
       // console.log(err);

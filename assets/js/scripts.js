@@ -1,268 +1,3 @@
-var ajax = {
-	/* 
-  * Method: ajaxCall(param, param)
-  * Description: ajax helper method, returns a jQuery ajax object
-	* @param: getOrPost: {"GET", "POST"} define the type of method the ajax call will use
-	* @param: data: optional, data to be passed in with the ajax call. Only needed for POST requests
-  */
-	ajaxCall: function(getOrPost, data) {
-		return $.ajax({
-			type: getOrPost,
-			async: true,
-			cache: false,
-      url: "mid.php",
-      data: data
-		});
-	},
-	
-	/* 
-  * Method: getUsers(param, param)
-  * 
-	* @param: getOrPost: {"GET", "POST"} define the type of method the ajax call will use
-	* @param: data: optional, data to be passed in with the ajax call. Only needed for POST requests
-  */
-	getUsers: function(func, data) {
-		ajax.ajaxCall("GET", {
-      method: func, 
-      file: "admin_handler"
-    }).done(function(jsonResponse) {
-			console.log('getting users..... ');
-      console.log(jsonResponse);
-      // do work with response json here
-		}).fail(function(err) {
-      // console.log(err);
-    });
-	},
-
-	/* 
-	* Method: getDrivers(param, param)
-	*
-	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
-	* @param: data: optional, data to be passed in with the ajax call. Only needed for POST requests
-  */
-	getDrivers: function(func, data) {
-		ajax.ajaxCall("GET", {
-      method: func, 
-      file: "admin_handler"
-    }).done(function(jsonResponse) {
-			$.each($.parseJSON(jsonResponse), function (i, driver) {
-				$('#bus-name').append($('<option>', { 
-						value: driver.userID,
-						text : driver.firstName + ' ' + driver.lastName
-				}));
-			});
-			$('#bus-name').removeAttr('disabled');
-      // do work with response json here
-		}).fail(function(err) {
-      // console.log(err);
-    });
-	},
-
-	/* 
-	* Method: getDriverAvailability(param, param)
-	*
-	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
-	* @param: data: optional, data to be passed in with the ajax call. Only needed for POST requests
-  */
-	getDriverAvailability: function(func, data) {
-		ajax.ajaxCall("GET", {
-			method: func, 
-			data: data,
-      file: "admin_handler"
-    }).done(function(jsonResponse) {
-			console.log('availability here......');
-			console.log(jsonResponse);
-			$.each($.parseJSON(jsonResponse), function (i, driver) {
-				// append items to the table here
-			});
-      // do work with response json here
-		}).fail(function(err) {
-      // console.log(err);
-    });
-	}
-
-}
-/* Main function to run when the DOM is ready */
-$(document).ready(function() {
-	
-	if($("body").hasClass("bus")) {
-		bus.init();
-
-		// assign and configure a date picker to the div 
-		$("#date-picker").multiDatesPicker({
-			inline: true,
-			altField: "#bus-date"
-		});
-		
-		// change the text field when a new date is selected
-		$("#bus-date").change(function(){
-			$("#date-picker").multiDatesPicker("setDate", $(this).val());
-		});
-	}
-
-	// run functions on the admin page
-	if($("body").hasClass("admin")) {
-		admin.init();
-	}
-
-	// run functions on the login page
-	if($("body").hasClass("init_login")) {
-		login.init();
-	}
-
-	if($("body").hasClass("bus-schedule")) {
-		bus_schedule.init();
-
-		// assign and configure a date picker to the div
-		$("#bus-schedule").multiDatesPicker({
-			inline: true,
-			maxPicks: 1,
-			altField: "#alt-Input",
-			onSelect: function() {
-				//assign the "Day" label to be the date the user selected
-				var hiddenDate = $("#alt-Input").attr('value');
-				$("#schedule-header-date").text(hiddenDate);
-				console.log(hiddenDate);
-				//go get availabilities on this date
-			}
-		});
-
-	}
-
-	if($(".generatePDF")){
-		//bind click events 
-			//utils.saveAsPDF();
-	}
-});
-
-var utils = {
-	saveAsPDF: function() {
-		//going to tie this to a button click event
-		//each schedule that needs to be saved as a PDF will have a data-attribute on it as data-pdfMe="1"
-		//get that div with the data-attribute
-	}
-};
-
-var login = {
-  /*
-  * Method: init()
-  * Description: initializes the login namespace
-  * Usage: Called in App.js
-  */
-  init: function() {
-    this.bindEvents();
-    //will validate the login form
-    //will validate the email reset form
-  },
-
-  /* 
-  * Method: bindEvents()
-  * Description: Function to bind all events for html elements
-  * Usage: called when the login is initialized
-  */
-  bindEvents: function() {
-    /*
-    * Validate to make sure login and email is entered correctly
-    */
-    login.validateLogin();
-    login.validateEmail();
-    login.validatePassword();
-
-  },
-
-  /*
-  * Method: validateLogin
-  * Description: Function to check for blank fields
-  * Usage: Called when the user clicks on the LoginSubmit button. Returns true if validate, else returns error.
-  */
-  validateLogin: function() {
-    
-    $("form[name='loginForm']").validate({ //use validation plugin
-      rules: {
-          account: {
-            required: true,
-            email: true
-          },
-          secure: {
-            required: true
-          }
-      },
-      submitHandler: function (form) { //return true if everything validates
-        form.submit();
-      },
-      messages: { //messages to return if fields are empty
-        account: {  
-          required: "Can't leave email empty"
-        },
-        secure: {
-          required: "Can't leave password empty"
-        }
-      }
-    })
-
-  },
-
-  /*
-  * Method: validateEmail
-  * Description: Function to validate if an email is entered
-  * Usage: Called when the user clicks on the Password Reset button. Returns true if validate, else returns error.
-  */
-  validateEmail: function() {
-
-    $("form[name='passwordReset']").validate({ //use validation plugin
-      rules: {
-        account: {
-          required: true,
-          email: true
-        }
-      },
-      submitHandler: function(form) { //return true if everything validates 
-        form.submit();
-      },
-      messages: { //messages to return if field is not email or empty
-        account: {
-          required: "Can't leave email empty"
-        }
-      }
-    })
-  },
-
-
-  /*
-  * Method: validatePassword
-  * Description: Function to validate a password change
-  * Usage: Called when the user clicks on the Reset Password button. Returns true if validate, else returns error.
-  */
-  validatePassword: function() {
-    
-        $("form[name='newFormPassword']").validate({ // use validation plugin
-          rules: {
-            password: {
-              required: true,
-              minlength: 8,
-              maxlength: 50
-            },
-            confirm: {
-              required: true,
-              equalTo: "#newPassword"
-            }
-          },
-          submitHandler: function(form) { // return true if everything validates 
-            form.submit();
-          },
-          messages: { // messages to return if field is not email or empty
-            password: {
-              required: "Can't leave password empty"
-            },
-            confirm: {
-              equalTo: "Your confirmed password doesn't match"
-            }
-          }
-        })
-  }
-
-}
-
 var admin = {
   /*
   * Method: init()
@@ -337,7 +72,7 @@ var admin = {
   * Usage: Called when the user clicks on the edit user Submit button. Returns true if validate, else returns error.
   */
   validateEditUser: function() {
-    
+
     $("form[name='editUserSubmit']").validate({ // use validation plugin
       rules: {
           email: {
@@ -669,5 +404,282 @@ var bus = {
   }
 }
 
+var ajax = {
+	/*
+  * Method: ajaxCall(param, param)
+  * Description: ajax helper method, returns a jQuery ajax object
+	* @param: getOrPost: {"GET", "POST"} define the type of method the ajax call will use
+	* @param: data: optional, data to be passed in with the ajax call. Only needed for POST requests
+  */
+	ajaxCall: function(getOrPost, data) {
+		return $.ajax({
+			type: getOrPost,
+			async: true,
+			cache: false,
+      url: "mid.php",
+      data: data
+		});
+	},
+
+	/*
+  * Method: getUsers(param, param)
+  *
+	* @param: getOrPost: {"GET", "POST"} define the type of method the ajax call will use
+	* @param: data: optional, data to be passed in with the ajax call. Only needed for POST requests
+  */
+	getUsers: function(func, data) {
+		ajax.ajaxCall("GET", {
+      method: func,
+      file: "admin_handler"
+    }).done(function(jsonResponse) {
+			console.log('getting users..... ');
+      console.log(jsonResponse);
+      // do work with response json here
+		}).fail(function(err) {
+      // console.log(err);
+    });
+	},
+
+	/*
+	* Method: getDrivers(param, param)
+	*
+	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
+	* @param: data: optional, data to be passed in with the ajax call. Only needed for POST requests
+  */
+	getDrivers: function(func, data) {
+		ajax.ajaxCall("GET", {
+      method: func,
+      file: "admin_handler"
+    }).done(function(jsonResponse) {
+			$.each($.parseJSON(jsonResponse), function (i, driver) {
+				$('#bus-name').append($('<option>', {
+						value: driver.userID,
+						text : driver.firstName + ' ' + driver.lastName
+				}));
+			});
+			$('#bus-name').removeAttr('disabled');
+            if(user.type == "b"){
+                    $("select#bus-name option").each(function() {
+                        if ($(this).val() == user.id) {
+                            $(this).attr("selected","selected");
+                            $('#bus-name').attr("disabled","disabled");
+                        }
+                    });
+                }
+      // do work with response json here
+		}).fail(function(err) {
+      // console.log(err);
+    });
+	},
+
+	/*
+	* Method: getDriverAvailability(param, param)
+	*
+	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
+	* @param: data: optional, data to be passed in with the ajax call. Only needed for POST requests
+  */
+	getDriverAvailability: function(func, data) {
+		ajax.ajaxCall("GET", {
+			method: func,
+			data: data,
+      file: "admin_handler"
+    }).done(function(jsonResponse) {
+			console.log('availability here......');
+			console.log(jsonResponse);
+			$.each($.parseJSON(jsonResponse), function (i, driver) {
+				// append items to the table here
+			});
+      // do work with response json here
+		}).fail(function(err) {
+      // console.log(err);
+    });
+	}
+
+}
+/* Main function to run when the DOM is ready */
+$(document).ready(function() {
+
+	if($("body").hasClass("bus")) {
+		bus.init();
+
+		// assign and configure a date picker to the div
+		$("#date-picker").multiDatesPicker({
+			inline: true,
+			altField: "#bus-date"
+		});
+
+		// change the text field when a new date is selected
+		$("#bus-date").change(function(){
+			$("#date-picker").multiDatesPicker("setDate", $(this).val());
+		});
+	}
+
+	// run functions on the admin page
+	if($("body").hasClass("admin")) {
+		admin.init();
+	}
+
+	// run functions on the login page
+	if($("body").hasClass("init_login")) {
+		login.init();
+	}
+
+	if($("body").hasClass("bus-schedule")) {
+		bus_schedule.init();
+
+		// assign and configure a date picker to the div
+		$("#bus-schedule").multiDatesPicker({
+			inline: true,
+			maxPicks: 1,
+			altField: "#alt-Input",
+			onSelect: function() {
+				//assign the "Day" label to be the date the user selected
+				var hiddenDate = $("#alt-Input").attr('value');
+				$("#schedule-header-date").text(hiddenDate);
+				console.log(hiddenDate);
+				//go get availabilities on this date
+			}
+		});
+
+	}
+
+	if($(".generatePDF")){
+		//bind click events
+			//utils.saveAsPDF();
+	}
+});
+
+var utils = {
+	saveAsPDF: function() {
+		//going to tie this to a button click event
+		//each schedule that needs to be saved as a PDF will have a data-attribute on it as data-pdfMe="1"
+		//get that div with the data-attribute
+	}
+};
+
+var login = {
+  /*
+  * Method: init()
+  * Description: initializes the login namespace
+  * Usage: Called in App.js
+  */
+  init: function() {
+    this.bindEvents();
+    //will validate the login form
+    //will validate the email reset form
+  },
+
+  /*
+  * Method: bindEvents()
+  * Description: Function to bind all events for html elements
+  * Usage: called when the login is initialized
+  */
+  bindEvents: function() {
+    /*
+    * Validate to make sure login and email is entered correctly
+    */
+    login.validateLogin();
+    login.validateEmail();
+    login.validatePassword();
+
+  },
+
+  /*
+  * Method: validateLogin
+  * Description: Function to check for blank fields
+  * Usage: Called when the user clicks on the LoginSubmit button. Returns true if validate, else returns error.
+  */
+  validateLogin: function() {
+
+    $("form[name='loginForm']").validate({ //use validation plugin
+      rules: {
+          account: {
+            required: true,
+            email: true
+          },
+          secure: {
+            required: true
+          }
+      },
+      submitHandler: function (form) { //return true if everything validates
+        form.submit();
+      },
+      messages: { //messages to return if fields are empty
+        account: {
+          required: "Can't leave email empty"
+        },
+        secure: {
+          required: "Can't leave password empty"
+        }
+      }
+    })
+
+  },
+
+  /*
+  * Method: validateEmail
+  * Description: Function to validate if an email is entered
+  * Usage: Called when the user clicks on the Password Reset button. Returns true if validate, else returns error.
+  */
+  validateEmail: function() {
+
+    $("form[name='passwordReset']").validate({ //use validation plugin
+      rules: {
+        account: {
+          required: true,
+          email: true
+        }
+      },
+      submitHandler: function(form) { //return true if everything validates
+        form.submit();
+      },
+      messages: { //messages to return if field is not email or empty
+        account: {
+          required: "Can't leave email empty"
+        }
+      }
+    })
+  },
+
+
+  /*
+  * Method: validatePassword
+  * Description: Function to validate a password change
+  * Usage: Called when the user clicks on the Reset Password button. Returns true if validate, else returns error.
+  */
+  validatePassword: function() {
+
+        $("form[name='newFormPassword']").validate({ // use validation plugin
+          rules: {
+            password: {
+              required: true,
+              minlength: 8,
+              maxlength: 50
+            },
+            confirm: {
+              required: true,
+              equalTo: "#newPassword"
+            }
+          },
+          submitHandler: function(form) { // return true if everything validates
+            form.submit();
+          },
+          messages: { // messages to return if field is not email or empty
+            password: {
+              required: "Can't leave password empty"
+            },
+            confirm: {
+              equalTo: "Your confirmed password doesn't match"
+            }
+          }
+        })
+  }
+
+}
+
 console.log('cong-test');
 console.log('helllllooooo');
+var user = {
+    type: null,
+    id: null
+};
