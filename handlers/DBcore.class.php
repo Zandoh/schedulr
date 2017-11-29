@@ -83,6 +83,22 @@ class DBcore {
 		return $data;	
 	}
 
+	//select u.user_ID, u.first_name, u.last_name, ad.availability_day, ad.availability_time_of_day from AVAILABILITY_DATE ad JOIN BUS_DRIVER_AVAILABILITY bda using(availability_date_ID) JOIN USER u using(user_ID) WHERE u.user_type="b" AND ad.availability_day="2017-11-01";
+
+	/*
+	* Select all bus drivers who are available on the given date
+	*/
+	function selectAllAvailableBusDriversOnDate($date){
+		$data = array();
+		if($stmt = $this->conn->prepare("select u.user_ID, u.first_name, u.last_name, ad.availability_day, ad.availability_time_of_day from AVAILABILITY_DATE ad JOIN BUS_DRIVER_AVAILABILITY bda using(availability_date_ID) JOIN USER u using(user_ID) WHERE u.user_type='b' AND ad.availability_day=:date;")){
+            $stmt->bindParam(':date', $date);
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;	
+	}
+
+
 	/*
 	* Select all congregations
 	*/
