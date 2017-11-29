@@ -506,7 +506,8 @@ $(document).ready(function() {
 		// assign and configure a date picker to the div 
 		$("#date-picker").multiDatesPicker({
 			inline: true,
-			altField: "#bus-date"
+			altField: "#bus-date",
+			dateFormat: "yy-mm-dd"
 		});
 		
 		// change the text field when a new date is selected
@@ -543,7 +544,8 @@ $(document).ready(function() {
 		$("#blackout-calendar").multiDatesPicker({
 			inline: true,
 			altField: "#cong-date",
-			maxPicks: 1
+			maxPicks: 1,
+			dateFormat: "yy-mm-dd"
 		});
 	}
 
@@ -554,6 +556,7 @@ $(document).ready(function() {
 		$("#bus-schedule").multiDatesPicker({
 			inline: true,
 			maxPicks: 1,
+			dateFormat: "yy-mm-dd",
 			altField: "#alt-Input",
 			onSelect: function() {
 				//assign the "Day" label to be the date the user selected

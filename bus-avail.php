@@ -21,7 +21,6 @@ include 'handlers/login_handler.php';
         ?>
 
       <!-- container used for adding RAIHN bus driver available dates and times -->
-
       <body class="bus">
         <div class="container-fluid bus-avail-container">
           <div class="row justify-content-md-center">
@@ -72,9 +71,7 @@ include 'handlers/login_handler.php';
           </div>
         </div>
 
-        <?php
-            include 'assets/includes/footer.php';
-            ?>
+        <?php include 'assets/includes/footer.php'; ?>
       </body>
       <script src="assets/js/vendor/jquery-3.2.1.min.js" type="text/javascript"></script>
       <script src="assets/js/vendor/jquery-ui.min.js" type="text/javascript"></script>
@@ -83,12 +80,12 @@ include 'handlers/login_handler.php';
       <script src="assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
       <script src="assets/js/scripts.min.js" type="text/javascript"></script>
       <script>
-        $(document).ready(function () {
+        /*$(document).ready(function() {
           user.type = "<?php  echo $_SESSION['userType'] ?>";
           user.id = "<?php  echo $_SESSION['userID'] ?>";
           console.log(user.type);
           console.log(user.id);
-        });
+        });*/
       </script>
 
   </html>
