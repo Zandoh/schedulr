@@ -16,6 +16,12 @@ var bus_schedule = {
   */
   bindEvents: function() {
     console.log("bus schedule test");
+    
+    //bind ui date picker on change
+      //get the value of the selected date
+      //make request to backend function with the date
+      //get returned a list of people available that day
+
   }
 
     

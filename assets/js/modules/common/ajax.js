@@ -52,15 +52,14 @@ var ajax = {
 				}));
 			});
 			$('#bus-name').removeAttr('disabled');
-            if(user.type == "b"){
-                    $("select#bus-name option").each(function() {
-                        if ($(this).val() == user.id) {
-                            $(this).attr("selected","selected");
-                            $('#bus-name').attr("disabled","disabled");
-                        }
-                    });
-                }
-      // do work with response json here
+				if(user.type == "b"){
+					$("select#bus-name option").each(function() {
+							if ($(this).val() == user.id) {
+									$(this).attr("selected","selected");
+									$('#bus-name').attr("disabled","disabled");
+							}
+					});
+				}
 		}).fail(function(err) {
       // console.log(err);
     });
@@ -78,12 +77,21 @@ var ajax = {
 			data: data,
       file: "admin_handler"
     }).done(function(jsonResponse) {
-			console.log('availability here......');
-			console.log(jsonResponse);
+			var table = $('table#list tbody');
+			var driverName = $('#bus-name').find(":selected").text();
+			var html;
+
+			table.empty();
+			
 			$.each($.parseJSON(jsonResponse), function (i, driver) {
-				// append items to the table here
+				html =  '<tr>';
+        html +=   '<td scope="row" class="tableDriverName">' + driverName +'</td>';
+        html +=   '<td class="tableDriverDate">' + driver.date + '</td>';
+        html +=   '<td class="tableDriverTime" >' + driver.time + '<a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html += '</tr>';  
+    
+        table.append(html);
 			});
-      // do work with response json here
 		}).fail(function(err) {
       // console.log(err);
     });

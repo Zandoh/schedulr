@@ -209,6 +209,12 @@ var bus_schedule = {
   */
   bindEvents: function() {
     console.log("bus schedule test");
+    
+    //bind ui date picker on change
+      //get the value of the selected date
+      //make request to backend function with the date
+      //get returned a list of people available that day
+
   }
 
     
@@ -290,7 +296,6 @@ var bus = {
       
       if(valueSelected != '') {
         ajax.getDriverAvailability('returnDriverAvailability', valueSelected);
-        //need to fetch their availability here. Then populate them into the table.
       }
       
     });
@@ -347,15 +352,6 @@ var bus = {
     } else {
       return false;
     }
-  },
-
-  /*
-  * Method: alreadyExists()
-  * @param: date - date that already exists in the user availability table
-  * Description: utility to display a meaninful message to the user that the availability already exists
-  */
-  alreadyExists: function(date) {
-    //display message saying user already available that day
   },
   /*
   * Method: removeDriverRecord()
@@ -458,15 +454,14 @@ var ajax = {
 				}));
 			});
 			$('#bus-name').removeAttr('disabled');
-            if(user.type == "b"){
-                    $("select#bus-name option").each(function() {
-                        if ($(this).val() == user.id) {
-                            $(this).attr("selected","selected");
-                            $('#bus-name').attr("disabled","disabled");
-                        }
-                    });
-                }
-      // do work with response json here
+				if(user.type == "b"){
+					$("select#bus-name option").each(function() {
+							if ($(this).val() == user.id) {
+									$(this).attr("selected","selected");
+									$('#bus-name').attr("disabled","disabled");
+							}
+					});
+				}
 		}).fail(function(err) {
       // console.log(err);
     });
@@ -484,12 +479,21 @@ var ajax = {
 			data: data,
       file: "admin_handler"
     }).done(function(jsonResponse) {
-			console.log('availability here......');
-			console.log(jsonResponse);
+			var table = $('table#list tbody');
+			var driverName = $('#bus-name').find(":selected").text();
+			var html;
+
+			table.empty();
+			
 			$.each($.parseJSON(jsonResponse), function (i, driver) {
-				// append items to the table here
+				html =  '<tr>';
+        html +=   '<td scope="row" class="tableDriverName">' + driverName +'</td>';
+        html +=   '<td class="tableDriverDate">' + driver.date + '</td>';
+        html +=   '<td class="tableDriverTime" >' + driver.time + '<a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html += '</tr>';  
+    
+        table.append(html);
 			});
-      // do work with response json here
 		}).fail(function(err) {
       // console.log(err);
     });

@@ -74,7 +74,6 @@ var bus = {
       
       if(valueSelected != '') {
         ajax.getDriverAvailability('returnDriverAvailability', valueSelected);
-        //need to fetch their availability here. Then populate them into the table.
       }
       
     });
@@ -131,15 +130,6 @@ var bus = {
     } else {
       return false;
     }
-  },
-
-  /*
-  * Method: alreadyExists()
-  * @param: date - date that already exists in the user availability table
-  * Description: utility to display a meaninful message to the user that the availability already exists
-  */
-  alreadyExists: function(date) {
-    //display message saying user already available that day
   },
   /*
   * Method: removeDriverRecord()
