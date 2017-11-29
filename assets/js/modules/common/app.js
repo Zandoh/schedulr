@@ -64,7 +64,7 @@ $(document).ready(function() {
 				var hiddenDate = $("#alt-Input").attr('value');
 				$("#schedule-header-date").text(hiddenDate);
 				console.log(hiddenDate);
-				//go get availabilities on this date
+				ajax.getAvailabilityByDay('returnAvailabilityOnDay', hiddenDate);
 			}
 		});
 

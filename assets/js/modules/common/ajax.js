@@ -95,6 +95,19 @@ var ajax = {
 		}).fail(function(err) {
       // console.log(err);
     });
+	},
+
+	getAvailabilityByDay: function(func, data) {
+		ajax.ajaxCall("GET", {
+			method: func, 
+			data: data,
+      file: "admin_handler"
+    }).done(function(jsonResponse) {
+			console.log('getAvailabilityByDay.done().....');
+			console.log(jsonResponse);
+		}).fail(function(err) {
+      // console.log(err);
+    });
 	}
 
 }
