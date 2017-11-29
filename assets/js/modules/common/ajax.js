@@ -57,6 +57,7 @@ var ajax = {
 							if ($(this).val() == user.id) {
 									$(this).attr("selected","selected");
 									$('#bus-name').attr("disabled","disabled");
+									ajax.getDriverAvailability('returnDriverAvailability', user.id);
 							}
 					});
 				}
