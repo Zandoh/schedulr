@@ -72,7 +72,7 @@ var admin = {
   * Usage: Called when the user clicks on the edit user Submit button. Returns true if validate, else returns error.
   */
   validateEditUser: function() {
-
+    
     $("form[name='editUserSubmit']").validate({ // use validation plugin
       rules: {
           email: {
@@ -405,7 +405,7 @@ var bus = {
 }
 
 var ajax = {
-	/*
+	/* 
   * Method: ajaxCall(param, param)
   * Description: ajax helper method, returns a jQuery ajax object
 	* @param: getOrPost: {"GET", "POST"} define the type of method the ajax call will use
@@ -420,16 +420,16 @@ var ajax = {
       data: data
 		});
 	},
-
-	/*
+	
+	/* 
   * Method: getUsers(param, param)
-  *
+  * 
 	* @param: getOrPost: {"GET", "POST"} define the type of method the ajax call will use
 	* @param: data: optional, data to be passed in with the ajax call. Only needed for POST requests
   */
 	getUsers: function(func, data) {
 		ajax.ajaxCall("GET", {
-      method: func,
+      method: func, 
       file: "admin_handler"
     }).done(function(jsonResponse) {
 			console.log('getting users..... ');
@@ -440,7 +440,7 @@ var ajax = {
     });
 	},
 
-	/*
+	/* 
 	* Method: getDrivers(param, param)
 	*
 	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
@@ -448,11 +448,11 @@ var ajax = {
   */
 	getDrivers: function(func, data) {
 		ajax.ajaxCall("GET", {
-      method: func,
+      method: func, 
       file: "admin_handler"
     }).done(function(jsonResponse) {
 			$.each($.parseJSON(jsonResponse), function (i, driver) {
-				$('#bus-name').append($('<option>', {
+				$('#bus-name').append($('<option>', { 
 						value: driver.userID,
 						text : driver.firstName + ' ' + driver.lastName
 				}));
@@ -472,7 +472,7 @@ var ajax = {
     });
 	},
 
-	/*
+	/* 
 	* Method: getDriverAvailability(param, param)
 	*
 	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
@@ -480,7 +480,7 @@ var ajax = {
   */
 	getDriverAvailability: function(func, data) {
 		ajax.ajaxCall("GET", {
-			method: func,
+			method: func, 
 			data: data,
       file: "admin_handler"
     }).done(function(jsonResponse) {
@@ -496,18 +496,19 @@ var ajax = {
 	}
 
 }
+
 /* Main function to run when the DOM is ready */
 $(document).ready(function() {
-
+	
 	if($("body").hasClass("bus")) {
 		bus.init();
 
-		// assign and configure a date picker to the div
+		// assign and configure a date picker to the div 
 		$("#date-picker").multiDatesPicker({
 			inline: true,
 			altField: "#bus-date"
 		});
-
+		
 		// change the text field when a new date is selected
 		$("#bus-date").change(function(){
 			$("#date-picker").multiDatesPicker("setDate", $(this).val());
@@ -517,11 +518,33 @@ $(document).ready(function() {
 	// run functions on the admin page
 	if($("body").hasClass("admin")) {
 		admin.init();
+		//Toggle congregation select on the admin page
+	    $('#add-user-type').change(function(){
+	      var selection = $(this).val();
+	      if(selection == 'c'){
+	          $('#congregation-select-div').show();
+	      }  
+	      else{
+	          $('#congregation-select-div').hide();
+	      } 
+	    });
 	}
 
 	// run functions on the login page
 	if($("body").hasClass("init_login")) {
 		login.init();
+	}
+
+	//run functions on the blackout page
+	if($("body").hasClass("cong-blackouts")) {
+		cong_blackouts.init();
+
+		// assign and configure a date picker to the div
+		$("#blackout-calendar").multiDatesPicker({
+			inline: true,
+			altField: "#cong-date",
+			maxPicks: 1
+		});
 	}
 
 	if($("body").hasClass("bus-schedule")) {
@@ -544,9 +567,10 @@ $(document).ready(function() {
 	}
 
 	if($(".generatePDF")){
-		//bind click events
+		//bind click events 
 			//utils.saveAsPDF();
 	}
+
 });
 
 var utils = {
@@ -569,7 +593,7 @@ var login = {
     //will validate the email reset form
   },
 
-  /*
+  /* 
   * Method: bindEvents()
   * Description: Function to bind all events for html elements
   * Usage: called when the login is initialized
@@ -590,7 +614,7 @@ var login = {
   * Usage: Called when the user clicks on the LoginSubmit button. Returns true if validate, else returns error.
   */
   validateLogin: function() {
-
+    
     $("form[name='loginForm']").validate({ //use validation plugin
       rules: {
           account: {
@@ -605,7 +629,7 @@ var login = {
         form.submit();
       },
       messages: { //messages to return if fields are empty
-        account: {
+        account: {  
           required: "Can't leave email empty"
         },
         secure: {
@@ -630,7 +654,7 @@ var login = {
           email: true
         }
       },
-      submitHandler: function(form) { //return true if everything validates
+      submitHandler: function(form) { //return true if everything validates 
         form.submit();
       },
       messages: { //messages to return if field is not email or empty
@@ -648,7 +672,7 @@ var login = {
   * Usage: Called when the user clicks on the Reset Password button. Returns true if validate, else returns error.
   */
   validatePassword: function() {
-
+    
         $("form[name='newFormPassword']").validate({ // use validation plugin
           rules: {
             password: {
@@ -661,7 +685,7 @@ var login = {
               equalTo: "#newPassword"
             }
           },
-          submitHandler: function(form) { // return true if everything validates
+          submitHandler: function(form) { // return true if everything validates 
             form.submit();
           },
           messages: { // messages to return if field is not email or empty
@@ -677,8 +701,29 @@ var login = {
 
 }
 
-console.log('cong-test');
-console.log('helllllooooo');
+var cong_blackouts = {
+  /*
+  * Method: init()
+  * Description: initializes the blackouts namespace
+  * Usage: Called in App.js
+  */
+  init: function() {
+    this.bindEvents();
+    
+  },
+
+  /* 
+  * Method: bindEvents()
+  * Description: Function to bind all events for html elements
+  * Usage: Called when bus is initalized
+  */
+  bindEvents: function() {
+    console.log("blackouts test");
+  }
+
+    
+}
+
 var user = {
     type: null,
     id: null

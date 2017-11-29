@@ -20,11 +20,9 @@
     include 'assets/includes/header.php';
     ?>
 
-  <body>
-    <?php include 'assets/includes/nav.php'; ?>
-
     <!-- container used for scheduling bus drivers -->
     <body class="bus-schedule">
+      <?php include 'assets/includes/nav.php'; ?>
       <div class="container-fluid bus-schedule-container">
         <div class="row justify-content-md-center">
           <div class="col-md-5">
@@ -48,9 +46,7 @@
         </div>
       </div>
 
-    <?php 
-        include 'assets/includes/footer.php';
-    ?>
+    <?php include 'assets/includes/footer.php'; ?>
   </body>
   <script src="assets/js/vendor/jquery-3.2.1.min.js" type="text/javascript"></script>
   <script src="assets/js/vendor/jquery-ui.min.js" type="text/javascript"></script>

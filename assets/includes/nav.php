@@ -22,7 +22,8 @@
         || strpos($_SERVER['REQUEST_URI'], "congregation-schedule.php") 
         || strpos($_SERVER['REQUEST_URI'], "congregations.php")
         || strpos($_SERVER['REQUEST_URI'], "manage-congregation.php")
-        || strpos($_SERVER['REQUEST_URI'], "bus-schedule")!== false) {
+        || strpos($_SERVER['REQUEST_URI'], "bus-schedule")
+        || strpos($_SERVER['REQUEST_URI'], "blackouts.php")!== false) {
           echo "<li class='nav-item'>
                   <a class='nav-link' href='login_landing.php'>Home</a>
                 </li>";

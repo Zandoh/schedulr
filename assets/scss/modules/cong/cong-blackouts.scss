@@ -1,0 +1,48 @@
+@import '../../globals';
+/* Created for the congregation blackout dates */
+
+.cong-blackout-container {
+  margin-top: 50px;
+  margin-bottom: 50px;
+
+  h1 {
+      margin-bottom: 20px;
+      font-weight: bold;
+  }
+
+  label {
+      font-weight: 600;
+  }
+
+  .add-to-list {
+    @include blue-button;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 13px 26px;
+    font-size: 12px;
+    margin: 10px 15px 25px 15px;
+  }
+
+  .submit {
+      @include blue-button;
+      cursor: pointer;
+      font-weight: 500;
+      padding: 13px 26px;
+      font-size: 12px;
+      margin: 10px 15px 25px 0px;
+  }
+
+  #error-container {
+      color: red;
+  }
+
+  tbody th {
+    font-weight: normal;
+    vertical-align: middle;
+  }
+
+  thead {
+    font-weight: bold;
+  }
+
+}

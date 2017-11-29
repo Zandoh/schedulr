@@ -36,6 +36,18 @@ $(document).ready(function() {
 		login.init();
 	}
 
+	//run functions on the blackout page
+	if($("body").hasClass("cong-blackouts")) {
+		cong_blackouts.init();
+
+		// assign and configure a date picker to the div
+		$("#blackout-calendar").multiDatesPicker({
+			inline: true,
+			altField: "#cong-date",
+			maxPicks: 1
+		});
+	}
+
 	if($("body").hasClass("bus-schedule")) {
 		bus_schedule.init();
 
@@ -59,6 +71,7 @@ $(document).ready(function() {
 		//bind click events 
 			//utils.saveAsPDF();
 	}
+
 });
 
 var utils = {
