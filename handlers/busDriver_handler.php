@@ -7,9 +7,6 @@ require_once('DBcore.class.php');
 		$driverArr = $DBcore->selectAllAvailableBusDriversOnDate($date);
 		print_r($driverArr);
 
-		$driverStr = "hello";
-
-		return $driverStr;
 	}
 
 ?>
