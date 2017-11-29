@@ -19,6 +19,16 @@ $(document).ready(function() {
 	// run functions on the admin page
 	if($("body").hasClass("admin")) {
 		admin.init();
+		//Toggle congregation select on the admin page
+	    $('#add-user-type').change(function(){
+	      var selection = $(this).val();
+	      if(selection == 'c'){
+	          $('#congregation-select-div').show();
+	      }  
+	      else{
+	          $('#congregation-select-div').hide();
+	      } 
+	    });
 	}
 
 	// run functions on the login page
