@@ -254,23 +254,4 @@ function deleteUser($user_ID){
 
 }
 
-function returnAvailabilityOnDay($date) {
-    $DBcore = new DBcore();
-    $driverArr = array();
-    $driverArr = $DBcore->selectBusDriverAvailability($date);
-    $json = array();
-
-    foreach($driverArr as $row) {
-        $user = array(
-            'date' => $row['availability_day'],
-            'time' => $row['availabilty_time_of_day']
-        );
-        array_push($json, $user);
-    }
-
-    $jsonstring = json_encode($json);
-
-    return $jsonstring;
-}
-
 ?>

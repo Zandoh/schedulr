@@ -63,7 +63,6 @@ $(document).ready(function() {
 				//assign the "Day" label to be the date the user selected
 				var hiddenDate = $("#alt-Input").attr('value');
 				$("#schedule-header-date").text(hiddenDate);
-				console.log(hiddenDate);
 				ajax.getAvailabilityByDay('returnAvailabilityOnDay', hiddenDate);
 			}
 		});

@@ -1,15 +1,24 @@
 <?php
 require_once('DBcore.class.php');
 
-	function getAvailableDrivers($date){
-		$DBcore = new DBcore();
-		$driverArr = array();
-		$driverArr = $DBcore->selectAllAvailableBusDriversOnDate($date);
-		print_r($driverArr);
+	function returnAvailabilityOnDay($date) {
+    $DBcore = new DBcore();
+    $driverArr = array();
+    $driverArr = $DBcore->selectAllAvailableBusDriversOnDate($date);
+    $json = array();
 
-		$driverStr = "hello";
+    foreach($driverArr as $row) {
+        $user = array(
+					'userID' => $row['user_ID'],
+					'firstName' => $row['first_name'],
+					'lastName' => $row['last_name'],
+					'time' => $row['availability_time_of_day']	
+        );
+        array_push($json, $user);
+    }
 
-		return $driverStr;
+    $jsonstring = json_encode($json);
+
+    return $jsonstring;
 	}
-
 ?>
