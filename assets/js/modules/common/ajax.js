@@ -95,6 +95,26 @@ var ajax = {
 		}).fail(function(err) {
       // console.log(err);
     });
+	},
+
+	getAvailabilityByDay: function(func, data) {
+		ajax.ajaxCall("GET", {
+			method: func, 
+			data: data,
+      file: "busDriver_handler"
+    }).done(function(jsonResponse) {
+			var table = $('table#schedule-list tbody');
+			$.each($.parseJSON(jsonResponse), function (i, driver) {
+				html =  '<tr>';
+        html +=   '<td scope="row" class="tableDriverName" data-id="'+driver.userID+'">' + driver.firstName + ' ' + driver.lastName +'</td>';
+        html +=   '<td class="tableDriverTime" >' + driver.time + '</td>';
+        html += '</tr>';  
+    
+        table.append(html);
+			});
+		}).fail(function(err) {
+      // console.log(err);
+    });
 	}
 
 }

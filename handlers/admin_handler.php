@@ -80,7 +80,7 @@ function returnDriverAvailability($id) {
     foreach($driverArr as $row) {
         $user = array(
             'date' => $row['availability_day'],
-            'time' => $row['availabilty_time_of_day']
+            'time' => $row['availability_time_of_day']
         );
         array_push($json, $user);
     }

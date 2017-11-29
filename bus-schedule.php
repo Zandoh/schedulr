@@ -41,7 +41,6 @@
                 </tr>
               </thead>
               <tbody> 
-              <?php echo getAvailableDrivers('2017-11-01'); ?>
               </tbody>
             </table>
           </div>
