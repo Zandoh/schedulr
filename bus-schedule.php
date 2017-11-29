@@ -18,6 +18,7 @@
     }
     include 'handlers/login_handler.php';
     include 'assets/includes/header.php';
+    include 'handlers/busDriver_handler.php';
     ?>
 
     <!-- container used for scheduling bus drivers -->
@@ -40,6 +41,7 @@
                 </tr>
               </thead>
               <tbody> 
+              <?php echo getAvailableDrivers('2017-11-01'); ?>
               </tbody>
             </table>
           </div>
