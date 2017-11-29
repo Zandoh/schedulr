@@ -80,12 +80,12 @@ include 'handlers/login_handler.php';
       <script src="assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
       <script src="assets/js/scripts.min.js" type="text/javascript"></script>
       <script>
-        /*$(document).ready(function() {
+        
           user.type = "<?php  echo $_SESSION['userType'] ?>";
           user.id = "<?php  echo $_SESSION['userID'] ?>";
           console.log(user.type);
           console.log(user.id);
-        });*/
+
       </script>
 
   </html>
