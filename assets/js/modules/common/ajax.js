@@ -119,6 +119,7 @@ var ajax = {
       file: "busDriver_handler"
     }).done(function(jsonResponse) {
 			var table = $('table#schedule-list tbody');
+			table.empty();
 			$.each($.parseJSON(jsonResponse), function (i, driver) {
 				html =  '<tr>';
         html +=   '<td scope="row" class="tableDriverName" data-id="'+driver.userID+'">' + driver.firstName + ' ' + driver.lastName +'</td>';
