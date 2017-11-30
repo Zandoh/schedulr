@@ -155,8 +155,6 @@ class DBcore {
 				return false;
 			}
 		}
-
-		return true;
 	}
 
 	/*
