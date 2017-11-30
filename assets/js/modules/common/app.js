@@ -15,6 +15,11 @@ $(document).ready(function() {
 		$("#bus-date").change(function(){
 			$("#date-picker").multiDatesPicker("setDate", $(this).val());
 		});
+
+		// tip for usability
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
 	}
 
 	// run functions on the admin page

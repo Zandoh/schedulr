@@ -24,6 +24,27 @@ h3 {
 p {
   font-size: 13px; }
 
+.fa-question-circle {
+  color: #0E6AA8;
+  cursor: pointer;
+  font-size: 25px !important;
+  vertical-align: top; }
+
+.tooltip-inner {
+  max-width: 400px;
+  padding: 3px 8px;
+  color: #222;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: .25rem;
+  font-size: 16px; }
+
+.tooltip.bs-tooltip-auto[x-placement^=top] .arrow::before, .tooltip.bs-tooltip-top .arrow::before {
+  border-top-color: #ffffff !important; }
+
+.tooltip.bs-tooltip-auto[x-placement^=right] .arrow::before, .tooltip.bs-tooltip-right .arrow::before {
+  border-right-color: #ffffff !important; }
+
 label.error {
   color: #cc0000;
   font-weight: normal !important; }

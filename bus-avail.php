@@ -25,7 +25,15 @@ include 'handlers/login_handler.php';
         <div class="container-fluid bus-avail-container">
           <div class="row justify-content-md-center">
             <div class="col-md-8">
-              <h1>Set Availability</h1>
+              <h1>Set Availability
+                <i class="fa fa-question-circle" data-placement="right" data-toggle="tooltip" data-html="true" 
+                    title="Select your name then click on the dates that you are available and the corresponding time period.  
+                           Hit <strong><em>ADD TO LIST</em></strong> to add days with different time periods. 
+                           Hit the red icon in the table to delete dates. When finished, click <strong><em>SUBMIT</em></strong>." aria-hidden="true">
+                </i>
+              </h1>
+              <!-- tip buttton for usability -->
+              
               <form id="bus-avail">
                 <div class="form-group col-md-4">
                   <label for="bus-name">Bus Driver Name</label>
@@ -80,9 +88,12 @@ include 'handlers/login_handler.php';
       <script src="assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
       <script src="assets/js/scripts.min.js" type="text/javascript"></script>
       <script>
-        
-          user.type = "<?php  echo $_SESSION['userType'] ?>";
-          user.id = "<?php  echo $_SESSION['userID'] ?>";
+
+          var user = {
+            <?php if(isset($_SESSION['userType'])) { echo "type: " . json_encode($_SESSION['userType']); } ?>
+            <?php if(isset($_SESSION['userID'])) { echo ", id: " . json_encode($_SESSION['userID']); } ?>
+          };
+
           console.log(user.type);
           console.log(user.id);
 
