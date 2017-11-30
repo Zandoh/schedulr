@@ -26,7 +26,7 @@ require_once('DBcore.class.php');
     function processDriverAvailability($json){
         $DBcore = new DBcore();
         //this will be the json arr that is given
-        $arr = array();
+        $arr = json_decode($json);
 
         //will need to add handling for the value 'both'
 
