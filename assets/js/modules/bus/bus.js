@@ -180,5 +180,6 @@ var bus = {
     json = JSON.stringify(recordData, null, 2);
     console.log(json);
     // backend will need a function we can make a POST request to submit this data
+    //ajax.submitBusDriverAvailability('', json);
   }
 }
