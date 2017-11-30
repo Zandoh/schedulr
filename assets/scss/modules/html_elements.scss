@@ -63,6 +63,14 @@ label.error {
   font-weight: normal !important;
 }
 
+.fa-minus-circle {
+  &:hover {
+      cursor: pointer;
+  }
+  color: #FE6464;
+  font-size: 1.5em;
+}
+
 nav.navbar {
   background-color: #0E6AA8;
   

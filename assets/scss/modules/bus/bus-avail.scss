@@ -36,14 +36,6 @@
         font-weight: bold;
     }
 
-    .fa-minus-circle {
-        &:hover {
-            cursor: pointer;
-        }
-        color: #FE6464;
-        font-size: 1.5em;
-    }
-
     .submit {
         @include blue-button;
         cursor: pointer;

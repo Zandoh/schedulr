@@ -49,6 +49,12 @@ label.error {
   color: #cc0000;
   font-weight: normal !important; }
 
+.fa-minus-circle {
+  color: #FE6464;
+  font-size: 1.5em; }
+  .fa-minus-circle:hover {
+    cursor: pointer; }
+
 nav.navbar {
   background-color: #0E6AA8; }
   nav.navbar ul.navbar-nav > li.nav-item > a {
@@ -96,11 +102,6 @@ footer {
     vertical-align: middle; }
   .bus-avail-container thead {
     font-weight: bold; }
-  .bus-avail-container .fa-minus-circle {
-    color: #FE6464;
-    font-size: 1.5em; }
-    .bus-avail-container .fa-minus-circle:hover {
-      cursor: pointer; }
   .bus-avail-container .submit {
     -webkit-transition: .1s opacity linear;
     -moz-transition: .1s opacity linear;
