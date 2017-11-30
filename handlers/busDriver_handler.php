@@ -23,7 +23,7 @@ require_once('DBcore.class.php');
 	}
 
 
-    function processDriverAvailability(){
+    function processDriverAvailability($json){
         $DBcore = new DBcore();
         //this will be the json arr that is given
         $arr = array();
