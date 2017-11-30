@@ -100,6 +100,84 @@ class DBcore {
 
 
 	/*
+	* rewrite new values belonging to a driver
+	*/
+	function insertDriverAvailability($user_ID, $availability_day, $availability_time_of_day){
+		$availability_date_ID = '';
+		//insert 1 record for the bus driver
+		//check to see if the availability date exists in the db
+		if($stmt = $this->conn->prepare("select availability_date_ID from AVAILABILITY_DATE where availability_day=:availability_day AND availability_time_of_day=:availability_time_of_day;")) {
+			$stmt->bindParam(':availability_day', $availability_day);
+			$stmt->bindParam(':availability_time_of_day', $availability_time_of_day);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				//the date already exists in the db
+				//do nothing
+			} else {
+				//if the availability date doesn't exist then add it
+				if($stmt = $this->conn->prepare("insert into AVAILABILITY_DATE (availability_day, availability_time_of_day) values (:availability_day, :availability_time_of_day);")) {
+					$stmt->bindParam(':availability_day', $availability_day);
+					$stmt->bindParam(':availability_time_of_day', $availability_time_of_day);
+					$stmt->execute();
+					if ($stmt->rowCount()) {
+						//the record was added
+						//do nothing
+					} else {
+						return false;
+					}
+				}//end of if
+
+			}//end of else
+		}//end of it
+
+		//if the availability date exists or has already been added then get the id of the availability date
+		if($stmt = $this->conn->prepare("select availability_date_ID from AVAILABILITY_DATE where availability_day=:availability_day AND availability_time_of_day=:availability_time_of_day;")) {
+			$stmt->bindParam(':availability_day', $availability_day);
+			$stmt->bindParam(':availability_time_of_day', $availability_time_of_day);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				//assign a value to the availability_date_ID
+				$availability_date_ID = $stmt->fetch();
+			} else {
+				return false;
+			}
+		}
+
+
+		//after you have the id of the availability date and the user id then insert that in BUS_DRIVER_AVAILABILITY
+		if($stmt = $this->conn->prepare("insert into BUS_DRIVER_AVAILABILITY (user_ID, availability_date_ID) values (:user_ID, :availability_date_ID);")) {
+			$stmt->bindParam(':user_ID', $user_ID);
+			$stmt->bindParam(':availability_date_ID', $availability_date_ID);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/*
+	* remove all values belonging to a driver 
+	*/
+	function clearDriverAvailability($user_ID){
+		//delete all records where user_ID is the same
+		if($stmt = $this->conn->prepare("delete from BUS_DRIVER_AVAILABILITY where user_id=:user_ID;")) {
+			$stmt->bindParam(':user_ID', $user_ID);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+	}
+
+
+	/*
 	* Select all congregations
 	*/
 	function selectAllCongregations(){

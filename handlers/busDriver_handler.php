@@ -21,4 +21,31 @@ require_once('DBcore.class.php');
 
     return $jsonstring;
 	}
+
+
+    function processDriverAvailability(){
+        $DBcore = new DBcore();
+        //this will be the json arr that is given
+        $arr = array();
+
+        //will need to add handling for the value 'both'
+
+        foreach($arr as $row){
+            $user_ID = $row['id'];
+            $date = $row['date'];
+            $time_of_day = $row['time'];
+            $clearResult = $DBcore->clearDriverAvailability($user_ID);
+            if ($clearResult) {
+                $insertResult = $DBcore->insertDriverAvailability($user_ID, $date, $time_of_day);
+                if ($insertResult) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+       
+    }
 ?>
