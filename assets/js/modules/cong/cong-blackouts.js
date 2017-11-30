@@ -16,7 +16,17 @@ var cong_blackouts = {
   */
   bindEvents: function() {
     console.log("blackouts test");
-  }
+    this.populateDrivers();
+  }, 
 
+
+  /* 
+  * Method: populateDrivers()
+  * Description: Function to make an ajax call to fetch driver data
+  * Usage: Called when bus is initalized
+  */
+  populateDrivers: function() {
+    ajax.getCongregations('returnCongregations');
+  },
     
 }

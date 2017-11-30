@@ -151,6 +151,31 @@ var ajax = {
 		}).fail(function(err) {
       // console.log(err);
     });
-	}
+	},
+
+	/* 
+	* Method: getCongregations(param, param)
+	*
+	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
+	* @param: data: optional, data to be passed in with the ajax call.
+	*
+	* Description: gets all drivers to populate a select/option element
+  */
+	getCongregations: function(func, data) {
+		ajax.ajaxCall("GET", {
+      method: func, 
+      file: "congregation_handler"
+    }).done(function(jsonResponse) {
+			$.each($.parseJSON(jsonResponse), function (i, cong) {
+				$('#cong-name').append($('<option>', { 
+						value: cong.congID,
+						text : cong.congName
+				}));
+			});
+			$('#cong-name').removeAttr('disabled');
+		}).fail(function(err) {
+      // console.log(err);
+    });
+	},
 
 }

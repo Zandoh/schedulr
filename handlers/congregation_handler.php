@@ -20,6 +20,25 @@ function getCongregationOption(){
     return $optionStr;
 }
 
+function returnCongregations() {
+  $DBcore = new DBcore();
+  $congArr = array();
+  $congArr = $DBcore->selectAllCongregations();
+  $json = array();
+
+  foreach($congArr as $row) {
+      $cong = array(
+        'congID' => $row['congregation_ID'],
+        'congName' => $row['congregation_name']
+      );
+      array_push($json, $cong);
+  }
+
+  $jsonstring = json_encode($json);
+
+  return $jsonstring;
+}
+
 
 function getCongregationSelected($congregation_Current){
   $DBcore = new DBcore();
