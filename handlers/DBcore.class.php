@@ -317,16 +317,29 @@ class DBcore {
 	}//end of selectAllUsers
 
 
-  /*
-	* Select previous congregation rotation ID
+    /*
+	* Select previous congregation rotation ID for algorithm
 	*/
 	function selectPreviousRotation(){
-		$data = 0;
-		if($stmt = $this->conn->prepare("select cng.congregation_name FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION cng ON csa.congregation_ID = cng.congregation_ID WHERE csa.congregation_schedule_ID= ANY(select MAX(csa.congregation_schedule_ID) FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa) ORDER BY csa.scheduled_date_start;")){
+		$data = "";
+		$result = array();
+		if($stmt = $this->conn->prepare("select congregation_schedule_ID from CONGREGATION_SCHEDULE where congregation_schedule_end_date = (select MAX(congregation_schedule_end_date) FROM CONGREGATION_SCHEDULE);")){
 			$stmt->execute();
-			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$data = $stmt->fetch();
+			
+			$id = "";
+			foreach($data as $row){
+				$id = $row['congregation_schedule_ID'];
+			}//end of foreach
+			
+			if($stmt = $this->conn->prepare("select * FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION cng ON csa.congregation_ID = cng.congregation_ID WHERE csa.congregation_schedule_ID=:id ORDER BY csa.scheduled_date_start;")){
+			$stmt->bindParam(':id', $id);
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			
+			}			
 		}
-		return $data;	
+		return $result;		
 	}
     
   /*

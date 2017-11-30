@@ -180,4 +180,23 @@ function deleteCongregation($congregation_ID){
 
 }
 
+
+function getPreviousRotation(){
+  $DBcore = new DBcore();
+    $congArr = array();
+    $congArr = $DBcore->selectPreviousRotation();
+	$optionStr = '';
+
+    foreach($congArr as $row){
+        $congregation_ID = $row['congregation_ID'];
+        $congregation_name = $row['congregation_name'];
+
+        $optionStr .= $congregation_ID.$congregation_name;
+
+    }//end of foreach
+
+    return $optionStr;
+}
+
+
 ?>
