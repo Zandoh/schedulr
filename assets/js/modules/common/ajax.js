@@ -141,7 +141,7 @@ var ajax = {
 	* Description: submits an entire drivers availability, full dump and replace
   */
 	submitBusDriverAvailability: function(func, data) {
-		ajax.ajaxCall("GET", {
+		ajax.ajaxCall("POST", {
 			method: func, 
 			data: data,
       file: "busDriver_handler"
