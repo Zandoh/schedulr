@@ -27,7 +27,8 @@ require_once('DBcore.class.php');
         $DBcore = new DBcore();
         //this will be the json arr that is given
         $arr = json_decode($json);
-
+        var_dump($json);
+        print_r($arr);
         //will need to add handling for the value 'both'
 
         foreach($arr as $row){
