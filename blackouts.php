@@ -38,8 +38,8 @@
                 <div id="error-container" class="col-md-4"></div>
                 <button type="add-to-list" class="add-to-list">Add To List</button>
                 <div class="form-group col-md-12">
-                  <label for="list">List of Blackouts</label>
-                  <table class="table table-hover table-bordered" id="list">
+                  <label for="blackout-list">List of Blackouts</label>
+                  <table class="table table-hover table-bordered" id="blackout-list">
                     <thead>
                       <tr>
                         <th>Congregation</th>

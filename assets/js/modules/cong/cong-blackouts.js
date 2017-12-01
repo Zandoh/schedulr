@@ -40,6 +40,19 @@ var cong_blackouts = {
       }
     });
 
+    /*
+    * Method to populate table on change of the select list
+    */
+    $('#cong-name').on('change', function (e) {
+      var optionSelected = $("option:selected", this);
+      var valueSelected = this.value;
+      
+      if(valueSelected != '') {
+        ajax.getBlackouts('returnBlackouts', valueSelected);
+      }
+      
+    });
+
   }, 
 
   /*

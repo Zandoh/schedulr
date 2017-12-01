@@ -618,6 +618,41 @@ var ajax = {
     });
 	},
 
+	/* 
+	* Method: getBlackouts(param, param)
+	*
+	* @param: func: function to be called in the "file" attribute. Ex "returnBlackouts"
+	* @param: data: optional, data to be passed in with the ajax call.
+	*
+	* Description: gets the blackouts from a specific congregation
+  */
+	getBlackouts: function(func, data) {
+		ajax.ajaxCall("GET", {
+			method: func, 
+			data: data,
+      file: "admin_handler"
+    }).done(function(jsonResponse) {
+			var table = $('table#blackout-list tbody');
+			var driverName = $('#cong-name').find(":selected").text();
+			var html;
+
+			table.empty();
+			
+			$.each($.parseJSON(jsonResponse), function (i, blackout) {
+				html =  '<tr>';
+        html +=   '<td scope="row" class="tableCongName">' + driverName +'</td>';
+        html +=   '<td class="tableStartDate">' + blackout.startDate + '</td>';
+        html +=   '<td class="tableEndDate" >' + blackout.endDate + '<a id="delete-blackout"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html += '</tr>';  
+    
+        table.append(html);
+			});
+		}).fail(function(err) {
+      // console.log(err);
+    });
+	},
+
+
 }
 
 /* Main function to run when the DOM is ready */
@@ -870,6 +905,19 @@ var cong_blackouts = {
       if(!error){
         cong_blackouts.populateTable();
       }
+    });
+
+    /*
+    * Method to populate table on change of the select list
+    */
+    $('#cong-name').on('change', function (e) {
+      var optionSelected = $("option:selected", this);
+      var valueSelected = this.value;
+      
+      if(valueSelected != '') {
+        ajax.getBlackouts('returnBlackouts', valueSelected);
+      }
+      
     });
 
   }, 

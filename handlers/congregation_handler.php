@@ -198,5 +198,27 @@ function getPreviousRotation(){
     return $optionStr;
 }
 
+/*
+ * Returns the start date, end date for a given id
+ */
+function returnBlackouts($id) {
+  $DBcore = new DBcore();
+  $driverArr = array();
+  $driverArr = $DBcore->selectCongregationBlackoutDates($id);
+  $json = array();
+
+  foreach($driverArr as $row) {
+      $user = array(
+          'startDate' => $row['blackout_date_start'],
+          'endDate' => $row['blackout_date_end']
+      );
+      array_push($json, $user);
+  }
+
+  $jsonstring = json_encode($json);
+
+  return $jsonstring;
+}
+
 
 ?>
