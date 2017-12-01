@@ -178,6 +178,8 @@ footer {
     font-weight: bold; }
   .bus-schedule-container #schedule-header-date {
     font-style: italic; }
+  .bus-schedule-container .noAvailError {
+    color: red; }
 
 /* Created to define SCSS values for use throughout the website */
 /* Created for the congregation blackout dates */

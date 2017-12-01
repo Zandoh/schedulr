@@ -209,11 +209,6 @@ var bus_schedule = {
   */
   bindEvents: function() {
     console.log("bus schedule test");
-    
-    //bind ui date picker on change
-      //get the value of the selected date
-      //make request to backend function with the date
-      //get returned a list of people available that day
 
   }
 
@@ -527,16 +522,26 @@ var ajax = {
 			data: data,
       file: "busDriver_handler"
     }).done(function(jsonResponse) {
+			var errorContainer = $('#availErrorContainer');
 			var table = $('table#schedule-list tbody');
+			var length = $.parseJSON(jsonResponse).length;
+			errorContainer.empty();
 			table.empty();
-			$.each($.parseJSON(jsonResponse), function (i, driver) {
-				html =  '<tr>';
-        html +=   '<td scope="row" class="tableDriverName" data-id="'+driver.userID+'">' + driver.firstName + ' ' + driver.lastName +'</td>';
-        html +=   '<td class="tableDriverTime" >' + driver.time.toUpperCase() + '</td>';
-        html += '</tr>';  
-    
-        table.append(html);
-			});
+			
+			if(length > 0) {
+				$.each($.parseJSON(jsonResponse), function (i, driver) {
+					html =  '<tr>';
+					html +=   '<td scope="row" class="tableDriverName" data-id="'+driver.userID+'">' + driver.firstName + ' ' + driver.lastName +'</td>';
+					html +=   '<td class="tableDriverTime" >' + driver.time.toUpperCase() + '</td>';
+					html += '</tr>';  
+			
+					table.append(html);
+				});
+			} else {
+				if($('#schedule-header-date').text()) {
+					errorContainer.append('<h3 class="noAvailError">No Availability Found For Today</h3>');
+				}
+			}
 		}).fail(function(err) {
       // console.log(err);
     });
@@ -799,6 +804,11 @@ var utils = {
 		//get that div with the data-attribute
 	}
 };
+var user = {
+    type: null,
+    id: null
+};
+
 var cong_blackouts = {
   /*
   * Method: init()
@@ -933,8 +943,3 @@ var cong_blackouts = {
   },
     
 }
-
-var user = {
-    type: null,
-    id: null
-};

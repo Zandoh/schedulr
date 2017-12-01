@@ -33,6 +33,8 @@
           </div>
           <div class="col-md-5">
             <h1>Day: <span id="schedule-header-date"></span></h1>
+            <div id="availErrorContainer">
+            </div>
             <table class="table table-hover table-bordered" id="schedule-list">
               <thead>
                 <tr>
