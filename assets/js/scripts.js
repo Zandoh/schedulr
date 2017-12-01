@@ -1,196 +1,3 @@
-var admin = {
-  /*
-  * Method: init()
-  * Description: initializes the admin namespace
-  * Usage: Called in App.js
-  */
-  init: function() {
-    ajax.getUsers('returnAdminUsers');
-    this.bindEvents();
-  },
-
-  /* 
-  * Method: bindEvents()
-  * Description: Function to bind all events for html elements
-  * Usage: called when the login is initialized
-  */
-  bindEvents: function() {
-    /*
-    * Validate to make sure users are added and edited appropriately
-    */
-    admin.validateAddUser();
-    admin.validateEditUser();
-
-    /*
-    * Validate to make sure congregations are added and edited appropriately
-    */
-    admin.validateEditCong();
-    admin.validateAddCong();
-  },
-
-  /*
-  * Method: validateAddUser
-  * Description: Function to check for blank fields
-  * Usage: Called when the user clicks on the Submit button for adding Users. Returns true if validate, else returns error.
-  */
-  validateAddUser: function() {
-    
-    $("form[name='addUserSubmit']").validate({ // use validation plugin
-      rules: {
-          email: {
-            required: true,
-            email: true
-          },
-          password: {
-            required: true,
-            minlength: 8,
-            maxlength: 50
-          },
-          phoneNumber: {
-            required: true,
-            phoneUS: true
-          },
-          firstName: {
-            required: true,
-            maxlength: 200
-          },
-          lastName: {
-            required: true,
-            maxlength: 200
-          }
-      },
-      submitHandler: function (form) { // return true if everything validates
-        form.submit();
-      }
-    })
-
-  },
-
-  /*
-  * Method: validateEditUser
-  * Description: Function to check for blank fields in the edit user functionality
-  * Usage: Called when the user clicks on the edit user Submit button. Returns true if validate, else returns error.
-  */
-  validateEditUser: function() {
-    
-    $("form[name='editUserSubmit']").validate({ // use validation plugin
-      rules: {
-          email: {
-            required: true,
-            email: true
-          },
-          phoneNumber: {
-            required: true,
-            phoneUS: true
-          },
-          firstName: {
-            required: true,
-            maxlength: 200
-          },
-          lastName: {
-            required: true,
-            maxlength: 200
-          }
-      },
-      submitHandler: function (form) { // return true if everything validates
-        form.submit();
-      }
-    })
-
-  },
-
-  /*
-  * Method: validateEditCong
-  * Description: Function to check for blank fields
-  * Usage: Called when the user clicks on the Submit button for editing congregations. Returns true if validate, else returns error.
-  */
-  validateEditCong: function() {
-    
-    $("form[name='editCongSubmit']").validate({ // use validation plugin
-      rules: {
-          congregation_name: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_phone: {
-            required: true,
-            phoneUS: true
-          },
-          congregation_street_address: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_city: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_state: {
-            required: true,
-            minlength: 2,
-            maxlength: 2,
-            lettersonly: true
-          },
-          congregation_zip: {
-            required: true,
-            minlength: 5,
-            maxlength: 5,
-            number: true
-          }
-      },
-      submitHandler: function (form) { // return true if everything validates
-        form.submit();
-      }
-    })
-
-  },
-
-  /*
-  * Method: validateAddCong
-  * Description: Function to check for blank fields
-  * Usage: Called when the user clicks on the Submit button for adding congregations. Returns true if validate, else returns error.
-  */
-  validateAddCong: function() {
-    
-    $("form[name='addCongSubmit']").validate({ // use validation plugin
-      rules: {
-          congregation_name: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_phone: {
-            required: true,
-            phoneUS: true
-          },
-          congregation_street_address: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_city: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_state: {
-            required: true,
-            minlength: 2,
-            maxlength: 2,
-            lettersonly: true
-          },
-          congregation_zip: {
-            required: true,
-            minlength: 5,
-            maxlength: 5,
-            number: true
-          }
-      },
-      submitHandler: function (form) { // return true if everything validates
-        form.submit();
-      }
-    })
-
-  }
-
-
-}
 var bus_schedule = {
   /*
   * Method: init()
@@ -851,18 +658,39 @@ var cong_blackouts = {
     var congName = $('#cong-name').find(":selected").text();
     var congDate = $('#cong-date').val();
     var table = $('table#list tbody');
+    var date = $('#blackout-calendar').datepicker('getDate');
+    var year = date.getFullYear();
+    var month = date.getMonth();
+    var dayOfWeek = date.getUTCDay();
+    //new Date(year, month, day, hours, minutes, seconds, milliseconds);
+    var startDate = new Date(year, month, date.getDate() - dayOfWeek, 0, 0, 0, 0);
+    var endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 7, 0, 0, 0, 0);
+    var tableStartDate = cong_blackouts.getProperDateFormat(startDate);
+    var tableEndDate = cong_blackouts.getProperDateFormat(endDate);
+
+    //what we have now
+      //selected date
+      //start date
+      //end date
+    //what we need
+      //to check if a selected date already exists as a blackout startDate-endDate
 
     var exists = cong_blackouts.checkExists(congDate);
-
+    
     if(exists == false) {
         html =  '<tr>';
         html +=   '<td scope="row" class="tableCongName">' + congName +'</td>';
-        html +=   '<td class="tableCongDate">' + congDate + '</td>';
-        html +=   '<td class="tableCongTime" ><a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html +=   '<td class="tableCongDate">' + tableStartDate + '</td>';
+        html +=   '<td class="tableCongDate">' + tableEndDate + '<a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
         html += '</tr>';  
     
         table.append(html);
     }
+  },
+
+  getProperDateFormat: function(date) {
+    var stringDate = date.toISOString().substring(0, 10);
+    return stringDate;
   },
 
   /*
@@ -871,15 +699,38 @@ var cong_blackouts = {
   * Description: utility to check if a date already exists in that week
   * Returns: true or false
   */
-  checkExists: function(dates) {
+  checkExists: function(_date) {
     var errorContainer = $('#error-container');
     var table = $('table#list tbody');
-    var tableRows = $('table#list tbody > tr > td.tableCongDate');
+    var tableRows = $('table#list tbody > tr');
     var exists = false;
 
-    errorContainer.empty();
+    errorContainer.empty();    
 
-    
+    if(tableRows.length > 0) {
+      var rowStartDate;
+      var rowEndDate;
+      var rowDates;
+      $.each(tableRows, function(j, rowDate) {
+        rowDates = $(rowDate).find('td.tableCongDate');
+        $.each(rowDates, function(k, date) {
+          if(k == 0) {
+            rowStartDate = $(date).text();
+          } 
+          if(k == 1) {
+            rowEndDate = $(date).text();
+
+            if(_date >= rowStartDate && _date <= rowEndDate){
+              errorContainer.append('<p>Blackout Already Exists Between ' + rowStartDate + ' and ' + rowEndDate + '</p>');
+              exists = true;
+            } 
+          }
+        });
+      });
+    } else {
+      exists = false;
+    }
+    return exists;
 
   },
 
@@ -899,3 +750,197 @@ var user = {
     type: null,
     id: null
 };
+
+var admin = {
+  /*
+  * Method: init()
+  * Description: initializes the admin namespace
+  * Usage: Called in App.js
+  */
+  init: function() {
+    ajax.getUsers('returnAdminUsers');
+    this.bindEvents();
+  },
+
+  /* 
+  * Method: bindEvents()
+  * Description: Function to bind all events for html elements
+  * Usage: called when the login is initialized
+  */
+  bindEvents: function() {
+    /*
+    * Validate to make sure users are added and edited appropriately
+    */
+    admin.validateAddUser();
+    admin.validateEditUser();
+
+    /*
+    * Validate to make sure congregations are added and edited appropriately
+    */
+    admin.validateEditCong();
+    admin.validateAddCong();
+  },
+
+  /*
+  * Method: validateAddUser
+  * Description: Function to check for blank fields
+  * Usage: Called when the user clicks on the Submit button for adding Users. Returns true if validate, else returns error.
+  */
+  validateAddUser: function() {
+    
+    $("form[name='addUserSubmit']").validate({ // use validation plugin
+      rules: {
+          email: {
+            required: true,
+            email: true
+          },
+          password: {
+            required: true,
+            minlength: 8,
+            maxlength: 50
+          },
+          phoneNumber: {
+            required: true,
+            phoneUS: true
+          },
+          firstName: {
+            required: true,
+            maxlength: 200
+          },
+          lastName: {
+            required: true,
+            maxlength: 200
+          }
+      },
+      submitHandler: function (form) { // return true if everything validates
+        form.submit();
+      }
+    })
+
+  },
+
+  /*
+  * Method: validateEditUser
+  * Description: Function to check for blank fields in the edit user functionality
+  * Usage: Called when the user clicks on the edit user Submit button. Returns true if validate, else returns error.
+  */
+  validateEditUser: function() {
+    
+    $("form[name='editUserSubmit']").validate({ // use validation plugin
+      rules: {
+          email: {
+            required: true,
+            email: true
+          },
+          phoneNumber: {
+            required: true,
+            phoneUS: true
+          },
+          firstName: {
+            required: true,
+            maxlength: 200
+          },
+          lastName: {
+            required: true,
+            maxlength: 200
+          }
+      },
+      submitHandler: function (form) { // return true if everything validates
+        form.submit();
+      }
+    })
+
+  },
+
+  /*
+  * Method: validateEditCong
+  * Description: Function to check for blank fields
+  * Usage: Called when the user clicks on the Submit button for editing congregations. Returns true if validate, else returns error.
+  */
+  validateEditCong: function() {
+    
+    $("form[name='editCongSubmit']").validate({ // use validation plugin
+      rules: {
+          congregation_name: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_phone: {
+            required: true,
+            phoneUS: true
+          },
+          congregation_street_address: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_city: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_state: {
+            required: true,
+            minlength: 2,
+            maxlength: 2,
+            lettersonly: true
+          },
+          congregation_zip: {
+            required: true,
+            minlength: 5,
+            maxlength: 5,
+            number: true
+          }
+      },
+      submitHandler: function (form) { // return true if everything validates
+        form.submit();
+      }
+    })
+
+  },
+
+  /*
+  * Method: validateAddCong
+  * Description: Function to check for blank fields
+  * Usage: Called when the user clicks on the Submit button for adding congregations. Returns true if validate, else returns error.
+  */
+  validateAddCong: function() {
+    
+    $("form[name='addCongSubmit']").validate({ // use validation plugin
+      rules: {
+          congregation_name: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_phone: {
+            required: true,
+            phoneUS: true
+          },
+          congregation_street_address: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_city: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_state: {
+            required: true,
+            minlength: 2,
+            maxlength: 2,
+            lettersonly: true
+          },
+          congregation_zip: {
+            required: true,
+            minlength: 5,
+            maxlength: 5,
+            number: true
+          }
+      },
+      submitHandler: function (form) { // return true if everything validates
+        form.submit();
+      }
+    })
+
+  }
+
+
+}
