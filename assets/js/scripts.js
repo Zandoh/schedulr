@@ -603,6 +603,16 @@ var ajax = {
 				}));
 			});
 			$('#cong-name').removeAttr('disabled');
+                        if(retCong.type == "c"){
+					$("select#cong-name option").each(function() {
+							if ($(this).val() == retCong.cid) {
+									$(this).attr("selected","selected");
+									$('#cong-name').attr("disabled","disabled");
+									//ajax.getDriverAvailability('returnDriverAvailability', user.cid);
+							}
+					});
+				}
+            
 		}).fail(function(err) {
       // console.log(err);
     });
@@ -958,4 +968,10 @@ var cong_blackouts = {
 var user = {
     type: null,
     id: null
+};
+
+var matt = {
+    type: null,
+    id: null,
+    cid: null
 };

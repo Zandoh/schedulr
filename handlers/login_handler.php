@@ -48,4 +48,22 @@ function getLogin(){
             $_SESSION['failedLogin'] = "Invalid Email and/or Password. Please try again.";
     }
 }
+
+/*
+* Returns Congregation_ID for blackout detect
+*/
+function getCongFromUserId($userID){
+    $DBcore = new DBcore();
+    $userArr = array();
+    $userArr = $DBcore->selectOneUser($userID);
+    $optionStr = "";
+
+    foreach($userArr as $row){
+        $congregation_ID = $row['congregation_ID'];
+        $optionStr .= $congregation_ID;
+    }//end of foreach
+
+    return $optionStr;
+}
+
 ?>

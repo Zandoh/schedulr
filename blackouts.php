@@ -66,5 +66,11 @@
   <script src="assets/js/vendor/popper.js" type="text/javascript"></script>
   <script src="assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
   <script src="assets/js/scripts.min.js" type="text/javascript"></script>
-
+ <script>
+        var retCong = {  
+            <?php if(isset($_SESSION['userType'])) { echo "type: " . json_encode($_SESSION['userType']); } ?>
+            <?php if(isset($_SESSION['userID'])) { echo ", id: " . json_encode($_SESSION['userID']); } ?>
+            <?php echo ", cid: " . json_encode(getCongFromUserId($_SESSION['userID'])); ?>        
+        };     
+</script>
 </html>
