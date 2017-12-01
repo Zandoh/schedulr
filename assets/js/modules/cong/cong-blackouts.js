@@ -52,18 +52,39 @@ var cong_blackouts = {
     var congName = $('#cong-name').find(":selected").text();
     var congDate = $('#cong-date').val();
     var table = $('table#list tbody');
+    var date = $('#blackout-calendar').datepicker('getDate');
+    var year = date.getFullYear();
+    var month = date.getMonth();
+    var dayOfWeek = date.getUTCDay();
+    //new Date(year, month, day, hours, minutes, seconds, milliseconds);
+    var startDate = new Date(year, month, date.getDate() - dayOfWeek, 0, 0, 0, 0);
+    var endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 7, 0, 0, 0, 0);
+    var tableStartDate = cong_blackouts.getProperDateFormat(startDate);
+    var tableEndDate = cong_blackouts.getProperDateFormat(endDate);
+
+    //what we have now
+      //selected date
+      //start date
+      //end date
+    //what we need
+      //to check if a selected date already exists as a blackout startDate-endDate
 
     var exists = cong_blackouts.checkExists(congDate);
-
+    
     if(exists == false) {
         html =  '<tr>';
         html +=   '<td scope="row" class="tableCongName">' + congName +'</td>';
-        html +=   '<td class="tableCongDate">' + congDate + '</td>';
-        html +=   '<td class="tableCongTime" ><a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html +=   '<td class="tableCongDate">' + tableStartDate + '</td>';
+        html +=   '<td class="tableCongDate">' + tableEndDate + '<a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
         html += '</tr>';  
     
         table.append(html);
     }
+  },
+
+  getProperDateFormat: function(date) {
+    var stringDate = date.toISOString().substring(0, 10);
+    return stringDate;
   },
 
   /*
@@ -72,15 +93,38 @@ var cong_blackouts = {
   * Description: utility to check if a date already exists in that week
   * Returns: true or false
   */
-  checkExists: function(dates) {
+  checkExists: function(_date) {
     var errorContainer = $('#error-container');
     var table = $('table#list tbody');
-    var tableRows = $('table#list tbody > tr > td.tableCongDate');
+    var tableRows = $('table#list tbody > tr');
     var exists = false;
 
-    errorContainer.empty();
+    errorContainer.empty();    
 
-    
+    if(tableRows.length > 0) {
+      var rowStartDate;
+      var rowEndDate;
+      var rowDates;
+      $.each(tableRows, function(j, rowDate) {
+        rowDates = $(rowDate).find('td.tableCongDate');
+        $.each(rowDates, function(k, date) {
+          if(k == 0) {
+            rowStartDate = $(date).text();
+          } 
+          if(k == 1) {
+            rowEndDate = $(date).text();
+
+            if(_date >= rowStartDate && _date <= rowEndDate){
+              errorContainer.append('<p>Blackout Already Exists Between ' + rowStartDate + ' and ' + rowEndDate + '</p>');
+              exists = true;
+            } 
+          }
+        });
+      });
+    } else {
+      exists = false;
+    }
+    return exists;
 
   },
 
