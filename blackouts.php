@@ -21,7 +21,14 @@
       <div class="container-fluid cong-blackout-container">
         <div class="row justify-content-md-center">
           <div class="col-md-8">
-            <h1>Blackout Dates</h1>
+            <h1>Blackout Dates
+                <i class="fa fa-question-circle" data-placement="right" data-toggle="tooltip" data-html="true" 
+                    title="Select your congregation then click on a blackout date.  
+                           Hit <strong><em>ADD TO LIST</em></strong> to add multiple blackout dates. 
+                           Each date added excludes you from that whole week.
+                           Hit the red icon in the table to delete dates. When finished, click <strong><em>SUBMIT</em></strong>." aria-hidden="true">
+                </i>
+            </h1>
             <form id="cong-blackouts">
                 <div class="form-group col-md-4">
                   <label for="cong-name">Congregation</label>

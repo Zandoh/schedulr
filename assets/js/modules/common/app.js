@@ -53,6 +53,12 @@ $(document).ready(function() {
 			maxPicks: 1,
 			dateFormat: "yy-mm-dd"
 		});
+
+		// tip for usability
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
+
 	}
 
 	if($("body").hasClass("bus-schedule")) {
