@@ -641,8 +641,8 @@ var ajax = {
 			$.each($.parseJSON(jsonResponse), function (i, blackout) {
 				html =  '<tr>';
         html +=   '<td scope="row" class="tableCongName">' + driverName +'</td>';
-        html +=   '<td class="tableStartDate">' + blackout.startDate + '</td>';
-        html +=   '<td class="tableEndDate" >' + blackout.endDate + '<a id="delete-blackout"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html +=   '<td class="tableStartDate">' + blackout.startDate.substring(0, 10) + '</td>';
+        html +=   '<td class="tableEndDate" >' + blackout.endDate.substring(0, 10) + '<a id="delete-blackout"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
         html += '</tr>';  
     
         table.append(html);
@@ -920,6 +920,15 @@ var cong_blackouts = {
       
     });
 
+    /* 
+    * Interpreted as a click event on the anchor tag with an ID of delete-blackout
+    * This syntax is used since the anchor tags are dynamically generated
+    */
+    $('table#blackout-list').on('click', 'a#delete-blackout', function(e) {
+      e.preventDefault();
+      cong_blackouts.removeBlackoutRecord(this);
+    });
+
   }, 
 
   /*
@@ -953,6 +962,15 @@ var cong_blackouts = {
     
         table.append(html);
     }
+  },
+
+  /*
+  * Method: removeBlackoutRecord
+  * Description: Removes a record from the List of Blackouts
+  * Usage: Called from the click event of the delete icon
+  */
+  removeBlackoutRecord: function(anchor) {
+    $(anchor).parents().closest('tr').empty().remove();
   },
 
   getProperDateFormat: function(date) {

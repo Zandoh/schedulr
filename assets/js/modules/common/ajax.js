@@ -226,8 +226,8 @@ var ajax = {
 			$.each($.parseJSON(jsonResponse), function (i, blackout) {
 				html =  '<tr>';
         html +=   '<td scope="row" class="tableCongName">' + driverName +'</td>';
-        html +=   '<td class="tableStartDate">' + blackout.startDate + '</td>';
-        html +=   '<td class="tableEndDate" >' + blackout.endDate + '<a id="delete-blackout"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html +=   '<td class="tableStartDate">' + blackout.startDate.substring(0, 10) + '</td>';
+        html +=   '<td class="tableEndDate" >' + blackout.endDate.substring(0, 10) + '<a id="delete-blackout"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
         html += '</tr>';  
     
         table.append(html);

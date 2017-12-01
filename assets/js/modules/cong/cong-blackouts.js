@@ -53,6 +53,15 @@ var cong_blackouts = {
       
     });
 
+    /* 
+    * Interpreted as a click event on the anchor tag with an ID of delete-blackout
+    * This syntax is used since the anchor tags are dynamically generated
+    */
+    $('table#blackout-list').on('click', 'a#delete-blackout', function(e) {
+      e.preventDefault();
+      cong_blackouts.removeBlackoutRecord(this);
+    });
+
   }, 
 
   /*
@@ -86,6 +95,15 @@ var cong_blackouts = {
     
         table.append(html);
     }
+  },
+
+  /*
+  * Method: removeBlackoutRecord
+  * Description: Removes a record from the List of Blackouts
+  * Usage: Called from the click event of the delete icon
+  */
+  removeBlackoutRecord: function(anchor) {
+    $(anchor).parents().closest('tr').empty().remove();
   },
 
   getProperDateFormat: function(date) {
