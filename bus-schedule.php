@@ -40,11 +40,13 @@
                 <tr>
                   <th>Driver Name</th>
                   <th>Time</th>
+                  <th>Role</th>
                 </tr>
               </thead>
               <tbody> 
               </tbody>
             </table>
+            <button type="submit" class="submit" id="busScheduleSubmit">Submit</button>
           </div>
         </div>
       </div>

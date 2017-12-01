@@ -129,6 +129,11 @@ var ajax = {
 					html =  '<tr>';
 					html +=   '<td scope="row" class="tableDriverName" data-id="'+driver.userID+'">' + driver.firstName + ' ' + driver.lastName +'</td>';
 					html +=   '<td class="tableDriverTime" >' + driver.time.toUpperCase() + '</td>';
+					html += 	'<td id="driverRole" class="roleSelect">';
+					html += 		'<input type="radio" name="driver" value="driver"> Driver <br/>';
+					html +=			'<input type="radio" name="backup" value="backup"> Backup <br/>';
+					html +=			'<a href="#" id="clearRoles">Clear</a>'
+					html +=		'</td>';
 					html += '</tr>';  
 			
 					table.append(html);

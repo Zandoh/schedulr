@@ -208,10 +208,21 @@ var bus_schedule = {
   * Usage: Called when bus is initalized
   */
   bindEvents: function() {
-    console.log("bus schedule test");
+    $('table#schedule-list').on('click', 'a#clearRoles', function(e) {
+      e.preventDefault();
+      var selects = $(this).siblings('input');
+      bus_schedule.clearRoles(selects);
+    });
+  },
 
+  /*
+  * Function to unselect the selected radio buttons for bus driver roles when making a schedule
+  */
+  clearRoles: function(selects) {
+    $.each(selects, function(i, item) {
+      $(item).prop('checked', false);
+    });
   }
-
     
 }
 
@@ -533,6 +544,11 @@ var ajax = {
 					html =  '<tr>';
 					html +=   '<td scope="row" class="tableDriverName" data-id="'+driver.userID+'">' + driver.firstName + ' ' + driver.lastName +'</td>';
 					html +=   '<td class="tableDriverTime" >' + driver.time.toUpperCase() + '</td>';
+					html += 	'<td id="driverRole" class="roleSelect">';
+					html += 		'<input type="radio" name="driver" value="driver"> Driver <br/>';
+					html +=			'<input type="radio" name="backup" value="backup"> Backup <br/>';
+					html +=			'<a href="#" id="clearRoles">Clear</a>'
+					html +=		'</td>';
 					html += '</tr>';  
 			
 					table.append(html);
@@ -804,11 +820,6 @@ var utils = {
 		//get that div with the data-attribute
 	}
 };
-var user = {
-    type: null,
-    id: null
-};
-
 var cong_blackouts = {
   /*
   * Method: init()
@@ -943,3 +954,8 @@ var cong_blackouts = {
   },
     
 }
+
+var user = {
+    type: null,
+    id: null
+};
