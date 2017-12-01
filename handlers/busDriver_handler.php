@@ -41,7 +41,13 @@ require_once('DBcore.class.php');
             $user_ID = $array["id"];
             $date = $array["date"];
             $time_of_day = $array["time"];
-                $insertResult = $DBcore->insertDriverAvailability($user_ID, $date, $time_of_day); 
+                if($time_of_day == "both"){
+                    $insertResult = $DBcore->insertDriverAvailability($user_ID, $date, "AM"); 
+                    $insertResult = $DBcore->insertDriverAvailability($user_ID, $date, "PM"); 
+                }
+                else{
+                    $insertResult = $DBcore->insertDriverAvailability($user_ID, $date, $time_of_day); 
+                }
              
         }
        
