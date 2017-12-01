@@ -641,8 +641,8 @@ var ajax = {
 			$.each($.parseJSON(jsonResponse), function (i, blackout) {
 				html =  '<tr>';
         html +=   '<td scope="row" class="tableCongName">' + driverName +'</td>';
-        html +=   '<td class="tableStartDate">' + blackout.startDate.substring(0, 10) + '</td>';
-        html +=   '<td class="tableEndDate" >' + blackout.endDate.substring(0, 10) + '<a id="delete-blackout"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html +=   '<td class="tableCongDate">' + blackout.startDate.substring(0, 10) + '</td>';
+        html +=   '<td class="tableCongDate" >' + blackout.endDate.substring(0, 10) + '<a id="delete-blackout"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
         html += '</tr>';  
     
         table.append(html);
@@ -940,7 +940,7 @@ var cong_blackouts = {
     var html;
     var congName = $('#cong-name').find(":selected").text();
     var congDate = $('#cong-date').val();
-    var table = $('table#list tbody');
+    var table = $('table#blackout-list tbody');
     var date = $('#blackout-calendar').datepicker('getDate');
     var year = date.getFullYear();
     var month = date.getMonth();
@@ -957,7 +957,7 @@ var cong_blackouts = {
         html =  '<tr>';
         html +=   '<td scope="row" class="tableCongName">' + congName +'</td>';
         html +=   '<td class="tableCongDate">' + tableStartDate + '</td>';
-        html +=   '<td class="tableCongDate">' + tableEndDate + '<a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html +=   '<td class="tableCongDate">' + tableEndDate + '<a id="delete-blackout"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
         html += '</tr>';  
     
         table.append(html);
@@ -986,8 +986,8 @@ var cong_blackouts = {
   */
   checkExists: function(_date) {
     var errorContainer = $('#error-container');
-    var table = $('table#list tbody');
-    var tableRows = $('table#list tbody > tr');
+    var table = $('table#blackout-list tbody');
+    var tableRows = $('table#blackout-list tbody > tr');
     var exists = false;
 
     errorContainer.empty();    
