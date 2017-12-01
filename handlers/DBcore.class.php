@@ -104,6 +104,7 @@ class DBcore {
 	*/
 	function insertDriverAvailability($user_ID, $availability_day, $availability_time_of_day){
 		$availability_date_ID = '';
+		$data = array();
 		//insert 1 record for the bus driver
 		//check to see if the availability date exists in the db
 		if($stmt = $this->conn->prepare("select availability_date_ID from AVAILABILITY_DATE where availability_day=:availability_day AND availability_time_of_day=:availability_time_of_day;")) {
@@ -129,7 +130,8 @@ class DBcore {
 
 			}//end of else
 		}//end of it
-
+		var_dump($availability_day);
+		var_dump($availability_time_of_day);
 		//if the availability date exists or has already been added then get the id of the availability date
 		if($stmt = $this->conn->prepare("select availability_date_ID from AVAILABILITY_DATE where availability_day=:availability_day AND availability_time_of_day=:availability_time_of_day;")) {
 			$stmt->bindParam(':availability_day', $availability_day);
@@ -137,7 +139,12 @@ class DBcore {
 			$stmt->execute();
 			if ($stmt->rowCount()) {
 				//assign a value to the availability_date_ID
-				$availability_date_ID = $stmt->fetch();
+				$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				foreach($data as $row){
+					$availability_date_ID = $row['availability_date_ID'];
+				}
+				var_dump("availability date ".$availability_date_ID);
+				
 			} else {
 				return false;
 			}
@@ -162,13 +169,15 @@ class DBcore {
 	*/
 	function clearDriverAvailability($user_ID){
 		//delete all records where user_ID is the same
-		if($stmt = $this->conn->prepare("delete from BUS_DRIVER_AVAILABILITY where user_id=:user_ID;")) {
+		if($stmt = $this->conn->prepare("delete from BUS_DRIVER_AVAILABILITY where user_ID=:user_ID;")) {
 			$stmt->bindParam(':user_ID', $user_ID);
 			$stmt->execute();
 			if ($stmt->rowCount()) {
 				return true;
 			} else {
-				return false;
+				//check if there a failure if no rows were changed
+				//return false;
+				return true;
 			}
 		}
 
