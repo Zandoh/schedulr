@@ -181,7 +181,6 @@ var bus = {
     })
   
     json = JSON.stringify(recordData, null, 2);
-    console.log(json);
-    //ajax.submitBusDriverAvailability('processDriverAvailability', json);
+    ajax.submitBusDriverAvailability('processDriverAvailability', json);
   }
 }
