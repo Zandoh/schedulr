@@ -62,13 +62,6 @@ var cong_blackouts = {
     var tableStartDate = cong_blackouts.getProperDateFormat(startDate);
     var tableEndDate = cong_blackouts.getProperDateFormat(endDate);
 
-    //what we have now
-      //selected date
-      //start date
-      //end date
-    //what we need
-      //to check if a selected date already exists as a blackout startDate-endDate
-
     var exists = cong_blackouts.checkExists(congDate);
     
     if(exists == false) {

@@ -197,18 +197,21 @@ var bus = {
     
     $(allTableRecords).each(function(i, v) {
       $(this).children('td').each(function(ii, vv) {
-        // will we need the id??
         recordDataEntry.id = $('#bus-name').val();
-        this.classList.contains('tableDriverName') ? recordDataEntry.name = $(this).text() : '';
-        this.classList.contains('tableDriverDate') ? recordDataEntry.date = $(this).text() : '';
-        this.classList.contains('tableDriverTime') ? recordDataEntry.time = $(this).text() : '';
-        ii == 2 ? recordData.push(recordDataEntry) : '';
+        this.classList.contains('tableDriverName') && ii == 0 ? recordDataEntry.name = $(this).text() : '';
+        this.classList.contains('tableDriverDate') && ii == 1 ? recordDataEntry.date = $(this).text() : '';
+        this.classList.contains('tableDriverTime') && ii == 2 ? recordDataEntry.time = $(this).text() : '';
+        
+        if(ii == 2){
+          recordData.push(recordDataEntry);
+          recordDataEntry = {};
+        }
       }); 
     })
   
     json = JSON.stringify(recordData, null, 2);
     console.log(json);
-    ajax.submitBusDriverAvailability('processDriverAvailability', json);
+    //ajax.submitBusDriverAvailability('processDriverAvailability', json);
   }
 }
 
@@ -668,13 +671,6 @@ var cong_blackouts = {
     var tableStartDate = cong_blackouts.getProperDateFormat(startDate);
     var tableEndDate = cong_blackouts.getProperDateFormat(endDate);
 
-    //what we have now
-      //selected date
-      //start date
-      //end date
-    //what we need
-      //to check if a selected date already exists as a blackout startDate-endDate
-
     var exists = cong_blackouts.checkExists(congDate);
     
     if(exists == false) {
@@ -745,11 +741,6 @@ var cong_blackouts = {
   },
     
 }
-
-var user = {
-    type: null,
-    id: null
-};
 
 var admin = {
   /*
@@ -944,3 +935,7 @@ var admin = {
 
 
 }
+var user = {
+    type: null,
+    id: null
+};

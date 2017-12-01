@@ -168,17 +168,20 @@ var bus = {
     
     $(allTableRecords).each(function(i, v) {
       $(this).children('td').each(function(ii, vv) {
-        // will we need the id??
         recordDataEntry.id = $('#bus-name').val();
-        this.classList.contains('tableDriverName') ? recordDataEntry.name = $(this).text() : '';
-        this.classList.contains('tableDriverDate') ? recordDataEntry.date = $(this).text() : '';
-        this.classList.contains('tableDriverTime') ? recordDataEntry.time = $(this).text() : '';
-        ii == 2 ? recordData.push(recordDataEntry) : '';
+        this.classList.contains('tableDriverName') && ii == 0 ? recordDataEntry.name = $(this).text() : '';
+        this.classList.contains('tableDriverDate') && ii == 1 ? recordDataEntry.date = $(this).text() : '';
+        this.classList.contains('tableDriverTime') && ii == 2 ? recordDataEntry.time = $(this).text() : '';
+        
+        if(ii == 2){
+          recordData.push(recordDataEntry);
+          recordDataEntry = {};
+        }
       }); 
     })
   
     json = JSON.stringify(recordData, null, 2);
     console.log(json);
-    ajax.submitBusDriverAvailability('processDriverAvailability', json);
+    //ajax.submitBusDriverAvailability('processDriverAvailability', json);
   }
 }
