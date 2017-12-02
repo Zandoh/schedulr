@@ -23,7 +23,14 @@
         || strpos($_SERVER['REQUEST_URI'], "congregations.php")
         || strpos($_SERVER['REQUEST_URI'], "manage-congregation.php")
         || strpos($_SERVER['REQUEST_URI'], "bus-schedule")
-        || strpos($_SERVER['REQUEST_URI'], "blackouts.php")!== false) {
+        || strpos($_SERVER['REQUEST_URI'], "blackouts.php") !== false) {
+          echo "<li class='nav-item'>
+                  <a class='nav-link' href='login_landing.php'>Home</a>
+                </li>";
+        }
+
+        // if the user is logged in and on the index, display the home button on the nav
+        if (isset($_SESSION['userLogin']) && (strpos($_SERVER['REQUEST_URI'], "index.php")!== false)) {
           echo "<li class='nav-item'>
                   <a class='nav-link' href='login_landing.php'>Home</a>
                 </li>";
