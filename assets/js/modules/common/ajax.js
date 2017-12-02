@@ -257,5 +257,17 @@ var ajax = {
     });
 	},
 
+	submitBusDriverSchedule: function(func, data) {
+		ajax.ajaxCall("GET", {
+			method: func, 
+			data: data,
+      file: "busDriver_handler"
+    }).done(function(jsonResponse) {
+			console.log('submitBusDriverSchedule.done().......');
+			console.log(jsonResponse);
+		}).fail(function(err) {
+      // console.log(err);
+    });
+	}
 
 }
