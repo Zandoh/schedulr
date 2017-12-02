@@ -181,50 +181,58 @@ function deleteCongregation($congregation_ID){
 }
 
 
-function returnPreviousRotation(){
-    $DBcore = new DBcore();
-    $congArr = array();
-    $congArr = $DBcore->selectPreviousRotation();
+function generateCongregationSchedule(){
     $optionStr = "";
-    $last_date = "";
     $congCount = "";
     $previousDate = "";
-    
 
-    foreach($congArr as $row){
-        $congregation_ID = $row['congregation_ID'];
-        $optionStr .= "<p>".$congregation_ID."</p>";
-    }//end of foreach
-
+    $DBcore = new DBcore();
+    $congArr = array();
+    $blackoutArr = array();
+    $nextRotationArr = array();
 
 
-  
+    $currentCongArr = $DBcore->selectAllCongregations();
+    $prevCongArr = $DBcore->selectPreviousRotation();
     $last_date = $DBcore->selectMaxRotationDate();
-
-
     $congCount = $DBcore->selectCongCount();
 
-
-
-    $nextRotationArr = array();
+      // return congregation ID's of the previous rotation in order by time
+      foreach($prevCongArr as $row){
+          $congregation_ID = $row['congregation_ID'];
+          $optionStr .= "<p>".$congregation_ID."</p>";
+      }//end of foreach
 
 
       $previousDate = $last_date;
 
+    // add start and end dates needed for next rotation (add 1 week to each)
+      for($i = 0; $i < $congCount; $i++){
 
-    for($i = 0; $i < $congCount; $i++){
+        $endDate = date('Y-m-d', strtotime($previousDate."+1 week"));
 
-      $endDate = date('Y-m-d', strtotime($previousDate."+1 week"));
+        $dates = array($previousDate, $endDate, $currentCongArr[$i]['congregation_ID']);
 
-      $dates = array($previousDate, $endDate);
+        $blackout = array();
+        $blackout = $DBcore->selectCongregationBlackoutDateAfter($currentCongArr[$i]['congregation_ID'],$last_date);
 
-      array_push($nextRotationArr, $dates);
+        array_push($nextRotationArr, $dates);
+        array_push($blackoutArr, $blackout);
 
-      $previousDate = $endDate;
+        $previousDate = $endDate;
 
-    }
+      }
 
 
+      for($i = 0; $i < $congCount; $i++){
+
+
+
+
+      }
+
+
+    print_r($blackoutArr);
     print_r($nextRotationArr);
 
 

@@ -286,6 +286,12 @@ class DBcore {
 		return $data;	
 	}
 
+
+	
+
+
+
+
   /*
 	* Validate user login and returns true if user exists
 	*/
@@ -475,6 +481,19 @@ class DBcore {
 	}
 
 
+/*
+	* Select one congregation blackout dates
+	*/
+	function selectCongregationBlackoutDateAfter($congregation_ID,$date){
+		$data = array();
+		if($stmt = $this->conn->prepare("select bd.blackout_date_start, bd.blackout_date_end, cbd.congregation_ID from BLACKOUT_DATE bd join CONGREGATION_BLACKOUT_DATE cbd on bd.blackout_date_ID=cbd.blackout_date_ID where bd.blackout_date_start >=:date and cbd.congregation_ID=:cid;")){
+            $stmt->bindParam(':date', $date);
+            $stmt->bindParam(':cid', $congregation_ID);
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;	
+	}
 
 
 
