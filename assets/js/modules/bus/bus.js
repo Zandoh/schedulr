@@ -52,6 +52,7 @@ var bus = {
       if(!error){
         bus.populateTable();
       }
+
     });
 
     $('#driver-avail-submit').on('click', function(e) {

@@ -169,6 +169,27 @@ var ajax = {
 	},
 
 	/* 
+	* Method: submitCongregationBlackouts(param, param)
+	*
+	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
+	* @param: data: optional, data to be passed in with the ajax call.
+	*
+	* Description: submits an entire congregations blackouts, full dump and replace
+  */
+	submitCongregationBlackouts: function(func, data) {
+		ajax.ajaxCall("POST", {
+			method: func, 
+			data: data,
+      file: "blackout_handler"
+    }).done(function(jsonResponse) {
+			console.log('submitCongregationBlackouts.done()....');
+			console.log(jsonResponse);
+		}).fail(function(err) {
+      // console.log(err);
+    });
+	},
+
+	/* 
 	* Method: getCongregations(param, param)
 	*
 	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
@@ -188,7 +209,7 @@ var ajax = {
 				}));
 			});
 			$('#cong-name').removeAttr('disabled');
-                        if(retCong.type == "c"){
+				if(retCong.type == "c") {
 					$("select#cong-name option").each(function() {
 							if ($(this).val() == retCong.cid) {
 									$(this).attr("selected","selected");
@@ -196,8 +217,7 @@ var ajax = {
 									//ajax.getDriverAvailability('returnDriverAvailability', user.cid);
 							}
 					});
-				}
-            
+				}   
 		}).fail(function(err) {
       // console.log(err);
     });

@@ -15,7 +15,7 @@ var cong_blackouts = {
   * Usage: Called when bus is initalized
   */
   bindEvents: function() {
-    this.populateDrivers();
+    this.populateCongregations();
 
     $('.add-to-list').on('click', function(e) {
       var error = false;
@@ -38,6 +38,12 @@ var cong_blackouts = {
       if(!error){
         cong_blackouts.populateTable();
       }
+
+    });
+
+    $('#cong-blackout-submit').on('click', function(e) {
+      e.preventDefault();
+      cong_blackouts.submitBlackouts();
     });
 
     /*
@@ -154,12 +160,47 @@ var cong_blackouts = {
 
 
   /* 
-  * Method: populateDrivers()
+  * Method: populateCongregations()
   * Description: Function to make an ajax call to fetch cong data
   * Usage: Called when bus is initalized
   */
-  populateDrivers: function() {
+  populateCongregations: function() {
     ajax.getCongregations('returnCongregations');
   },
+
+  /*
+  * Method: submitBlackouts()
+  * Description: Function helper to convert form data into JSON to handle on the backend
+  * Usage: Called from the click event of the Submit button on the Congregation Blackouts  page
+  * Sample JSON:
+  * [
+  *   {
+        "id": "1"
+  *     "start_date": "YYYY-MM-DD",
+  *     "end_date": "YYYY-MM-DD"
+  *   }
+  * ]
+  */
+  submitBlackouts: function() {
+    var table = $('table#blackout-list tbody');
+    var allTableRecords = table.find('tr');
+    var recordData = [];
+    var recordDataEntry = {};
+    var json;
     
+    $(allTableRecords).each(function(i, v) {
+      $(this).children('td').each(function(ii, vv) {
+        recordDataEntry.id = $('#cong-name').val();
+        this.classList.contains('tableCongDate') && ii == 1 ? recordDataEntry.start_date = $(this).text() : '';
+        this.classList.contains('tableCongDate') && ii == 2 ? recordDataEntry.end_date = $(this).text() : '';
+        if(ii == 2){
+          recordData.push(recordDataEntry);
+          recordDataEntry = {};
+        }
+      }); 
+    })
+  
+    json = JSON.stringify(recordData, null, 2);
+    ajax.submitCongregationBlackouts('processBlackouts', json);
+  }
 }
