@@ -35,8 +35,13 @@ require_once('DBcore.class.php');
 		$eventArr = array();
 		$eventArr = $DBcore->selectAllCongregationScheduleEvents($scheduleID);
 		//$sundayArr = getDateForSpecificDayBetweenDates('2017-01-01', '2017-12-31', 0);
+		$scheduleName = "";
+		foreach($eventArr as $row){
+			$scheduleName = $row['congregation_schedule_name'];
+		}
 
-		$tableScheduleStr = '<table class="table table-striped table-bordered">
+		$tableScheduleStr = '<h2>'.$scheduleName.'</h2>';
+		$tableScheduleStr .= '<table class="table table-striped table-bordered">
 								<thead>
 									<tr>
 										<th>Start of Week</th>

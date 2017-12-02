@@ -51,4 +51,8 @@ require_once('DBcore.class.php');
         }
        
     }
+
+    function handleBusDriverSchedule($json) {
+        var_dump($json);
+    }
 ?>

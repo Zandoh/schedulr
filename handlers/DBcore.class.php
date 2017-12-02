@@ -50,7 +50,7 @@ class DBcore {
 	*/
 	function selectAllCongregationScheduleEvents($scheduleID){
 		$data = array();
-		if($stmt = $this->conn->prepare("select c.congregation_name, csa.congregation_ID, csa.congregation_schedule_ID, csa.scheduled_date_start, csa.scheduled_date_end from CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION c using(congregation_ID) WHERE csa.congregation_schedule_ID=:scheduleID order by csa.scheduled_date_start;")){
+		if($stmt = $this->conn->prepare("select c.congregation_name, csa.congregation_ID, csa.congregation_schedule_ID, cs.congregation_schedule_name, csa.scheduled_date_start, csa.scheduled_date_end from CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION c using(congregation_ID) join CONGREGATION_SCHEDULE cs using(congregation_schedule_ID) WHERE csa.congregation_schedule_ID=:scheduleID order by csa.scheduled_date_start;")){
             $stmt->bindParam(':scheduleID', $scheduleID);
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);

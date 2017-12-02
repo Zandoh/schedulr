@@ -78,6 +78,11 @@ $(document).ready(function() {
 			}
 		});
 
+		// tip for usability
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
+
 	}
 
 	if($(".generatePDF")){
