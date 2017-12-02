@@ -285,10 +285,12 @@ class DBcore {
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			foreach($data as $row){
-				$prevScheduleName = $row['congregation_schedule_name'];
+				$prevScheduleName .= $row['congregation_schedule_name'];
 			}
-			$newScheduleNameVar = explode("", $prevScheduleName);
-			$newScheduleName = 'Rotation '.$newScheduleNameVar[1]+1;
+			$newScheduleNameVar = explode(" ", $prevScheduleName);
+			$rotationNum = $newScheduleNameVar[1] + 1;
+			$newScheduleName = 'Rotation '.$rotationNum;
+			var_dump($newScheduleNameVar[1]);
 
 			if($stmt = $this->conn->prepare("insert into CONGREGATION_SCHEDULE (congregation_schedule_name, congregation_schedule_start_date, congregation_schedule_end_date) values (:congregation_schedule_name, :congregation_schedule_start_date, :congregation_schedule_end_date);")) {
 				$stmt->bindParam(':congregation_schedule_name', $newScheduleName);
