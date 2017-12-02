@@ -18,7 +18,7 @@
 
 <?php  
 
-echo returnPreviousRotation();
+echo generateCongregationSchedule();
   ?>
 
 

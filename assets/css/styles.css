@@ -240,6 +240,61 @@ footer {
     font-weight: bold; }
 
 /* Created to define SCSS values for use throughout the website */
+/* Created for the congregation scheduling page */
+.cong-schedule-container {
+  margin-top: 50px;
+  margin-bottom: 50px; }
+  .cong-schedule-container #congregationScheduleForm {
+    margin-bottom: 30px; }
+  .cong-schedule-container h1 {
+    margin-bottom: 30px;
+    font-weight: bold; }
+  .cong-schedule-container label {
+    font-weight: 600; }
+  .cong-schedule-container .submit-button[type="submit"] {
+    -webkit-transition: .1s opacity linear;
+    -moz-transition: .1s opacity linear;
+    -o-transition: .1s opacity linear;
+    transition: .1s opacity linear;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff;
+    background-color: #0066a3;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 10px 26px;
+    font-size: 12px;
+    margin: 0 auto;
+    margin-left: 15px; }
+    .cong-schedule-container .submit-button[type="submit"]:hover {
+      opacity: .8; }
+  .cong-schedule-container .submit {
+    -webkit-transition: .1s opacity linear;
+    -moz-transition: .1s opacity linear;
+    -o-transition: .1s opacity linear;
+    transition: .1s opacity linear;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff;
+    background-color: #0066a3;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 13px 26px;
+    font-size: 12px;
+    margin-right: 15px; }
+    .cong-schedule-container .submit:hover {
+      opacity: .8; }
+  .cong-schedule-container #error-container {
+    color: red; }
+  .cong-schedule-container tbody th {
+    font-weight: normal;
+    vertical-align: middle; }
+  .cong-schedule-container thead {
+    font-weight: bold; }
 
 /* Created to define SCSS values for use throughout the website */
 /* Created for the admin page */
