@@ -33,6 +33,12 @@ require_once('DBcore.class.php');
 
             $user_ID = $array["id"];
             $clearResult = $DBcore->clearDriverAvailability($user_ID);
+            if ($clearResult){
+                 //good clear
+            }
+            else{
+                return false;
+            }
         }  
 
         foreach($arr as $row){
@@ -43,12 +49,25 @@ require_once('DBcore.class.php');
                 if($time_of_day == "Both"){
                     $insertResult = $DBcore->insertDriverAvailability($user_ID, $date, "AM"); 
                     $insertResult = $DBcore->insertDriverAvailability($user_ID, $date, "PM"); 
+                    if ($insertResult){
+                         //good insert
+                    }
+                    else{
+                        return false;
+                    }
                 }
                 else{
                     $insertResult = $DBcore->insertDriverAvailability($user_ID, $date, $time_of_day); 
+                    if ($insertResult){
+                         //good insert
+                    }
+                    else{
+                        return false;
+                    }
                 }
              
         }
+        return true;
        
     }
 

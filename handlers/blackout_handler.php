@@ -12,6 +12,12 @@ require_once('DBcore.class.php');
 
             $congregation_ID = $array["id"];
             $clearResult = $DBcore->clearBlackouts($congregation_ID);
+            if ($clearResult){
+                 //good clear
+            }
+            else{
+                return false;
+            }
         }  
 
         foreach($arr as $row){
@@ -19,8 +25,14 @@ require_once('DBcore.class.php');
             $congregation_ID = $array["id"];
             $start_date = $array["start_date"];
             $end_date = $array["end_date"];
-            $insertResult = $DBcore->insertBlackouts($congregation_ID, $start_date, $end_date);    
+            $insertResult = $DBcore->insertBlackouts($congregation_ID, $start_date, $end_date);
+            if ($insertResult){
+                 //good clear
+            }
+            else{
+                return false;
+            }    
         }
-       
+       return true;
     }
 ?>
