@@ -273,6 +273,43 @@ class DBcore {
 	}//end of select all Congregations
 
 
+
+	/*
+	* create a new empty congregation schedule
+	*/
+	function createNewCongregationSchedule($congregation_schedule_ID, $congregation_schedule_start_date, $congregation_schedule_end_date){
+		$data = array();
+		$prevScheduleName = '';
+		//Retrieve the name of the last congregation schedule
+		if($stmt = $this->conn->prepare("select congregation_schedule_name from CONGREGATION_SCHEDULE where congregation_schedule_end_date = (select MAX(congregation_schedule_end_date) as congregation_schedule_end_date FROM CONGREGATION_SCHEDULE);")){
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			foreach($data as $row){
+				$prevScheduleName = $row['congregation_schedule_name'];
+			}
+			$newScheduleNameVar = explode("", $prevScheduleName);
+			$newScheduleName = 'Rotation '.$newScheduleNameVar[1]+1;
+
+			if($stmt = $this->conn->prepare("insert into CONGREGATION_SCHEDULE (congregation_schedule_ID, congregation_schedule_name, congregation_schedule_start_date, congregation_schedule_end_date) values (:congregation_schedule_ID, :congregation_schedule_name, :congregation_schedule_start_date, :congregation_schedule_end_date);")) {
+				$stmt->bindParam(':congregation_schedule_ID', $congregation_schedule_ID);
+				$stmt->bindParam(':congregation_schedule_name', $newScheduleName);
+				$stmt->bindParam(':congregation_schedule_start_date', $congregation_schedule_start_date);
+				$stmt->bindParam(':congregation_schedule_end_date', $congregation_schedule_end_date);
+				$stmt->execute();
+				if ($stmt->rowCount()) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+
+		}
+
+
+	}
+
+
 	/*
 	* Select a Congregations blackout dates
 	*/
