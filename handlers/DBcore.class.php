@@ -277,7 +277,7 @@ class DBcore {
 	/*
 	* create a new empty congregation schedule
 	*/
-	function createNewCongregationSchedule($congregation_schedule_ID, $congregation_schedule_start_date, $congregation_schedule_end_date){
+	function createNewCongregationSchedule($congregation_schedule_start_date, $congregation_schedule_end_date){
 		$data = array();
 		$prevScheduleName = '';
 		//Retrieve the name of the last congregation schedule
@@ -290,8 +290,7 @@ class DBcore {
 			$newScheduleNameVar = explode("", $prevScheduleName);
 			$newScheduleName = 'Rotation '.$newScheduleNameVar[1]+1;
 
-			if($stmt = $this->conn->prepare("insert into CONGREGATION_SCHEDULE (congregation_schedule_ID, congregation_schedule_name, congregation_schedule_start_date, congregation_schedule_end_date) values (:congregation_schedule_ID, :congregation_schedule_name, :congregation_schedule_start_date, :congregation_schedule_end_date);")) {
-				$stmt->bindParam(':congregation_schedule_ID', $congregation_schedule_ID);
+			if($stmt = $this->conn->prepare("insert into CONGREGATION_SCHEDULE (congregation_schedule_name, congregation_schedule_start_date, congregation_schedule_end_date) values (:congregation_schedule_name, :congregation_schedule_start_date, :congregation_schedule_end_date);")) {
 				$stmt->bindParam(':congregation_schedule_name', $newScheduleName);
 				$stmt->bindParam(':congregation_schedule_start_date', $congregation_schedule_start_date);
 				$stmt->bindParam(':congregation_schedule_end_date', $congregation_schedule_end_date);

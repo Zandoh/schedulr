@@ -106,6 +106,7 @@ var bus = {
         table.append(html);
       }
     }
+    $('#date-picker').multiDatesPicker('removeIndexes',0);
   },
 
   /*

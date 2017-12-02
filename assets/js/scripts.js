@@ -1,469 +1,3 @@
-var admin = {
-  /*
-  * Method: init()
-  * Description: initializes the admin namespace
-  * Usage: Called in App.js
-  */
-  init: function() {
-    ajax.getUsers('returnAdminUsers');
-    this.bindEvents();
-  },
-
-  /* 
-  * Method: bindEvents()
-  * Description: Function to bind all events for html elements
-  * Usage: called when the login is initialized
-  */
-  bindEvents: function() {
-    /*
-    * Validate to make sure users are added and edited appropriately
-    */
-    admin.validateAddUser();
-    admin.validateEditUser();
-
-    /*
-    * Validate to make sure congregations are added and edited appropriately
-    */
-    admin.validateEditCong();
-    admin.validateAddCong();
-  },
-
-  /*
-  * Method: validateAddUser
-  * Description: Function to check for blank fields
-  * Usage: Called when the user clicks on the Submit button for adding Users. Returns true if validate, else returns error.
-  */
-  validateAddUser: function() {
-    
-    $("form[name='addUserSubmit']").validate({ // use validation plugin
-      rules: {
-          email: {
-            required: true,
-            email: true
-          },
-          password: {
-            required: true,
-            minlength: 8,
-            maxlength: 50
-          },
-          phoneNumber: {
-            required: true,
-            phoneUS: true
-          },
-          firstName: {
-            required: true,
-            maxlength: 200
-          },
-          lastName: {
-            required: true,
-            maxlength: 200
-          }
-      },
-      submitHandler: function (form) { // return true if everything validates
-        form.submit();
-      }
-    })
-
-  },
-
-  /*
-  * Method: validateEditUser
-  * Description: Function to check for blank fields in the edit user functionality
-  * Usage: Called when the user clicks on the edit user Submit button. Returns true if validate, else returns error.
-  */
-  validateEditUser: function() {
-    
-    $("form[name='editUserSubmit']").validate({ // use validation plugin
-      rules: {
-          email: {
-            required: true,
-            email: true
-          },
-          phoneNumber: {
-            required: true,
-            phoneUS: true
-          },
-          firstName: {
-            required: true,
-            maxlength: 200
-          },
-          lastName: {
-            required: true,
-            maxlength: 200
-          }
-      },
-      submitHandler: function (form) { // return true if everything validates
-        form.submit();
-      }
-    })
-
-  },
-
-  /*
-  * Method: validateEditCong
-  * Description: Function to check for blank fields
-  * Usage: Called when the user clicks on the Submit button for editing congregations. Returns true if validate, else returns error.
-  */
-  validateEditCong: function() {
-    
-    $("form[name='editCongSubmit']").validate({ // use validation plugin
-      rules: {
-          congregation_name: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_phone: {
-            required: true,
-            phoneUS: true
-          },
-          congregation_street_address: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_city: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_state: {
-            required: true,
-            minlength: 2,
-            maxlength: 2,
-            lettersonly: true
-          },
-          congregation_zip: {
-            required: true,
-            minlength: 5,
-            maxlength: 5,
-            number: true
-          }
-      },
-      submitHandler: function (form) { // return true if everything validates
-        form.submit();
-      }
-    })
-
-  },
-
-  /*
-  * Method: validateAddCong
-  * Description: Function to check for blank fields
-  * Usage: Called when the user clicks on the Submit button for adding congregations. Returns true if validate, else returns error.
-  */
-  validateAddCong: function() {
-    
-    $("form[name='addCongSubmit']").validate({ // use validation plugin
-      rules: {
-          congregation_name: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_phone: {
-            required: true,
-            phoneUS: true
-          },
-          congregation_street_address: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_city: {
-            required: true,
-            maxlength: 200
-          },
-          congregation_state: {
-            required: true,
-            minlength: 2,
-            maxlength: 2,
-            lettersonly: true
-          },
-          congregation_zip: {
-            required: true,
-            minlength: 5,
-            maxlength: 5,
-            number: true
-          }
-      },
-      submitHandler: function (form) { // return true if everything validates
-        form.submit();
-      }
-    })
-
-  }
-
-
-}
-var bus_schedule = {
-  /*
-  * Method: init()
-  * Description: initializes the bus namespace
-  * Usage: Called in App.js
-  */
-  init: function() {
-    this.bindEvents();
-    
-  },
-
-  /* 
-  * Method: bindEvents()
-  * Description: Function to bind all events for html elements
-  * Usage: Called when bus is initalized
-  */
-  bindEvents: function() {
-    $('table#schedule-list').on('click', 'a#clearRoles', function(e) {
-      e.preventDefault();
-      var selects = $(this).siblings('input');
-      bus_schedule.clearRoles(selects);
-    });
-
-    $('#busScheduleSubmit').on('click', function(e){
-      e.preventDefault();
-      bus_schedule.submitSchedule();
-    });
-
-  },
-
-  /*
-  * Function to unselect the selected radio buttons for bus driver roles when making a schedule
-  */
-  clearRoles: function(selects) {
-    $.each(selects, function(i, item) {
-      $(item).prop('checked', false);
-    });
-  },
-
-  submitSchedule: function(){
-    var table = $('table#schedule-list tbody');
-    var allTableRecords = table.find('tr');
-    var recordData = [];
-    var recordDataEntry = {};
-    var json;
-    var time = "";
-    var hasAM, hasPM = false;
-    
-    //make sure AM and PM have driver
-
-
-    $(allTableRecords).each(function(i, v) {
-      $(this).children('td').each(function(ii, vv) {
-        recordDataEntry.id = $('#bus-name').val();
-        if(this.classList.contains('tableDriverName') && ii == 0) {
-          recordDataEntry.name = $(this).text();
-        }
-        if(this.classList.contains('tableDriverTime') && ii == 1) {
-          time = $(this).text();
-          recordDataEntry.date = $(this).text();
-        }
-        if(this.classList.contains('roleSelect') && ii == 2) {
-          if(time === "AM") {
-            hasAM = true;
-          }
-          if(time === "PM") {
-            hasPM = true;
-          }
-          recordDataEntry.time ='';
-        }
-        
-        if(ii == 2){
-          recordData.push(recordDataEntry);
-          recordDataEntry = {};
-        }
-      }); 
-    })
-  
-    json = JSON.stringify(recordData, null, 2);
-
-    //ajax.submitBusDriverAvailability('processDriverAvailability', json);
-  }
-    
-}
-
-var bus = {
-  /*
-  * Method: init()
-  * Description: initializes the bus namespace
-  * Usage: Called in App.js
-  */
-  init: function() {
-    this.bindEvents();
-    // a function to fetch the bus drivers then populate the select option 
-    // also gets availability data and populates it into the table
-    this.populateDrivers();
-  },
-
-  /* 
-  * Method: populateDrivers()
-  * Description: Function to make an ajax call to fetch driver data
-  * Usage: Called when bus is initalized
-  */
-  populateDrivers: function() {
-    ajax.getDrivers('returnDrivers');
-  },
-
-  /* 
-  * Method: bindEvents()
-  * Description: Function to bind all events for html elements
-  * Usage: Called when bus is initalized
-  */
-  bindEvents: function() {
-    $('.add-to-list').on('click', function(e) {
-      var error = false;
-      
-      e.preventDefault();
-      
-      $("#error-container").empty();
-      
-      // make sure fields aren't empty
-      if($('#bus-name').val() == "") {
-        error = true;
-        $('#error-container').append("<p>A driver is required.</p>");
-      }
-      
-      if($('#bus-date').val() == "") {
-        error = true;
-        $('#error-container').append("<p>Date(s) is/are required.</p>");
-      }
-      
-      if($('#bus-time').val() == "") {
-        error = true;
-        $('#error-container').append("<p>Time is required.</p>");
-      }
-
-      if(!error){
-        bus.populateTable();
-      }
-
-    });
-
-    $('#driver-avail-submit').on('click', function(e) {
-      e.preventDefault();
-      bus.submitAvailability();
-    });
-
-    /* 
-    * Interpreted as a click event on the anchor tag with an ID of delete-date
-    * This syntax is used since the anchor tags are dynamically generated
-    */
-    $('table#list').on('click', 'a#delete-date', function(e) {
-      e.preventDefault();
-      bus.removeDriverRecord(this);
-    });
-
-    $('#bus-name').on('change', function (e) {
-      var optionSelected = $("option:selected", this);
-      var valueSelected = this.value;
-      
-      if(valueSelected != '') {
-        ajax.getDriverAvailability('returnDriverAvailability', valueSelected);
-      }
-      
-    });
-  },
-
-  /*
-  * Method: populateTable()
-  * Description: Function to grab data from the input fields, if present, then present in a tabular format
-  * Usage: Called from the click event of the Add To List button on the Driver Availability page
-  */
-  populateTable: function() {
-    var html;
-    var driverName = $('#bus-name').find(":selected").text();
-    var driverDates = $('#bus-date').val();
-    var driverDatesArray = driverDates.split(', ');
-    var driverTime = $('#bus-time').val();
-    var table = $('table#list tbody');
-
-    var exists = bus.checkExists(driverDatesArray);
-
-    if(exists == false) {
-      for(var i = 0; i < driverDatesArray.length; i++) {
-        html =  '<tr>';
-        html +=   '<td scope="row" class="tableDriverName">' + driverName +'</td>';
-        html +=   '<td class="tableDriverDate">' + driverDatesArray[i] + '</td>';
-        html +=   '<td class="tableDriverTime" >' + driverTime + '<a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
-        html += '</tr>';  
-    
-        table.append(html);
-      }
-    }
-  },
-
-  /*
-  * Method: checkExists()
-  * @param: date - selected date(s) from the calendar as an array
-  * Description: utility to check if a date already exists in the availability table
-  * Returns: true or false
-  */
-  checkExists: function(dates) {
-    var errorContainer = $('#error-container');
-    var table = $('table#list tbody');
-    var tableRows = $('table#list tbody > tr > td.tableDriverDate');
-    var exists = false;
-
-    errorContainer.empty();
-
-    if(tableRows.length > 0) {
-      $.each(dates, function(i, date) {
-        $.each(tableRows, function(j, rowDate) {
-          var currentRowDate = $(rowDate).text();
-          if(currentRowDate == date) {
-            errorContainer.append('<p>Availability Already Exists on ' + date + '</p>');
-            exists = true;
-          }
-        });
-      });
-    } else {
-      exists = false;
-    }
-    return exists;
-  },
-  /*
-  * Method: removeDriverRecord()
-  * Description: Removes a record from the List of Dates table
-  * Usage: Called from the click event of the delete icon
-  */
-  removeDriverRecord: function(anchor) {
-    $(anchor).parents().closest('tr').empty().remove();
-  },
-
-  /*
-  * Method: submitAvailability()
-  * Description: Function helper to convert form data into JSON to handle on the backend
-  * Usage: Called from the click event of the Submit button on the Driver Availability page
-  * Sample JSON:
-  * [
-  *   {
-        "id": "1"
-  *     "name": "John Doe",
-  *     "date": "YYYY-MM-DD",
-  *     "time": "AM | PM | Both"
-  *   }
-  * ]
-  */
-  submitAvailability: function() {
-    var table = $('table#list tbody');
-    var allTableRecords = table.find('tr');
-    var recordData = [];
-    var recordDataEntry = {};
-    var json;
-    
-    $(allTableRecords).each(function(i, v) {
-      $(this).children('td').each(function(ii, vv) {
-        recordDataEntry.id = $('#bus-name').val();
-        this.classList.contains('tableDriverName') && ii == 0 ? recordDataEntry.name = $(this).text() : '';
-        this.classList.contains('tableDriverDate') && ii == 1 ? recordDataEntry.date = $(this).text() : '';
-        this.classList.contains('tableDriverTime') && ii == 2 ? recordDataEntry.time = $(this).text() : '';
-        
-        if(ii == 2){
-          recordData.push(recordDataEntry);
-          recordDataEntry = {};
-        }
-      }); 
-    })
-  
-    json = JSON.stringify(recordData, null, 2);
-    ajax.submitBusDriverAvailability('processDriverAvailability', json);
-  }
-}
-
 var ajax = {
 	/* 
   * Method: ajaxCall(param, param)
@@ -723,6 +257,18 @@ var ajax = {
     });
 	},
 
+	submitBusDriverSchedule: function(func, data) {
+		ajax.ajaxCall("GET", {
+			method: func, 
+			data: data,
+      file: "busDriver_handler"
+    }).done(function(jsonResponse) {
+			console.log('submitBusDriverSchedule.done().......');
+			console.log(jsonResponse);
+		}).fail(function(err) {
+      // console.log(err);
+    });
+	}
 
 }
 
@@ -768,17 +314,6 @@ $(document).ready(function() {
 	// run functions on the login page
 	if($("body").hasClass("init_login")) {
 		login.init();
-	}
-
-	//run function on the congregation schedule page
-	if($("body").hasClass("cong-schedule")) {
-
-		// tip for usability
-		$(function() {
-			$('[data-toggle="tooltip"]').tooltip();
-		});
-		cong_schedule.init();
-
 	}
 
 	//run functions on the blackout page
@@ -958,6 +493,383 @@ var utils = {
 		//get that div with the data-attribute
 	}
 };
+var bus_schedule = {
+  /*
+  * Method: init()
+  * Description: initializes the bus namespace
+  * Usage: Called in App.js
+  */
+  init: function() {
+    this.bindEvents();
+    
+  },
+
+  /* 
+  * Method: bindEvents()
+  * Description: Function to bind all events for html elements
+  * Usage: Called when bus is initalized
+  */
+  bindEvents: function() {
+    $('table#schedule-list').on('click', 'a#clearRoles', function(e) {
+      e.preventDefault();
+      var selects = $(this).siblings('input');
+      bus_schedule.clearRoles(selects);
+    });
+
+    $('#busScheduleSubmit').on('click', function(e){
+      e.preventDefault();
+      bus_schedule.submitSchedule();
+    });
+
+  },
+
+  /*
+  * Function to unselect the selected radio buttons for bus driver roles when making a schedule
+  */
+  clearRoles: function(selects) {
+    $.each(selects, function(i, item) {
+      $(item).prop('checked', false);
+    });
+  },
+
+  submitSchedule: function(){
+    var table = $('table#schedule-list tbody');
+    var errorContainer = $('#availErrorContainer');
+    var allTableRecords = table.find('tr');
+    var recordData = [];
+    var recordDataEntry = {};
+    var json;
+    var time = "";
+    
+    $(allTableRecords).each(function(i, v) {
+      recordDataEntry.isDriver = '0';
+      recordDataEntry.isBackup = '0';
+      recordDataEntry.day = $('#schedule-header-date').text();
+      errorContainer.empty();
+
+      $(this).children('td').each(function(ii, vv) {
+        recordDataEntry.id = $('#bus-name').val();
+        if(this.classList.contains('tableDriverName') && ii == 0) {
+          recordDataEntry.driver = $(this).text();
+        }
+        if(this.classList.contains('tableDriverTime') && ii == 1) {
+          time = $(this).text();
+          recordDataEntry.time = $(this).text();
+        }
+        if(this.classList.contains('roleSelect') && ii == 2) {
+          var selectedRole = $(this).children(':checked').val();
+          if(time === "AM") {
+            if(selectedRole === "driver") {
+              hasAMDriver = true;
+              recordDataEntry.isDriver = '1';
+            }
+            if(selectedRole === "backup") {
+              hasAMBackup = true;
+              recordDataEntry.isBackup = '1';
+            }
+          }
+          if(time === "PM") {
+            if(selectedRole === "driver") {
+              hasPMDriver = true;
+              recordDataEntry.isDriver = '1';
+            }
+            if(selectedRole === "backup") {
+              hasPMBackup = true;
+              recordDataEntry.isBackup = '1';
+            }
+          }
+        }
+        if(ii == 2) {
+          recordData.push(recordDataEntry);
+          recordDataEntry = {};
+        }
+      }); 
+    })
+  
+    json = JSON.stringify(recordData, null, 2);
+
+    //parse json here to check for errors?
+    var pass = bus_schedule.errorCheck(json);
+
+    if(pass) {
+      ajax.submitBusDriverSchedule('handleBusDriverSchedule', json);
+    }
+  },
+  errorCheck: function(json) {
+    var errorContainer = $('#availErrorContainer');
+    errorContainer.empty();
+
+    var hasAMDriver = false;
+    var hasAMDriverMsg = '';
+
+    var hasAMBackup = false;
+    var hasAMBackupMsg = '';
+
+    var hasPMDriver = false;
+    var hasPMDriverMsg = '';
+
+    var hasPMBackup = false;
+    var hasPMBackupMsg = '';
+
+    var jsonItems = JSON.parse(json).length;
+
+    var pass = true;
+
+    $.each($.parseJSON(json), function (i, driver) {
+      if(driver.time == "AM") {
+        if(driver.isDriver == 1) {
+          if(hasAMDriver == false) {
+            hasAMDriver = true;
+          } else {
+            pass = false;
+            errorContainer.append('<h3 class="noAvailError">A driver is already exists for AM</h3>');
+          } // driver exists check
+        }
+        if(driver.isBackup == 1) {
+          if(hasAMBackup == false) {
+            hasAMBackup = true;
+          } else {
+            pass = false;
+            errorContainer.append('<h3 class="noAvailError">A backup is already exists for AM</h3>');
+          }// backup exists check
+        }
+      } // end AM
+      if(driver.time == "PM"){
+        if(driver.isDriver == 1) {
+          if(hasPMDriver == false) {
+            hasPMDriver = true;
+          } else {
+            pass = false;
+            errorContainer.append('<h3 class="noAvailError">A driver is already exists for PM</h3>');
+          } // driver exists check
+        }
+        if(driver.isBackup == 1) {
+          if(hasPMBackup == false) {
+            hasPMBackup = true;
+          } else {
+            pass = false;
+            errorContainer.append('<h3 class="noAvailError">A backup is already exists for PM</h3>');
+          }// backup exists check
+        }
+      } // end PM
+      if(parseInt(i+1) == jsonItems) {
+        //need to make sure we've reached the end of the json before showing error for required stuff
+        if(hasAMDriver == false) {
+          pass = false;
+          errorContainer.append('<h3 class="noAvailError">A driver is required for AM</h3>');
+        }
+        if(hasPMDriver == false) {
+          pass = false;
+          errorContainer.append('<h3 class="noAvailError">A driver is required for PM</h3>');
+        }
+      }
+    });
+
+    return pass;
+  }
+    
+}
+
+var bus = {
+  /*
+  * Method: init()
+  * Description: initializes the bus namespace
+  * Usage: Called in App.js
+  */
+  init: function() {
+    this.bindEvents();
+    // a function to fetch the bus drivers then populate the select option 
+    // also gets availability data and populates it into the table
+    this.populateDrivers();
+  },
+
+  /* 
+  * Method: populateDrivers()
+  * Description: Function to make an ajax call to fetch driver data
+  * Usage: Called when bus is initalized
+  */
+  populateDrivers: function() {
+    ajax.getDrivers('returnDrivers');
+  },
+
+  /* 
+  * Method: bindEvents()
+  * Description: Function to bind all events for html elements
+  * Usage: Called when bus is initalized
+  */
+  bindEvents: function() {
+    $('.add-to-list').on('click', function(e) {
+      var error = false;
+      
+      e.preventDefault();
+      
+      $("#error-container").empty();
+      
+      // make sure fields aren't empty
+      if($('#bus-name').val() == "") {
+        error = true;
+        $('#error-container').append("<p>A driver is required.</p>");
+      }
+      
+      if($('#bus-date').val() == "") {
+        error = true;
+        $('#error-container').append("<p>Date(s) is/are required.</p>");
+      }
+      
+      if($('#bus-time').val() == "") {
+        error = true;
+        $('#error-container').append("<p>Time is required.</p>");
+      }
+
+      if(!error){
+        bus.populateTable();
+      }
+
+    });
+
+    $('#driver-avail-submit').on('click', function(e) {
+      e.preventDefault();
+      bus.submitAvailability();
+    });
+
+    /* 
+    * Interpreted as a click event on the anchor tag with an ID of delete-date
+    * This syntax is used since the anchor tags are dynamically generated
+    */
+    $('table#list').on('click', 'a#delete-date', function(e) {
+      e.preventDefault();
+      bus.removeDriverRecord(this);
+    });
+
+    $('#bus-name').on('change', function (e) {
+      var optionSelected = $("option:selected", this);
+      var valueSelected = this.value;
+      
+      if(valueSelected != '') {
+        ajax.getDriverAvailability('returnDriverAvailability', valueSelected);
+      }
+      
+    });
+  },
+
+  /*
+  * Method: populateTable()
+  * Description: Function to grab data from the input fields, if present, then present in a tabular format
+  * Usage: Called from the click event of the Add To List button on the Driver Availability page
+  */
+  populateTable: function() {
+    var html;
+    var driverName = $('#bus-name').find(":selected").text();
+    var driverDates = $('#bus-date').val();
+    var driverDatesArray = driverDates.split(', ');
+    var driverTime = $('#bus-time').val();
+    var table = $('table#list tbody');
+
+    var exists = bus.checkExists(driverDatesArray);
+
+    if(exists == false) {
+      for(var i = 0; i < driverDatesArray.length; i++) {
+        html =  '<tr>';
+        html +=   '<td scope="row" class="tableDriverName">' + driverName +'</td>';
+        html +=   '<td class="tableDriverDate">' + driverDatesArray[i] + '</td>';
+        html +=   '<td class="tableDriverTime" >' + driverTime + '<a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html += '</tr>';  
+    
+        table.append(html);
+      }
+    }
+    $('#date-picker').multiDatesPicker('removeIndexes',0);
+  },
+
+  /*
+  * Method: checkExists()
+  * @param: date - selected date(s) from the calendar as an array
+  * Description: utility to check if a date already exists in the availability table
+  * Returns: true or false
+  */
+  checkExists: function(dates) {
+    var errorContainer = $('#error-container');
+    var table = $('table#list tbody');
+    var tableRows = $('table#list tbody > tr > td.tableDriverDate');
+    var exists = false;
+
+    errorContainer.empty();
+
+    if(tableRows.length > 0) {
+      $.each(dates, function(i, date) {
+        $.each(tableRows, function(j, rowDate) {
+          var currentRowDate = $(rowDate).text();
+          if(currentRowDate == date) {
+            errorContainer.append('<p>Availability Already Exists on ' + date + '</p>');
+            exists = true;
+          }
+        });
+      });
+    } else {
+      exists = false;
+    }
+    return exists;
+  },
+  /*
+  * Method: removeDriverRecord()
+  * Description: Removes a record from the List of Dates table
+  * Usage: Called from the click event of the delete icon
+  */
+  removeDriverRecord: function(anchor) {
+    $(anchor).parents().closest('tr').empty().remove();
+  },
+
+  /*
+  * Method: submitAvailability()
+  * Description: Function helper to convert form data into JSON to handle on the backend
+  * Usage: Called from the click event of the Submit button on the Driver Availability page
+  * Sample JSON:
+  * [
+  *   {
+        "id": "1"
+  *     "name": "John Doe",
+  *     "date": "YYYY-MM-DD",
+  *     "time": "AM | PM | Both"
+  *   }
+  * ]
+  */
+  submitAvailability: function() {
+    var table = $('table#list tbody');
+    var allTableRecords = table.find('tr');
+    var recordData = [];
+    var recordDataEntry = {};
+    var json;
+    
+    $(allTableRecords).each(function(i, v) {
+      $(this).children('td').each(function(ii, vv) {
+        recordDataEntry.id = $('#bus-name').val();
+        this.classList.contains('tableDriverName') && ii == 0 ? recordDataEntry.name = $(this).text() : '';
+        this.classList.contains('tableDriverDate') && ii == 1 ? recordDataEntry.date = $(this).text() : '';
+        this.classList.contains('tableDriverTime') && ii == 2 ? recordDataEntry.time = $(this).text() : '';
+        
+        if(ii == 2){
+          recordData.push(recordDataEntry);
+          recordDataEntry = {};
+        }
+      }); 
+    })
+  
+    json = JSON.stringify(recordData, null, 2);
+    ajax.submitBusDriverAvailability('processDriverAvailability', json);
+  }
+}
+
+var user = {
+    type: null,
+    id: null
+};
+
+var matt = {
+    type: null,
+    id: null,
+    cid: null
+};
+
 var cong_blackouts = {
   /*
   * Method: init()
@@ -1061,6 +973,8 @@ var cong_blackouts = {
     
         table.append(html);
     }
+
+    $('#blackout-calendar').multiDatesPicker('removeIndexes',0);
   },
 
   /*
@@ -1165,38 +1079,196 @@ var cong_blackouts = {
   }
 }
 
-var cong_schedule = {
+var admin = {
   /*
   * Method: init()
-  * Description: initializes the congregation schedule namespace
+  * Description: initializes the admin namespace
   * Usage: Called in App.js
   */
   init: function() {
+    ajax.getUsers('returnAdminUsers');
     this.bindEvents();
-  
   },
 
   /* 
   * Method: bindEvents()
   * Description: Function to bind all events for html elements
-  * Usage: Called when congregation schedule is initialized
+  * Usage: called when the login is initialized
   */
   bindEvents: function() {
-    $(function() {
-      $("table.sortCongregations").sortable({
-        items: "td.sort-cong-name"
-      }).disableSelection();
-    });
+    /*
+    * Validate to make sure users are added and edited appropriately
+    */
+    admin.validateAddUser();
+    admin.validateEditUser();
+
+    /*
+    * Validate to make sure congregations are added and edited appropriately
+    */
+    admin.validateEditCong();
+    admin.validateAddCong();
+  },
+
+  /*
+  * Method: validateAddUser
+  * Description: Function to check for blank fields
+  * Usage: Called when the user clicks on the Submit button for adding Users. Returns true if validate, else returns error.
+  */
+  validateAddUser: function() {
+    
+    $("form[name='addUserSubmit']").validate({ // use validation plugin
+      rules: {
+          email: {
+            required: true,
+            email: true
+          },
+          password: {
+            required: true,
+            minlength: 8,
+            maxlength: 50
+          },
+          phoneNumber: {
+            required: true,
+            phoneUS: true
+          },
+          firstName: {
+            required: true,
+            maxlength: 200
+          },
+          lastName: {
+            required: true,
+            maxlength: 200
+          }
+      },
+      submitHandler: function (form) { // return true if everything validates
+        form.submit();
+      }
+    })
+
+  },
+
+  /*
+  * Method: validateEditUser
+  * Description: Function to check for blank fields in the edit user functionality
+  * Usage: Called when the user clicks on the edit user Submit button. Returns true if validate, else returns error.
+  */
+  validateEditUser: function() {
+    
+    $("form[name='editUserSubmit']").validate({ // use validation plugin
+      rules: {
+          email: {
+            required: true,
+            email: true
+          },
+          phoneNumber: {
+            required: true,
+            phoneUS: true
+          },
+          firstName: {
+            required: true,
+            maxlength: 200
+          },
+          lastName: {
+            required: true,
+            maxlength: 200
+          }
+      },
+      submitHandler: function (form) { // return true if everything validates
+        form.submit();
+      }
+    })
+
+  },
+
+  /*
+  * Method: validateEditCong
+  * Description: Function to check for blank fields
+  * Usage: Called when the user clicks on the Submit button for editing congregations. Returns true if validate, else returns error.
+  */
+  validateEditCong: function() {
+    
+    $("form[name='editCongSubmit']").validate({ // use validation plugin
+      rules: {
+          congregation_name: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_phone: {
+            required: true,
+            phoneUS: true
+          },
+          congregation_street_address: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_city: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_state: {
+            required: true,
+            minlength: 2,
+            maxlength: 2,
+            lettersonly: true
+          },
+          congregation_zip: {
+            required: true,
+            minlength: 5,
+            maxlength: 5,
+            number: true
+          }
+      },
+      submitHandler: function (form) { // return true if everything validates
+        form.submit();
+      }
+    })
+
+  },
+
+  /*
+  * Method: validateAddCong
+  * Description: Function to check for blank fields
+  * Usage: Called when the user clicks on the Submit button for adding congregations. Returns true if validate, else returns error.
+  */
+  validateAddCong: function() {
+    
+    $("form[name='addCongSubmit']").validate({ // use validation plugin
+      rules: {
+          congregation_name: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_phone: {
+            required: true,
+            phoneUS: true
+          },
+          congregation_street_address: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_city: {
+            required: true,
+            maxlength: 200
+          },
+          congregation_state: {
+            required: true,
+            minlength: 2,
+            maxlength: 2,
+            lettersonly: true
+          },
+          congregation_zip: {
+            required: true,
+            minlength: 5,
+            maxlength: 5,
+            number: true
+          }
+      },
+      submitHandler: function (form) { // return true if everything validates
+        form.submit();
+      }
+    })
+
   }
 
-}
-var user = {
-    type: null,
-    id: null
-};
 
-var matt = {
-    type: null,
-    id: null,
-    cid: null
-};
+}
