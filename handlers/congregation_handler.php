@@ -181,19 +181,52 @@ function deleteCongregation($congregation_ID){
 }
 
 
-function getPreviousRotation(){
-  $DBcore = new DBcore();
+function returnPreviousRotation(){
+    $DBcore = new DBcore();
     $congArr = array();
     $congArr = $DBcore->selectPreviousRotation();
-	$optionStr = '';
+    $optionStr = "";
+    $last_date = "";
+    $congCount = "";
+    $previousDate = "";
+    
 
     foreach($congArr as $row){
         $congregation_ID = $row['congregation_ID'];
-        $congregation_name = $row['congregation_name'];
-
-        $optionStr .= $congregation_ID.$congregation_name;
-
+        $optionStr .= "<p>".$congregation_ID."</p>";
     }//end of foreach
+
+
+
+  
+    $last_date = $DBcore->selectMaxRotationDate();
+
+
+    $congCount = $DBcore->selectCongCount();
+
+
+
+    $nextRotationArr = array();
+
+
+      $previousDate = $last_date;
+
+
+    for($i = 0; $i < $congCount; $i++){
+
+      $endDate = date('Y-m-d', strtotime($previousDate."+1 week"));
+
+      $dates = array($previousDate, $endDate);
+
+      array_push($nextRotationArr, $dates);
+
+      $previousDate = $endDate;
+
+    }
+
+
+    print_r($nextRotationArr);
+
 
     return $optionStr;
 }

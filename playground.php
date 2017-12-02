@@ -6,8 +6,27 @@
 <?php
   include 'assets/includes/header.php';
   include 'assets/includes/nav.php';
+  include 'handlers/congregation_handler.php';
 ?>
 <body>
+
+
+
+
+
+
+
+<?php  
+
+echo returnPreviousRotation();
+  ?>
+
+
+
+
+
+
+
 
 
 <?php 
