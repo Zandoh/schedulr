@@ -770,6 +770,17 @@ $(document).ready(function() {
 		login.init();
 	}
 
+	//run function on the congregation schedule page
+	if($("body").hasClass("cong-schedule")) {
+
+		// tip for usability
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
+		cong_schedule.init();
+
+	}
+
 	//run functions on the blackout page
 	if($("body").hasClass("cong-blackouts")) {
 		cong_blackouts.init();
@@ -1154,6 +1165,31 @@ var cong_blackouts = {
   }
 }
 
+var cong_schedule = {
+  /*
+  * Method: init()
+  * Description: initializes the congregation schedule namespace
+  * Usage: Called in App.js
+  */
+  init: function() {
+    this.bindEvents();
+  
+  },
+
+  /* 
+  * Method: bindEvents()
+  * Description: Function to bind all events for html elements
+  * Usage: Called when congregation schedule is initialized
+  */
+  bindEvents: function() {
+    $(function() {
+      $("table.sortCongregations").sortable({
+        items: "td.sort-cong-name"
+      }).disableSelection();
+    });
+  }
+
+}
 var user = {
     type: null,
     id: null
