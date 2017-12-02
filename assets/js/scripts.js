@@ -1,368 +1,3 @@
-var bus_schedule = {
-  /*
-  * Method: init()
-  * Description: initializes the bus namespace
-  * Usage: Called in App.js
-  */
-  init: function() {
-    this.bindEvents();
-    
-  },
-
-  /* 
-  * Method: bindEvents()
-  * Description: Function to bind all events for html elements
-  * Usage: Called when bus is initalized
-  */
-  bindEvents: function() {
-    $('table#schedule-list').on('click', 'a#clearRoles', function(e) {
-      e.preventDefault();
-      var selects = $(this).siblings('input');
-      bus_schedule.clearRoles(selects);
-    });
-
-    $('#busScheduleSubmit').on('click', function(e){
-      e.preventDefault();
-      bus_schedule.submitSchedule();
-    });
-
-  },
-
-  /*
-  * Function to unselect the selected radio buttons for bus driver roles when making a schedule
-  */
-  clearRoles: function(selects) {
-    $.each(selects, function(i, item) {
-      $(item).prop('checked', false);
-    });
-  },
-
-  submitSchedule: function(){
-    var table = $('table#schedule-list tbody');
-    var errorContainer = $('#availErrorContainer');
-    var allTableRecords = table.find('tr');
-    var recordData = [];
-    var recordDataEntry = {};
-    var json;
-    var time = "";
-    
-    $(allTableRecords).each(function(i, v) {
-      recordDataEntry.isDriver = '0';
-      recordDataEntry.isBackup = '0';
-      recordDataEntry.day = $('#schedule-header-date').text();
-      errorContainer.empty();
-
-      $(this).children('td').each(function(ii, vv) {
-        recordDataEntry.id = $('#bus-name').val();
-        if(this.classList.contains('tableDriverName') && ii == 0) {
-          recordDataEntry.driver = $(this).text();
-        }
-        if(this.classList.contains('tableDriverTime') && ii == 1) {
-          time = $(this).text();
-          recordDataEntry.time = $(this).text();
-        }
-        if(this.classList.contains('roleSelect') && ii == 2) {
-          var selectedRole = $(this).children(':checked').val();
-          if(time === "AM") {
-            if(selectedRole === "driver") {
-              hasAMDriver = true;
-              recordDataEntry.isDriver = '1';
-            }
-            if(selectedRole === "backup") {
-              hasAMBackup = true;
-              recordDataEntry.isBackup = '1';
-            }
-          }
-          if(time === "PM") {
-            if(selectedRole === "driver") {
-              hasPMDriver = true;
-              recordDataEntry.isDriver = '1';
-            }
-            if(selectedRole === "backup") {
-              hasPMBackup = true;
-              recordDataEntry.isBackup = '1';
-            }
-          }
-        }
-        if(ii == 2) {
-          recordData.push(recordDataEntry);
-          recordDataEntry = {};
-        }
-      }); 
-    })
-  
-    json = JSON.stringify(recordData, null, 2);
-
-    //parse json here to check for errors?
-    var pass = bus_schedule.errorCheck(json);
-
-    if(pass) {
-      ajax.submitBusDriverSchedule('handleBusDriverSchedule', json);
-    }
-  },
-  errorCheck: function(json) {
-    var errorContainer = $('#availErrorContainer');
-    errorContainer.empty();
-
-    var hasAMDriver = false;
-    var hasAMDriverMsg = '';
-
-    var hasAMBackup = false;
-    var hasAMBackupMsg = '';
-
-    var hasPMDriver = false;
-    var hasPMDriverMsg = '';
-
-    var hasPMBackup = false;
-    var hasPMBackupMsg = '';
-
-    var jsonItems = JSON.parse(json).length;
-
-    var pass = true;
-
-    $.each($.parseJSON(json), function (i, driver) {
-      if(driver.time == "AM") {
-        if(driver.isDriver == 1) {
-          if(hasAMDriver == false) {
-            hasAMDriver = true;
-          } else {
-            pass = false;
-            errorContainer.append('<h3 class="noAvailError">A driver is already exists for AM</h3>');
-          } // driver exists check
-        }
-        if(driver.isBackup == 1) {
-          if(hasAMBackup == false) {
-            hasAMBackup = true;
-          } else {
-            pass = false;
-            errorContainer.append('<h3 class="noAvailError">A backup is already exists for AM</h3>');
-          }// backup exists check
-        }
-      } // end AM
-      if(driver.time == "PM"){
-        if(driver.isDriver == 1) {
-          if(hasPMDriver == false) {
-            hasPMDriver = true;
-          } else {
-            pass = false;
-            errorContainer.append('<h3 class="noAvailError">A driver is already exists for PM</h3>');
-          } // driver exists check
-        }
-        if(driver.isBackup == 1) {
-          if(hasPMBackup == false) {
-            hasPMBackup = true;
-          } else {
-            pass = false;
-            errorContainer.append('<h3 class="noAvailError">A backup is already exists for PM</h3>');
-          }// backup exists check
-        }
-      } // end PM
-      if(parseInt(i+1) == jsonItems) {
-        //need to make sure we've reached the end of the json before showing error for required stuff
-        if(hasAMDriver == false) {
-          pass = false;
-          errorContainer.append('<h3 class="noAvailError">A driver is required for AM</h3>');
-        }
-        if(hasPMDriver == false) {
-          pass = false;
-          errorContainer.append('<h3 class="noAvailError">A driver is required for PM</h3>');
-        }
-      }
-    });
-
-    return pass;
-  }
-    
-}
-
-var bus = {
-  /*
-  * Method: init()
-  * Description: initializes the bus namespace
-  * Usage: Called in App.js
-  */
-  init: function() {
-    this.bindEvents();
-    // a function to fetch the bus drivers then populate the select option 
-    // also gets availability data and populates it into the table
-    this.populateDrivers();
-  },
-
-  /* 
-  * Method: populateDrivers()
-  * Description: Function to make an ajax call to fetch driver data
-  * Usage: Called when bus is initalized
-  */
-  populateDrivers: function() {
-    ajax.getDrivers('returnDrivers');
-  },
-
-  /* 
-  * Method: bindEvents()
-  * Description: Function to bind all events for html elements
-  * Usage: Called when bus is initalized
-  */
-  bindEvents: function() {
-    $('.add-to-list').on('click', function(e) {
-      var error = false;
-      
-      e.preventDefault();
-      
-      $("#error-container").empty();
-      
-      // make sure fields aren't empty
-      if($('#bus-name').val() == "") {
-        error = true;
-        $('#error-container').append("<p>A driver is required.</p>");
-      }
-      
-      if($('#bus-date').val() == "") {
-        error = true;
-        $('#error-container').append("<p>Date(s) is/are required.</p>");
-      }
-      
-      if($('#bus-time').val() == "") {
-        error = true;
-        $('#error-container').append("<p>Time is required.</p>");
-      }
-
-      if(!error){
-        bus.populateTable();
-      }
-
-    });
-
-    $('#driver-avail-submit').on('click', function(e) {
-      e.preventDefault();
-      bus.submitAvailability();
-    });
-
-    /* 
-    * Interpreted as a click event on the anchor tag with an ID of delete-date
-    * This syntax is used since the anchor tags are dynamically generated
-    */
-    $('table#list').on('click', 'a#delete-date', function(e) {
-      e.preventDefault();
-      bus.removeDriverRecord(this);
-    });
-
-    $('#bus-name').on('change', function (e) {
-      var optionSelected = $("option:selected", this);
-      var valueSelected = this.value;
-      
-      if(valueSelected != '') {
-        ajax.getDriverAvailability('returnDriverAvailability', valueSelected);
-      }
-      
-    });
-  },
-
-  /*
-  * Method: populateTable()
-  * Description: Function to grab data from the input fields, if present, then present in a tabular format
-  * Usage: Called from the click event of the Add To List button on the Driver Availability page
-  */
-  populateTable: function() {
-    var html;
-    var driverName = $('#bus-name').find(":selected").text();
-    var driverDates = $('#bus-date').val();
-    var driverDatesArray = driverDates.split(', ');
-    var driverTime = $('#bus-time').val();
-    var table = $('table#list tbody');
-
-    var exists = bus.checkExists(driverDatesArray);
-
-    if(exists == false) {
-      for(var i = 0; i < driverDatesArray.length; i++) {
-        html =  '<tr>';
-        html +=   '<td scope="row" class="tableDriverName">' + driverName +'</td>';
-        html +=   '<td class="tableDriverDate">' + driverDatesArray[i] + '</td>';
-        html +=   '<td class="tableDriverTime" >' + driverTime + '<a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
-        html += '</tr>';  
-    
-        table.append(html);
-      }
-    }
-  },
-
-  /*
-  * Method: checkExists()
-  * @param: date - selected date(s) from the calendar as an array
-  * Description: utility to check if a date already exists in the availability table
-  * Returns: true or false
-  */
-  checkExists: function(dates) {
-    var errorContainer = $('#error-container');
-    var table = $('table#list tbody');
-    var tableRows = $('table#list tbody > tr > td.tableDriverDate');
-    var exists = false;
-
-    errorContainer.empty();
-
-    if(tableRows.length > 0) {
-      $.each(dates, function(i, date) {
-        $.each(tableRows, function(j, rowDate) {
-          var currentRowDate = $(rowDate).text();
-          if(currentRowDate == date) {
-            errorContainer.append('<p>Availability Already Exists on ' + date + '</p>');
-            exists = true;
-          }
-        });
-      });
-    } else {
-      exists = false;
-    }
-    return exists;
-  },
-  /*
-  * Method: removeDriverRecord()
-  * Description: Removes a record from the List of Dates table
-  * Usage: Called from the click event of the delete icon
-  */
-  removeDriverRecord: function(anchor) {
-    $(anchor).parents().closest('tr').empty().remove();
-  },
-
-  /*
-  * Method: submitAvailability()
-  * Description: Function helper to convert form data into JSON to handle on the backend
-  * Usage: Called from the click event of the Submit button on the Driver Availability page
-  * Sample JSON:
-  * [
-  *   {
-        "id": "1"
-  *     "name": "John Doe",
-  *     "date": "YYYY-MM-DD",
-  *     "time": "AM | PM | Both"
-  *   }
-  * ]
-  */
-  submitAvailability: function() {
-    var table = $('table#list tbody');
-    var allTableRecords = table.find('tr');
-    var recordData = [];
-    var recordDataEntry = {};
-    var json;
-    
-    $(allTableRecords).each(function(i, v) {
-      $(this).children('td').each(function(ii, vv) {
-        recordDataEntry.id = $('#bus-name').val();
-        this.classList.contains('tableDriverName') && ii == 0 ? recordDataEntry.name = $(this).text() : '';
-        this.classList.contains('tableDriverDate') && ii == 1 ? recordDataEntry.date = $(this).text() : '';
-        this.classList.contains('tableDriverTime') && ii == 2 ? recordDataEntry.time = $(this).text() : '';
-        
-        if(ii == 2){
-          recordData.push(recordDataEntry);
-          recordDataEntry = {};
-        }
-      }); 
-    })
-  
-    json = JSON.stringify(recordData, null, 2);
-    ajax.submitBusDriverAvailability('processDriverAvailability', json);
-  }
-}
-
 var ajax = {
 	/* 
   * Method: ajaxCall(param, param)
@@ -858,6 +493,372 @@ var utils = {
 		//get that div with the data-attribute
 	}
 };
+var bus_schedule = {
+  /*
+  * Method: init()
+  * Description: initializes the bus namespace
+  * Usage: Called in App.js
+  */
+  init: function() {
+    this.bindEvents();
+    
+  },
+
+  /* 
+  * Method: bindEvents()
+  * Description: Function to bind all events for html elements
+  * Usage: Called when bus is initalized
+  */
+  bindEvents: function() {
+    $('table#schedule-list').on('click', 'a#clearRoles', function(e) {
+      e.preventDefault();
+      var selects = $(this).siblings('input');
+      bus_schedule.clearRoles(selects);
+    });
+
+    $('#busScheduleSubmit').on('click', function(e){
+      e.preventDefault();
+      bus_schedule.submitSchedule();
+    });
+
+  },
+
+  /*
+  * Function to unselect the selected radio buttons for bus driver roles when making a schedule
+  */
+  clearRoles: function(selects) {
+    $.each(selects, function(i, item) {
+      $(item).prop('checked', false);
+    });
+  },
+
+  submitSchedule: function(){
+    var table = $('table#schedule-list tbody');
+    var errorContainer = $('#availErrorContainer');
+    var allTableRecords = table.find('tr');
+    var recordData = [];
+    var recordDataEntry = {};
+    var json;
+    var time = "";
+    
+    $(allTableRecords).each(function(i, v) {
+      recordDataEntry.isDriver = '0';
+      recordDataEntry.isBackup = '0';
+      recordDataEntry.day = $('#schedule-header-date').text();
+      errorContainer.empty();
+
+      $(this).children('td').each(function(ii, vv) {
+        recordDataEntry.id = $('#bus-name').val();
+        if(this.classList.contains('tableDriverName') && ii == 0) {
+          recordDataEntry.driver = $(this).text();
+        }
+        if(this.classList.contains('tableDriverTime') && ii == 1) {
+          time = $(this).text();
+          recordDataEntry.time = $(this).text();
+        }
+        if(this.classList.contains('roleSelect') && ii == 2) {
+          var selectedRole = $(this).children(':checked').val();
+          if(time === "AM") {
+            if(selectedRole === "driver") {
+              hasAMDriver = true;
+              recordDataEntry.isDriver = '1';
+            }
+            if(selectedRole === "backup") {
+              hasAMBackup = true;
+              recordDataEntry.isBackup = '1';
+            }
+          }
+          if(time === "PM") {
+            if(selectedRole === "driver") {
+              hasPMDriver = true;
+              recordDataEntry.isDriver = '1';
+            }
+            if(selectedRole === "backup") {
+              hasPMBackup = true;
+              recordDataEntry.isBackup = '1';
+            }
+          }
+        }
+        if(ii == 2) {
+          recordData.push(recordDataEntry);
+          recordDataEntry = {};
+        }
+      }); 
+    })
+  
+    json = JSON.stringify(recordData, null, 2);
+
+    //parse json here to check for errors?
+    var pass = bus_schedule.errorCheck(json);
+
+    if(pass) {
+      ajax.submitBusDriverSchedule('handleBusDriverSchedule', json);
+    }
+  },
+  errorCheck: function(json) {
+    var errorContainer = $('#availErrorContainer');
+    errorContainer.empty();
+
+    var hasAMDriver = false;
+    var hasAMDriverMsg = '';
+
+    var hasAMBackup = false;
+    var hasAMBackupMsg = '';
+
+    var hasPMDriver = false;
+    var hasPMDriverMsg = '';
+
+    var hasPMBackup = false;
+    var hasPMBackupMsg = '';
+
+    var jsonItems = JSON.parse(json).length;
+
+    var pass = true;
+
+    $.each($.parseJSON(json), function (i, driver) {
+      if(driver.time == "AM") {
+        if(driver.isDriver == 1) {
+          if(hasAMDriver == false) {
+            hasAMDriver = true;
+          } else {
+            pass = false;
+            errorContainer.append('<h3 class="noAvailError">A driver is already exists for AM</h3>');
+          } // driver exists check
+        }
+        if(driver.isBackup == 1) {
+          if(hasAMBackup == false) {
+            hasAMBackup = true;
+          } else {
+            pass = false;
+            errorContainer.append('<h3 class="noAvailError">A backup is already exists for AM</h3>');
+          }// backup exists check
+        }
+      } // end AM
+      if(driver.time == "PM"){
+        if(driver.isDriver == 1) {
+          if(hasPMDriver == false) {
+            hasPMDriver = true;
+          } else {
+            pass = false;
+            errorContainer.append('<h3 class="noAvailError">A driver is already exists for PM</h3>');
+          } // driver exists check
+        }
+        if(driver.isBackup == 1) {
+          if(hasPMBackup == false) {
+            hasPMBackup = true;
+          } else {
+            pass = false;
+            errorContainer.append('<h3 class="noAvailError">A backup is already exists for PM</h3>');
+          }// backup exists check
+        }
+      } // end PM
+      if(parseInt(i+1) == jsonItems) {
+        //need to make sure we've reached the end of the json before showing error for required stuff
+        if(hasAMDriver == false) {
+          pass = false;
+          errorContainer.append('<h3 class="noAvailError">A driver is required for AM</h3>');
+        }
+        if(hasPMDriver == false) {
+          pass = false;
+          errorContainer.append('<h3 class="noAvailError">A driver is required for PM</h3>');
+        }
+      }
+    });
+
+    return pass;
+  }
+    
+}
+
+var bus = {
+  /*
+  * Method: init()
+  * Description: initializes the bus namespace
+  * Usage: Called in App.js
+  */
+  init: function() {
+    this.bindEvents();
+    // a function to fetch the bus drivers then populate the select option 
+    // also gets availability data and populates it into the table
+    this.populateDrivers();
+  },
+
+  /* 
+  * Method: populateDrivers()
+  * Description: Function to make an ajax call to fetch driver data
+  * Usage: Called when bus is initalized
+  */
+  populateDrivers: function() {
+    ajax.getDrivers('returnDrivers');
+  },
+
+  /* 
+  * Method: bindEvents()
+  * Description: Function to bind all events for html elements
+  * Usage: Called when bus is initalized
+  */
+  bindEvents: function() {
+    $('.add-to-list').on('click', function(e) {
+      var error = false;
+      
+      e.preventDefault();
+      
+      $("#error-container").empty();
+      
+      // make sure fields aren't empty
+      if($('#bus-name').val() == "") {
+        error = true;
+        $('#error-container').append("<p>A driver is required.</p>");
+      }
+      
+      if($('#bus-date').val() == "") {
+        error = true;
+        $('#error-container').append("<p>Date(s) is/are required.</p>");
+      }
+      
+      if($('#bus-time').val() == "") {
+        error = true;
+        $('#error-container').append("<p>Time is required.</p>");
+      }
+
+      if(!error){
+        bus.populateTable();
+      }
+
+    });
+
+    $('#driver-avail-submit').on('click', function(e) {
+      e.preventDefault();
+      bus.submitAvailability();
+    });
+
+    /* 
+    * Interpreted as a click event on the anchor tag with an ID of delete-date
+    * This syntax is used since the anchor tags are dynamically generated
+    */
+    $('table#list').on('click', 'a#delete-date', function(e) {
+      e.preventDefault();
+      bus.removeDriverRecord(this);
+    });
+
+    $('#bus-name').on('change', function (e) {
+      var optionSelected = $("option:selected", this);
+      var valueSelected = this.value;
+      
+      if(valueSelected != '') {
+        ajax.getDriverAvailability('returnDriverAvailability', valueSelected);
+      }
+      
+    });
+  },
+
+  /*
+  * Method: populateTable()
+  * Description: Function to grab data from the input fields, if present, then present in a tabular format
+  * Usage: Called from the click event of the Add To List button on the Driver Availability page
+  */
+  populateTable: function() {
+    var html;
+    var driverName = $('#bus-name').find(":selected").text();
+    var driverDates = $('#bus-date').val();
+    var driverDatesArray = driverDates.split(', ');
+    var driverTime = $('#bus-time').val();
+    var table = $('table#list tbody');
+
+    var exists = bus.checkExists(driverDatesArray);
+
+    if(exists == false) {
+      for(var i = 0; i < driverDatesArray.length; i++) {
+        html =  '<tr>';
+        html +=   '<td scope="row" class="tableDriverName">' + driverName +'</td>';
+        html +=   '<td class="tableDriverDate">' + driverDatesArray[i] + '</td>';
+        html +=   '<td class="tableDriverTime" >' + driverTime + '<a id="delete-date"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html += '</tr>';  
+    
+        table.append(html);
+      }
+    }
+    $('#date-picker').multiDatesPicker('removeIndexes',0);
+  },
+
+  /*
+  * Method: checkExists()
+  * @param: date - selected date(s) from the calendar as an array
+  * Description: utility to check if a date already exists in the availability table
+  * Returns: true or false
+  */
+  checkExists: function(dates) {
+    var errorContainer = $('#error-container');
+    var table = $('table#list tbody');
+    var tableRows = $('table#list tbody > tr > td.tableDriverDate');
+    var exists = false;
+
+    errorContainer.empty();
+
+    if(tableRows.length > 0) {
+      $.each(dates, function(i, date) {
+        $.each(tableRows, function(j, rowDate) {
+          var currentRowDate = $(rowDate).text();
+          if(currentRowDate == date) {
+            errorContainer.append('<p>Availability Already Exists on ' + date + '</p>');
+            exists = true;
+          }
+        });
+      });
+    } else {
+      exists = false;
+    }
+    return exists;
+  },
+  /*
+  * Method: removeDriverRecord()
+  * Description: Removes a record from the List of Dates table
+  * Usage: Called from the click event of the delete icon
+  */
+  removeDriverRecord: function(anchor) {
+    $(anchor).parents().closest('tr').empty().remove();
+  },
+
+  /*
+  * Method: submitAvailability()
+  * Description: Function helper to convert form data into JSON to handle on the backend
+  * Usage: Called from the click event of the Submit button on the Driver Availability page
+  * Sample JSON:
+  * [
+  *   {
+        "id": "1"
+  *     "name": "John Doe",
+  *     "date": "YYYY-MM-DD",
+  *     "time": "AM | PM | Both"
+  *   }
+  * ]
+  */
+  submitAvailability: function() {
+    var table = $('table#list tbody');
+    var allTableRecords = table.find('tr');
+    var recordData = [];
+    var recordDataEntry = {};
+    var json;
+    
+    $(allTableRecords).each(function(i, v) {
+      $(this).children('td').each(function(ii, vv) {
+        recordDataEntry.id = $('#bus-name').val();
+        this.classList.contains('tableDriverName') && ii == 0 ? recordDataEntry.name = $(this).text() : '';
+        this.classList.contains('tableDriverDate') && ii == 1 ? recordDataEntry.date = $(this).text() : '';
+        this.classList.contains('tableDriverTime') && ii == 2 ? recordDataEntry.time = $(this).text() : '';
+        
+        if(ii == 2){
+          recordData.push(recordDataEntry);
+          recordDataEntry = {};
+        }
+      }); 
+    })
+  
+    json = JSON.stringify(recordData, null, 2);
+    ajax.submitBusDriverAvailability('processDriverAvailability', json);
+  }
+}
+
 var user = {
     type: null,
     id: null
@@ -868,6 +869,215 @@ var matt = {
     id: null,
     cid: null
 };
+
+var cong_blackouts = {
+  /*
+  * Method: init()
+  * Description: initializes the blackouts namespace
+  * Usage: Called in App.js
+  */
+  init: function() {
+    this.bindEvents();
+    
+  },
+
+  /* 
+  * Method: bindEvents()
+  * Description: Function to bind all events for html elements
+  * Usage: Called when bus is initalized
+  */
+  bindEvents: function() {
+    this.populateCongregations();
+
+    $('.add-to-list').on('click', function(e) {
+      var error = false;
+      
+      e.preventDefault();
+      
+      $("#error-container").empty();
+      
+      // make sure fields aren't empty
+      if($('#cong-name').val() == "") {
+        error = true;
+        $('#error-container').append("<p>A Congregation is required.</p>");
+      }
+      
+      if($('#cong-date').val() == "") {
+        error = true;
+        $('#error-container').append("<p>Date(s) is/are required.</p>");
+      }
+
+      if(!error){
+        cong_blackouts.populateTable();
+      }
+
+    });
+
+    $('#cong-blackout-submit').on('click', function(e) {
+      e.preventDefault();
+      cong_blackouts.submitBlackouts();
+    });
+
+    /*
+    * Method to populate table on change of the select list
+    */
+    $('#cong-name').on('change', function (e) {
+      var optionSelected = $("option:selected", this);
+      var valueSelected = this.value;
+      
+      if(valueSelected != '') {
+        ajax.getBlackouts('returnBlackouts', valueSelected);
+      }
+      
+    });
+
+    /* 
+    * Interpreted as a click event on the anchor tag with an ID of delete-blackout
+    * This syntax is used since the anchor tags are dynamically generated
+    */
+    $('table#blackout-list').on('click', 'a#delete-blackout', function(e) {
+      e.preventDefault();
+      cong_blackouts.removeBlackoutRecord(this);
+    });
+
+  }, 
+
+  /*
+  * Method: populateTable()
+  * Description: Function to grab data from the input fields, if present, then present in a tabular format
+  * Usage: Called from the click event of the Add To List button on the Driver Availability page
+  */
+  populateTable: function() {
+    var html;
+    var congName = $('#cong-name').find(":selected").text();
+    var congDate = $('#cong-date').val();
+    var table = $('table#blackout-list tbody');
+    var date = $('#blackout-calendar').datepicker('getDate');
+    var year = date.getFullYear();
+    var month = date.getMonth();
+    var dayOfWeek = date.getUTCDay();
+    //new Date(year, month, day, hours, minutes, seconds, milliseconds);
+    var startDate = new Date(year, month, date.getDate() - dayOfWeek, 0, 0, 0, 0);
+    var endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 7, 0, 0, 0, 0);
+    var tableStartDate = cong_blackouts.getProperDateFormat(startDate);
+    var tableEndDate = cong_blackouts.getProperDateFormat(endDate);
+
+    var exists = cong_blackouts.checkExists(congDate);
+    
+    if(exists == false) {
+        html =  '<tr>';
+        html +=   '<td scope="row" class="tableCongName">' + congName +'</td>';
+        html +=   '<td class="tableCongDate">' + tableStartDate + '</td>';
+        html +=   '<td class="tableCongDate">' + tableEndDate + '<a id="delete-blackout"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
+        html += '</tr>';  
+    
+        table.append(html);
+    }
+
+    $('#blackout-calendar').multiDatesPicker('removeIndexes',0);
+  },
+
+  /*
+  * Method: removeBlackoutRecord
+  * Description: Removes a record from the List of Blackouts
+  * Usage: Called from the click event of the delete icon
+  */
+  removeBlackoutRecord: function(anchor) {
+    $(anchor).parents().closest('tr').empty().remove();
+  },
+
+  getProperDateFormat: function(date) {
+    var stringDate = date.toISOString().substring(0, 10);
+    return stringDate;
+  },
+
+  /*
+  * Method: checkExists()
+  * @param: date - selected date from the calendar
+  * Description: utility to check if a date already exists in that week
+  * Returns: true or false
+  */
+  checkExists: function(_date) {
+    var errorContainer = $('#error-container');
+    var table = $('table#blackout-list tbody');
+    var tableRows = $('table#blackout-list tbody > tr');
+    var exists = false;
+
+    errorContainer.empty();    
+
+    if(tableRows.length > 0) {
+      var rowStartDate;
+      var rowEndDate;
+      var rowDates;
+      $.each(tableRows, function(j, rowDate) {
+        rowDates = $(rowDate).find('td.tableCongDate');
+        $.each(rowDates, function(k, date) {
+          if(k == 0) {
+            rowStartDate = $(date).text();
+          } 
+          if(k == 1) {
+            rowEndDate = $(date).text();
+
+            if(_date >= rowStartDate && _date <= rowEndDate){
+              errorContainer.append('<p>Blackout Already Exists Between ' + rowStartDate + ' and ' + rowEndDate + '</p>');
+              exists = true;
+            } 
+          }
+        });
+      });
+    } else {
+      exists = false;
+    }
+    return exists;
+
+  },
+
+
+  /* 
+  * Method: populateCongregations()
+  * Description: Function to make an ajax call to fetch cong data
+  * Usage: Called when bus is initalized
+  */
+  populateCongregations: function() {
+    ajax.getCongregations('returnCongregations');
+  },
+
+  /*
+  * Method: submitBlackouts()
+  * Description: Function helper to convert form data into JSON to handle on the backend
+  * Usage: Called from the click event of the Submit button on the Congregation Blackouts  page
+  * Sample JSON:
+  * [
+  *   {
+        "id": "1"
+  *     "start_date": "YYYY-MM-DD",
+  *     "end_date": "YYYY-MM-DD"
+  *   }
+  * ]
+  */
+  submitBlackouts: function() {
+    var table = $('table#blackout-list tbody');
+    var allTableRecords = table.find('tr');
+    var recordData = [];
+    var recordDataEntry = {};
+    var json;
+    
+    $(allTableRecords).each(function(i, v) {
+      $(this).children('td').each(function(ii, vv) {
+        recordDataEntry.id = $('#cong-name').val();
+        this.classList.contains('tableCongDate') && ii == 1 ? recordDataEntry.start_date = $(this).text() : '';
+        this.classList.contains('tableCongDate') && ii == 2 ? recordDataEntry.end_date = $(this).text() : '';
+        if(ii == 2){
+          recordData.push(recordDataEntry);
+          recordDataEntry = {};
+        }
+      }); 
+    })
+  
+    json = JSON.stringify(recordData, null, 2);
+    ajax.submitCongregationBlackouts('processBlackouts', json);
+  }
+}
 
 var admin = {
   /*
@@ -1061,210 +1271,4 @@ var admin = {
   }
 
 
-}
-var cong_blackouts = {
-  /*
-  * Method: init()
-  * Description: initializes the blackouts namespace
-  * Usage: Called in App.js
-  */
-  init: function() {
-    this.bindEvents();
-    
-  },
-
-  /* 
-  * Method: bindEvents()
-  * Description: Function to bind all events for html elements
-  * Usage: Called when bus is initalized
-  */
-  bindEvents: function() {
-    this.populateCongregations();
-
-    $('.add-to-list').on('click', function(e) {
-      var error = false;
-      
-      e.preventDefault();
-      
-      $("#error-container").empty();
-      
-      // make sure fields aren't empty
-      if($('#cong-name').val() == "") {
-        error = true;
-        $('#error-container').append("<p>A Congregation is required.</p>");
-      }
-      
-      if($('#cong-date').val() == "") {
-        error = true;
-        $('#error-container').append("<p>Date(s) is/are required.</p>");
-      }
-
-      if(!error){
-        cong_blackouts.populateTable();
-      }
-
-    });
-
-    $('#cong-blackout-submit').on('click', function(e) {
-      e.preventDefault();
-      cong_blackouts.submitBlackouts();
-    });
-
-    /*
-    * Method to populate table on change of the select list
-    */
-    $('#cong-name').on('change', function (e) {
-      var optionSelected = $("option:selected", this);
-      var valueSelected = this.value;
-      
-      if(valueSelected != '') {
-        ajax.getBlackouts('returnBlackouts', valueSelected);
-      }
-      
-    });
-
-    /* 
-    * Interpreted as a click event on the anchor tag with an ID of delete-blackout
-    * This syntax is used since the anchor tags are dynamically generated
-    */
-    $('table#blackout-list').on('click', 'a#delete-blackout', function(e) {
-      e.preventDefault();
-      cong_blackouts.removeBlackoutRecord(this);
-    });
-
-  }, 
-
-  /*
-  * Method: populateTable()
-  * Description: Function to grab data from the input fields, if present, then present in a tabular format
-  * Usage: Called from the click event of the Add To List button on the Driver Availability page
-  */
-  populateTable: function() {
-    var html;
-    var congName = $('#cong-name').find(":selected").text();
-    var congDate = $('#cong-date').val();
-    var table = $('table#blackout-list tbody');
-    var date = $('#blackout-calendar').datepicker('getDate');
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    var dayOfWeek = date.getUTCDay();
-    //new Date(year, month, day, hours, minutes, seconds, milliseconds);
-    var startDate = new Date(year, month, date.getDate() - dayOfWeek, 0, 0, 0, 0);
-    var endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 7, 0, 0, 0, 0);
-    var tableStartDate = cong_blackouts.getProperDateFormat(startDate);
-    var tableEndDate = cong_blackouts.getProperDateFormat(endDate);
-
-    var exists = cong_blackouts.checkExists(congDate);
-    
-    if(exists == false) {
-        html =  '<tr>';
-        html +=   '<td scope="row" class="tableCongName">' + congName +'</td>';
-        html +=   '<td class="tableCongDate">' + tableStartDate + '</td>';
-        html +=   '<td class="tableCongDate">' + tableEndDate + '<a id="delete-blackout"><i class="fa fa-minus-circle fa-lg pull-right" aria-hidden="true"></i></a></td>';
-        html += '</tr>';  
-    
-        table.append(html);
-    }
-  },
-
-  /*
-  * Method: removeBlackoutRecord
-  * Description: Removes a record from the List of Blackouts
-  * Usage: Called from the click event of the delete icon
-  */
-  removeBlackoutRecord: function(anchor) {
-    $(anchor).parents().closest('tr').empty().remove();
-  },
-
-  getProperDateFormat: function(date) {
-    var stringDate = date.toISOString().substring(0, 10);
-    return stringDate;
-  },
-
-  /*
-  * Method: checkExists()
-  * @param: date - selected date from the calendar
-  * Description: utility to check if a date already exists in that week
-  * Returns: true or false
-  */
-  checkExists: function(_date) {
-    var errorContainer = $('#error-container');
-    var table = $('table#blackout-list tbody');
-    var tableRows = $('table#blackout-list tbody > tr');
-    var exists = false;
-
-    errorContainer.empty();    
-
-    if(tableRows.length > 0) {
-      var rowStartDate;
-      var rowEndDate;
-      var rowDates;
-      $.each(tableRows, function(j, rowDate) {
-        rowDates = $(rowDate).find('td.tableCongDate');
-        $.each(rowDates, function(k, date) {
-          if(k == 0) {
-            rowStartDate = $(date).text();
-          } 
-          if(k == 1) {
-            rowEndDate = $(date).text();
-
-            if(_date >= rowStartDate && _date <= rowEndDate){
-              errorContainer.append('<p>Blackout Already Exists Between ' + rowStartDate + ' and ' + rowEndDate + '</p>');
-              exists = true;
-            } 
-          }
-        });
-      });
-    } else {
-      exists = false;
-    }
-    return exists;
-
-  },
-
-
-  /* 
-  * Method: populateCongregations()
-  * Description: Function to make an ajax call to fetch cong data
-  * Usage: Called when bus is initalized
-  */
-  populateCongregations: function() {
-    ajax.getCongregations('returnCongregations');
-  },
-
-  /*
-  * Method: submitBlackouts()
-  * Description: Function helper to convert form data into JSON to handle on the backend
-  * Usage: Called from the click event of the Submit button on the Congregation Blackouts  page
-  * Sample JSON:
-  * [
-  *   {
-        "id": "1"
-  *     "start_date": "YYYY-MM-DD",
-  *     "end_date": "YYYY-MM-DD"
-  *   }
-  * ]
-  */
-  submitBlackouts: function() {
-    var table = $('table#blackout-list tbody');
-    var allTableRecords = table.find('tr');
-    var recordData = [];
-    var recordDataEntry = {};
-    var json;
-    
-    $(allTableRecords).each(function(i, v) {
-      $(this).children('td').each(function(ii, vv) {
-        recordDataEntry.id = $('#cong-name').val();
-        this.classList.contains('tableCongDate') && ii == 1 ? recordDataEntry.start_date = $(this).text() : '';
-        this.classList.contains('tableCongDate') && ii == 2 ? recordDataEntry.end_date = $(this).text() : '';
-        if(ii == 2){
-          recordData.push(recordDataEntry);
-          recordDataEntry = {};
-        }
-      }); 
-    })
-  
-    json = JSON.stringify(recordData, null, 2);
-    ajax.submitCongregationBlackouts('processBlackouts', json);
-  }
 }

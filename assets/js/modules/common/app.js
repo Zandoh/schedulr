@@ -42,6 +42,17 @@ $(document).ready(function() {
 		login.init();
 	}
 
+	//run function on the congregation schedule page
+	if($("body").hasClass("cong-schedule")) {
+
+		// tip for usability
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
+		cong_schedule.init();
+
+	}
+
 	//run functions on the blackout page
 	if($("body").hasClass("cong-blackouts")) {
 		cong_blackouts.init();

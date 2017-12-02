@@ -101,6 +101,8 @@ var cong_blackouts = {
     
         table.append(html);
     }
+
+    $('#blackout-calendar').multiDatesPicker('removeIndexes',0);
   },
 
   /*
