@@ -94,3 +94,12 @@ nav.navbar {
 footer {
   margin-top: 200px;
 }
+
+.responseMessage {
+  .error{
+    color: red;
+  }
+  .success {
+    color: green;
+  }
+}

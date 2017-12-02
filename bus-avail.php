@@ -72,6 +72,8 @@ include 'handlers/login_handler.php';
                     </tbody>
                   </table>
                   <!-- used to submit full driver information list to the database -->
+                  <div class="responseMessage">
+                  </div>
                   <button type="submit" class="submit" id="driver-avail-submit">Submit</button>
                 </div>
               </form>
