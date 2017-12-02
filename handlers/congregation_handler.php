@@ -223,25 +223,17 @@ function generateCongregationSchedule(){
 
       }
 
-
-      for($i = 0; $i < $congCount; $i++){
-
-
-
-
-      }
-
-
-      $DBcore->createNewCongregationSchedule($nextRotationArr[0][0], $nextRotationArr[count($nextRotationArr)-1][1]);
-
-
-
-
-
-
     print_r($blackoutArr);
     print_r($nextRotationArr);
 
+
+
+    for($j = 0; $j < $congCount; $j++){
+
+    }
+
+
+    //$DBcore->createNewCongregationSchedule($nextRotationArr[0][0], $nextRotationArr[count($nextRotationArr)-1][1]);
 
     return $optionStr;
 }
