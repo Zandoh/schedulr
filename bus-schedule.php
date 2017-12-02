@@ -27,7 +27,13 @@
       <div class="container-fluid bus-schedule-container">
         <div class="row justify-content-md-center">
           <div class="col-md-5">
-            <h1>Bus Scheduling</h1>
+            <h1>Bus Scheduling
+              <i class="fa fa-question-circle" data-placement="right" data-toggle="tooltip" data-html="true" 
+                  title="Select a day and the current drivers for that day will be shown in the table.   
+                          In the table you must then select an AM and PM driver, along with an optional backup driver.
+                          When done with the day, click <strong>SUBMIT</strong>." aria-hidden="true">
+              </i>
+            </h1>
             <div id="bus-schedule"></div>
             <input id="alt-Input" type="hidden" value="test">
           </div>
