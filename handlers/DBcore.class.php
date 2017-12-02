@@ -130,8 +130,6 @@ class DBcore {
 
 			}//end of else
 		}//end of it
-		var_dump($availability_day);
-		var_dump($availability_time_of_day);
 		//if the availability date exists or has already been added then get the id of the availability date
 		if($stmt = $this->conn->prepare("select availability_date_ID from AVAILABILITY_DATE where availability_day=:availability_day AND availability_time_of_day=:availability_time_of_day;")) {
 			$stmt->bindParam(':availability_day', $availability_day);
@@ -143,7 +141,6 @@ class DBcore {
 				foreach($data as $row){
 					$availability_date_ID = $row['availability_date_ID'];
 				}
-				var_dump("availability date ".$availability_date_ID);
 				
 			} else {
 				return false;
@@ -183,6 +180,85 @@ class DBcore {
 
 	}
 
+
+	/*
+	* rewrite new values belonging to a congregation
+	*/
+	function insertBlackouts($congregation_ID, $start_date, $end_date){
+		$blackout_date_ID = '';
+		$data = array();
+		//insert 1 record for the congregation
+		//check to see if the blackout date exists in the db
+		if($stmt = $this->conn->prepare("select blackout_date_ID from BLACKOUT_DATE where blackout_date_start=:blackout_date_start AND blackout_date_end=:blackout_date_end;")) {
+			$stmt->bindParam(':blackout_date_start', $start_date);
+			$stmt->bindParam(':blackout_date_end', $end_date);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				//the date already exists in the db
+				//do nothing
+			} else {
+				//if the blackout date doesn't exist then add it
+				if($stmt = $this->conn->prepare("insert into BLACKOUT_DATE (blackout_date_start, blackout_date_end) values (:blackout_date_start, :blackout_date_end);")) {
+					$stmt->bindParam(':blackout_date_start', $start_date);
+					$stmt->bindParam(':blackout_date_end', $end_date);
+					$stmt->execute();
+					if ($stmt->rowCount()) {
+						//the record was added
+						//do nothing
+					} else {
+						return false;
+					}
+				}//end of if
+
+			}//end of else
+		}//end of it
+		//if the blackout date exists or has already been added then get the id of the blackout date
+		if($stmt = $this->conn->prepare("select blackout_date_ID from BLACKOUT_DATE where blackout_date_start=:blackout_date_start AND blackout_date_end=:blackout_date_end;")) {
+			$stmt->bindParam(':blackout_date_start', $start_date);
+			$stmt->bindParam(':blackout_date_end', $end_date);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				//assign a value to the blackout_date_ID
+				$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				foreach($data as $row){
+					$blackout_date_ID = $row['blackout_date_ID'];
+				}
+				
+			} else {
+				return false;
+			}
+		}
+		//after you have the id of the blackout date and the congregation id then insert that in CONGREGATION_BLACKOUT_DATE
+		if($stmt = $this->conn->prepare("insert into CONGREGATION_BLACKOUT_DATE (congregation_ID, blackout_date_ID) values (:congregation_ID, :blackout_date_ID);")) {
+			$stmt->bindParam(':congregation_ID', $congregation_ID);
+			$stmt->bindParam(':blackout_date_ID', $blackout_date_ID);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/*
+	* remove all blackout date values belonging to a congregation 
+	*/
+	function clearBlackouts($congregation_ID){
+		//delete all records where congregation_ID is the same
+		if($stmt = $this->conn->prepare("delete from CONGREGATION_BLACKOUT_DATE where congregation_ID=:congregation_ID;")) {
+			$stmt->bindParam(':congregation_ID', $congregation_ID);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				//check if there a failure if no rows were changed
+				//return false;
+				return true;
+			}
+		}
+
+	}
 
 	/*
 	* Select all congregations
