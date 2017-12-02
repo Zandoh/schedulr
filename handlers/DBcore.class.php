@@ -410,14 +410,15 @@ class DBcore {
 		$result = array();
 		if($stmt = $this->conn->prepare("select congregation_schedule_ID from CONGREGATION_SCHEDULE where congregation_schedule_end_date = (select MAX(congregation_schedule_end_date) FROM CONGREGATION_SCHEDULE);")){
 			$stmt->execute();
-			$data = $stmt->fetch();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			
 			$id = "";
 			foreach($data as $row){
 				$id = $row['congregation_schedule_ID'];
 			}//end of foreach
 			
-			if($stmt = $this->conn->prepare("select * FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION cng ON csa.congregation_ID = cng.congregation_ID WHERE csa.congregation_schedule_ID=:id ORDER BY csa.scheduled_date_start;")){
+
+			if($stmt = $this->conn->prepare("select csa.congregation_ID FROM CONGREGATION_SCHEDULE_ASSIGNMENT csa JOIN CONGREGATION cng ON csa.congregation_ID = cng.congregation_ID WHERE csa.congregation_schedule_ID=:id ORDER BY csa.scheduled_date_start;")){
 			$stmt->bindParam(':id', $id);
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -427,6 +428,56 @@ class DBcore {
 		return $result;		
 	}
     
+
+/*
+	* Select previous congregation rotation ID for algorithm
+	*/
+	function selectMaxRotationDate(){
+		$data = "";
+		$max_date = "";
+		if($stmt = $this->conn->prepare("select MAX(congregation_schedule_end_date) as congregation_schedule_end_date FROM CONGREGATION_SCHEDULE;")){
+			$stmt->execute();
+
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			foreach($data as $row){
+
+				$max_date .= $row['congregation_schedule_end_date'];
+
+			}
+						
+		}
+		return $max_date;		
+	}
+
+
+
+
+/*
+	* Select previous congregation rotation ID for algorithm
+	*/
+	function selectCongCount(){
+		$data = "";
+		$cong_Count = "";
+		if($stmt = $this->conn->prepare("select count(congregation_ID) as congregation_ID FROM CONGREGATION;")){
+			$stmt->execute();
+
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			foreach($data as $row){
+
+				$cong_Count .= $row['congregation_ID'];
+
+			}
+						
+		}
+		return $cong_Count;		
+	}
+
+
+
+
+
   /*
 	* Select a specific user from their id
 	*/
