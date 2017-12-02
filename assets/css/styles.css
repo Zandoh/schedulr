@@ -55,6 +55,10 @@ label.error {
   .fa-minus-circle:hover {
     cursor: pointer; }
 
+input[type="radio"] {
+  width: 15px;
+  height: 15px; }
+
 nav.navbar {
   background-color: #0E6AA8; }
   nav.navbar ul.navbar-nav > li.nav-item > a {
