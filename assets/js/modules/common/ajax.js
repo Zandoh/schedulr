@@ -161,8 +161,14 @@ var ajax = {
 			data: data,
       file: "busDriver_handler"
     }).done(function(jsonResponse) {
-			console.log('submitBusDriverAvailability.done()....');
-			console.log(jsonResponse);
+			var responseContainer = $('.responseMessage');
+			responseContainer.empty();
+			if(jsonResponse == 1) {
+				responseContainer.append('<p class="success">Sumbmitted Successfully</p>');
+			}
+			else if (jsonResponse == 0) {
+				responseContainer.append('<p class="error">An error occurred</p>');
+			}
 		}).fail(function(err) {
       // console.log(err);
     });
@@ -182,8 +188,14 @@ var ajax = {
 			data: data,
       file: "blackout_handler"
     }).done(function(jsonResponse) {
-			console.log('submitCongregationBlackouts.done()....');
-			console.log(jsonResponse);
+			var responseContainer = $('.responseMessage');
+			responseContainer.empty();
+			if(jsonResponse == 1) {
+				responseContainer.append('<p class="success">Sumbmitted Successfully</p>');
+			}
+			else if (jsonResponse == 0) {
+				responseContainer.append('<p class="error">An error occurred</p>');
+			}
 		}).fail(function(err) {
       // console.log(err);
     });

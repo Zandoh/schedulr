@@ -58,6 +58,8 @@
                     </tbody>
                   </table>
                   <!-- used to submit full driver information list to the database -->
+                  <div class="responseMessage">
+                  </div>
                   <button type="submit" class="submit" id="cong-blackout-submit">Submit</button>
                 </div>
               </form>
