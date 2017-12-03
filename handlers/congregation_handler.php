@@ -219,7 +219,7 @@ function generateCongregationSchedule(){
         $flippyBit = checkBlackoutDates($nextRotationArr,$blackoutArr);
         $flippyBit = checkRepeatedDate($prevCongArr,$nextRotationArr);
     }
-    //print_r($nextRotationArr);
+    print_r($nextRotationArr);
     //$DBcore->createNewCongregationSchedule($nextRotationArr[0][0], $nextRotationArr[count($nextRotationArr)-1][1]);
 
     return $optionStr;
