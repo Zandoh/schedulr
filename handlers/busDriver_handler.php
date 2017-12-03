@@ -77,6 +77,11 @@ require_once('DBcore.class.php');
         $DBcore = new DBcore();
         //this will be the json arr that is given
         $arr = json_decode($json);
+
+        foreach($arr as $row){
+            $array = get_object_vars($row);
+            $deleteResult = $DBcore->deleteBusScheduleAssignment($array["day"], $array["time"], $array["isBackup"]);
+        }
         foreach($arr as $row){
             $array = get_object_vars($row);
 
@@ -93,7 +98,6 @@ require_once('DBcore.class.php');
                 $user_ID = $row['user_ID'];
             }
             
-            $deleteResult = $DBcore->deleteBusScheduleAssignment($day, $time, $isBackup);
 
             $insertResult = $DBcore->insertBusScheduleAssignment($user_ID, 1, $day, $time, $isBackup);
             if ($insertResult){
