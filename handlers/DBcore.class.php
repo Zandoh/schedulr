@@ -230,13 +230,8 @@ class DBcore {
 		if($stmt = $this->conn->prepare("delete from BUS_DRIVER_AVAILABILITY where user_ID=:user_ID;")) {
 			$stmt->bindParam(':user_ID', $user_ID);
 			$stmt->execute();
-			if ($stmt->rowCount()) {
-				return true;
-			} else {
-				//check if there a failure if no rows were changed
-				//return false;
-				return true;
-			}
+			return true;
+			
 		}
 
 	}
@@ -261,7 +256,24 @@ class DBcore {
 				}//end of if
 	}
 
-
+	function clearOneCongregationSchedule($congregation_schedule_ID){
+		
+		//delete all records where user_ID is the same
+		if($stmt = $this->conn->prepare("delete from CONGREGATION_SCHEDULE_ASSIGNMENT where congregation_schedule_ID =:congregation_schedule_ID;")) {
+			$stmt->bindParam(':congregation_schedule_ID', $congregation_schedule_ID);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				//check if there a failure if no rows were changed
+				//return false;
+				return false;
+			}
+			
+		}
+		
+		
+	}
 
 
 
