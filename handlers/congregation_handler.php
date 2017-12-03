@@ -3,7 +3,7 @@ require_once('DBcore.class.php');
 
 
 function getCongregationOption(){
-	$DBcore = new DBcore();
+    $DBcore = new DBcore();
     $congArr = array();
     $congArr = $DBcore->selectAllCongregations();
     $optionStr = '';
@@ -21,27 +21,27 @@ function getCongregationOption(){
 }
 
 function returnCongregations() {
-  $DBcore = new DBcore();
-  $congArr = array();
-  $congArr = $DBcore->selectAllCongregations();
-  $json = array();
+    $DBcore = new DBcore();
+    $congArr = array();
+    $congArr = $DBcore->selectAllCongregations();
+    $json = array();
 
-  foreach($congArr as $row) {
-      $cong = array(
-        'congID' => $row['congregation_ID'],
-        'congName' => $row['congregation_name']
-      );
-      array_push($json, $cong);
-  }
+    foreach($congArr as $row) {
+        $cong = array(
+            'congID' => $row['congregation_ID'],
+            'congName' => $row['congregation_name']
+        );
+        array_push($json, $cong);
+    }
 
-  $jsonstring = json_encode($json);
+    $jsonstring = json_encode($json);
 
-  return $jsonstring;
+    return $jsonstring;
 }
 
 
 function getCongregationSelected($congregation_Current){
-  $DBcore = new DBcore();
+    $DBcore = new DBcore();
     $congArr = array();
     $congArr = $DBcore->selectAllCongregations();
     $optionStr = '';
@@ -51,10 +51,10 @@ function getCongregationSelected($congregation_Current){
         $congregation_name = $row['congregation_name'];
 
         if($congregation_Current == $congregation_ID){
-          $optionStr .= '<option value="'.$congregation_ID.'" selected>'.$congregation_name.'</option>';
+            $optionStr .= '<option value="'.$congregation_ID.'" selected>'.$congregation_name.'</option>';
         }
         else{
-          $optionStr .= '<option value="'.$congregation_ID.'">'.$congregation_name.'</option>';
+            $optionStr .= '<option value="'.$congregation_ID.'">'.$congregation_name.'</option>';
         }
 
     }//end of foreach
@@ -69,7 +69,7 @@ function createEditCongregationForm($congregation_ID){
     $congregation = array();
     $congregation = $DBcore->selectOneCongregation($congregation_ID);
     //congregation_ID, congregation_name, congregation_street_address, congregation_phone, congregation_bus_need, congregation_city, congregation_state, congregation_zip
-     foreach($congregation as $row) {  
+    foreach($congregation as $row) {  
         $formStr = '<div class="container-fluid admin-container">
                 <h1>Edit Congregation</h1>
                 <form id="add-user" name="editCongSubmit" method="post">
@@ -103,8 +103,8 @@ function createEditCongregationForm($congregation_ID){
                   </div>
                 </form>
                 </div>';
-        }
-            return $formStr;
+    }
+    return $formStr;
 
 }
 
@@ -197,17 +197,17 @@ function generateCongregationSchedule(){
     $last_date = $DBcore->selectMaxRotationDate();
     $congCount = $DBcore->selectCongCount();
 
-      // return congregation ID's of the previous rotation in order by time
-      foreach($prevCongArr as $row){
-          $congregation_ID = $row['congregation_ID'];
-          $optionStr .= "<p>".$congregation_ID."</p>";
-      }//end of foreach
+    // return congregation ID's of the previous rotation in order by time
+    foreach($prevCongArr as $row){
+        $congregation_ID = $row['congregation_ID'];
+        //$optionStr .= "<p>".$congregation_ID."</p>";
+    }//end of foreach
 
 
-      $previousDate = $last_date;
+    $previousDate = $last_date;
 
     // add start and end dates needed for next rotation (add 1 week to each)
-      for($i = 0; $i < $congCount; $i++){
+    for($i = 0; $i < $congCount; $i++){
 
         $endDate = date('Y-m-d', strtotime($previousDate."+1 week"));
 
@@ -221,17 +221,12 @@ function generateCongregationSchedule(){
 
         $previousDate = $endDate;
 
-      }
-
-    print_r($blackoutArr);
-    print_r($nextRotationArr);
-
-
-
-    for($j = 0; $j < $congCount; $j++){
-
     }
 
+    //print_r($blackoutArr);
+    //print_r($nextRotationArr);
+
+    $optionStr = checkBlackoutDates($nextRotationArr,$blackoutArr);
 
     //$DBcore->createNewCongregationSchedule($nextRotationArr[0][0], $nextRotationArr[count($nextRotationArr)-1][1]);
 
@@ -242,22 +237,53 @@ function generateCongregationSchedule(){
  * Returns the start date, end date for a given id
  */
 function returnBlackouts($id) {
-  $DBcore = new DBcore();
-  $driverArr = array();
-  $driverArr = $DBcore->selectCongregationBlackoutDates($id);
-  $json = array();
+    $DBcore = new DBcore();
+    $driverArr = array();
+    $driverArr = $DBcore->selectCongregationBlackoutDates($id);
+    $json = array();
 
-  foreach($driverArr as $row) {
-      $user = array(
-          'startDate' => $row['blackout_date_start'],
-          'endDate' => $row['blackout_date_end']
-      );
-      array_push($json, $user);
-  }
+    foreach($driverArr as $row) {
+        $user = array(
+            'startDate' => $row['blackout_date_start'],
+            'endDate' => $row['blackout_date_end']
+        );
+        array_push($json, $user);
+    }
 
-  $jsonstring = json_encode($json);
+    $jsonstring = json_encode($json);
 
-  return $jsonstring;
+    return $jsonstring;
+}
+
+
+
+function checkBlackoutDates($scheduleArray,$blackoutArray){
+    $sizeOf = count($scheduleArray);
+    $sizeOfBla = count($blackoutArray);
+    $dirtyBit = false;
+    $returnStr = '';
+    
+    //for each element in the schedule array
+    for($j = 0; $j < $sizeOf; $j++){
+        $returnStr .= "<h2>Week " . $j . " Schedule start day: " . $scheduleArray[$j][0] . " CID : " . $scheduleArray[$j][2] . "</h2>";
+        // for each element in the blackout array
+        for($i = 0; $i < $sizeOfBla; $i++){      
+            $sizeOf2DBla = count($blackoutArray[$i]);
+            if($sizeOf2DBla > 0){
+             for($k = 0; $k < $sizeOf2DBla; $k++){   
+                if($scheduleArray[$j][2] == $blackoutArray[$i][$k][congregation_ID]){
+                    if($scheduleArray[$j][0] == $blackoutArray[$i][$k][blackout_date_start] || $scheduleArray[$j][0] == $blackoutArray[$j][$k][blackout_date_end]){
+                        $returnStr .= "<p>Blackout start day: " . $blackoutArray[$i][$k][blackout_date_start] .
+                        "</p><p>Blackout ID : " . $blackoutArray[$i][$k][congregation_ID] . "</p>";
+                    }
+                }
+            }   
+          }             
+        }    
+    }
+
+    return $returnStr;
+
 }
 
 

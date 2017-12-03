@@ -6,8 +6,8 @@
 <?php
   include 'assets/includes/header.php';
   include 'assets/includes/nav.php';
-  //include 'handlers/congregation_handler.php';
-  include 'handlers/schedule_handler.php';
+  include 'handlers/congregation_handler.php';
+  //include 'handlers/schedule_handler.php';
 ?>
 <body>
 
@@ -19,8 +19,8 @@
 
 <?php  
 
-echo createBusScheduling();
-//echo generateCongregationSchedule();
+//echo createBusScheduling();
+echo generateCongregationSchedule();
   ?>
 
 
