@@ -142,6 +142,23 @@ class DBcore {
 		}//end of if
 	}
 
+	function deleteBusScheduleAssignment($day, $time, $isBackup){
+
+		//delete all records where $day, $time, $isBackup is the same
+		if($stmt = $this->conn->prepare("delete from BUS_SCHEDULE_ASSIGNMENT where scheduled_day=:scheduled_day, scheduled_time_of_day=:scheduled_time_of_day, backup=:backup;")) {
+			$stmt->bindParam(':scheduled_day', $day);
+			$stmt->bindParam(':scheduled_time_of_day', $time);
+			$stmt->bindParam(':backup', $isBackup);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				return true;
+			} else {
+				//check if there a failure if no rows were changed
+				//return false;
+				return true;
+			}
+		}
+	}
 
 	/*
 	* rewrite new values belonging to a driver
