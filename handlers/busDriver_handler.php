@@ -103,7 +103,7 @@ require_once('DBcore.class.php');
             }
         }  
         return true;
-
-
     }
+
+    
 ?>

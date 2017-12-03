@@ -70,6 +70,21 @@ class DBcore {
 	}//end of select all Congregation Schedule Events
     
 	/*
+	* Select all Bus Schedule Events from a single busschedule
+	*/
+	function selectAllBusScheduleEvents(){
+		$data = array();
+		if($stmt = $this->conn->prepare("select u.first_name, u.last_name, bsa.scheduled_day, bsa.scheduled_time_of_day, bsa.backup from BUS_SCHEDULE_ASSIGNMENT bsa JOIN USER u using(user_ID);")){
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;	
+	}//end of select all Congregation Schedule Events
+
+
+
+    
+	/*
 	* Select all Bus Drivers
 	*/
 	function selectAllBusDrivers(){

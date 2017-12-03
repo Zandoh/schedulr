@@ -18,7 +18,7 @@
 
 <?php  
 
-echo generateCongregationSchedule();
+echo createBusScheduling();
   ?>
 
 

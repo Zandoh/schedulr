@@ -22,6 +22,43 @@ function getCongregationSchedule(){
   return $congStr;
 }
 
+function createBusScheduling(){
+  $DBcore = new DBcore();
+  $eventArr = array();
+  $eventArr = $DBcore->selectAllBusScheduleEvents();
+  //first_name, last_name, scheduled_day, scheduled_time_of_day, backup
+  $scheduleName = "";
+
+  $tableScheduleStr = '<h2>Bus Schedule</h2>';
+  $tableScheduleStr .= '<table class="table table-striped table-bordered sortCongregations">
+                          <thead>
+                            <tr>
+                              <th>Scheduled Day</th>
+                              <th>Scheduled Time</th>
+                              <th>Backup?</th>
+                              <th>Driver Name</th>
+                            </tr>
+                          </thead>
+                          <tbody>';
+  foreach($eventArr as $row){
+    $backup = 'Yes';
+    if($row['backup'] == 0){
+      $backup = 'No';
+    }
+    $tableScheduleStr .= '<tr>
+                  <td>'.$row['scheduled_day'].'</td>
+                  <td>'.$row['scheduled_time_of_day'].'</td>
+                  <td>'.$backup.'</td>
+                  <td class="sort-cong-name">'.$row['first_name'].' '.$row['first_name'].'</td>
+                </tr>';
+  }
+  $tableScheduleStr .= '</tbody></table>';
+  return $tableScheduleStr;
+}
+
+
+
+
 /*
 * Select previous congregation rotation ID
 */
