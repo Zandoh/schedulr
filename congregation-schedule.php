@@ -46,7 +46,8 @@
 
               echo createScheduling($_POST['congregationsToScheduleList']);
               echo  "<!-- used to submit full congregation schedule to the db -->
-                    <button type='submit' class='submit'>SAVE</button>";
+                    <div class='responseMessage'></div>
+                    <button type='submit' class='submit' id='updateCongregations'>SAVE</button>";
             }
             ?>
           </div>

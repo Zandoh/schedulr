@@ -758,6 +758,33 @@ var ajax = {
 		}).fail(function(err) {
       // console.log(err);
     });
+  },
+  
+  /* 
+	* Method: submitCongregationSchedule(param, param)
+	*
+	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
+	* @param: data: optional, data to be passed in with the ajax call.
+	*
+	* Description: submits an entire rotation schedule, full dump and replace
+  */
+	submitCongregationSchedule: function(func, data) {
+		ajax.ajaxCall("POST", {
+			method: func, 
+			data: data,
+      file: "schedule_handler"
+    }).done(function(jsonResponse) {
+			var responseContainer = $('.responseMessage');
+			responseContainer.empty();
+			if(jsonResponse == 1) {
+				responseContainer.append('<p class="success">Sumbmitted Successfully</p>');
+			}
+			else if (jsonResponse == 0) {
+				responseContainer.append('<p class="error">An error occurred</p>');
+			}
+		}).fail(function(err) {
+      // console.log(err);
+    });
 	},
 
 	/* 
@@ -1292,7 +1319,7 @@ var cong_schedule = {
   */
   init: function() {
     this.bindEvents();
-  
+    this.makeDraggable();
   },
 
   /* 
@@ -1301,11 +1328,65 @@ var cong_schedule = {
   * Usage: Called when congregation schedule is initialized
   */
   bindEvents: function() {
-    $(function() {
-      $("table.sortCongregations").sortable({
-        items: "td.sort-cong-name"
-      }).disableSelection();
+    $('#updateCongregations').on('click', function(e){
+      e.preventDefault();
+      cong_schedule.submitCongregations();
     });
+  },
+
+  /*
+  * Function to make the congregation names draggable and droppable for each week
+  */
+  makeDraggable: function() {
+      $(".sort-cong-name").draggable({
+        helper: "clone",
+        start: function(e) {
+          placeholder = e.target;
+          $(placeholder).addClass("opacity");
+        },
+        stop: function(e){
+          $(placeholder).removeClass("opacity");
+          placeholder = null;
+        }  
+        
+    });
+    $(".sort-cong-name").droppable({
+        drop: function (e, ui) {
+            $(placeholder).removeClass("opacity");
+            placeholder = null;
+            $(ui.draggable).clone().replaceAll(this);
+            $(this).replaceAll(ui.draggable);
+            cong_schedule.makeDraggable();
+        },
+    });
+  },
+
+  /*
+  * Function to transform schedule into json
+  */
+  submitCongregations: function() {
+    var table = $('table.sortCongregations tbody');
+    var allTableRecords = table.find('tr');
+    var recordData = [];
+    var recordDataEntry = {};
+    var json;
+    
+    $(allTableRecords).each(function(i, v) {
+      $(this).children('td').each(function(ii, vv) {
+        recordDataEntry.rotation = $(".congregation-schedule-id").attr('id');
+        this.classList.contains('tableCongDate') && ii == 0 ? recordDataEntry.start_date = $(this).text() : '';
+        this.classList.contains('tableCongDate') && ii == 1 ? recordDataEntry.end_date = $(this).text() : '';
+        this.classList.contains('sort-cong-name') && ii == 2 ? recordDataEntry.id = $(this).attr('id') : '';
+        if(ii == 2){
+          recordData.push(recordDataEntry);
+          recordDataEntry = {};
+        }
+      }); 
+    })
+  
+    json = JSON.stringify(recordData, null, 2);
+    console.log(json);
+    ajax.submitCongregationSchedule('editSchedule', json);
   }
 
 }

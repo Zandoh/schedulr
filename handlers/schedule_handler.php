@@ -83,7 +83,7 @@ function getCongregationsToSchedule(){
   $congArr = array();
   $congArr = $DBcore->selectAllCongregationSchedule();
   $congStr = '<form class="form-inline" action="" id="congregationScheduleForm" method="post" name="congregationsToScheduleForm">
-    <div class="form-group text-center"><select class="form-control" name="congregationsToScheduleList">';
+    <div class="form-group text-center"><select class="form-control" name="congregationsToScheduleList" id="rotation-name">';
   foreach($congArr as $row){
     $congregation_schedule_ID = $row['congregation_schedule_ID'];
     $congregation_schedule_name = $row['congregation_schedule_name'];
@@ -113,7 +113,7 @@ function createScheduling($scheduleID){
     $scheduleName = $row['congregation_schedule_name'];
   }
 
-  $tableScheduleStr = '<h2>'.$scheduleName.'</h2>';
+  $tableScheduleStr = '<h2>'.$scheduleName.'</h2><span class="congregation-schedule-id" id="'. $row['congregation_schedule_ID'] . '"></span>';
   $tableScheduleStr .= '<table class="table table-striped table-bordered sortCongregations">
                           <thead>
                             <tr>
@@ -125,14 +125,53 @@ function createScheduling($scheduleID){
                           <tbody>';
   foreach($eventArr as $row){
     $tableScheduleStr .= '<tr>
-                  <td>'.$row['scheduled_date_start'].'</td>
-                  <td>'.$row['scheduled_date_end'].'</td>
-                  <td class="sort-cong-name">'.$row['congregation_name'].'</td>
+                  <td class="tableCongDate">'.$row['scheduled_date_start'].'</td>
+                  <td class="tableCongDate">'.$row['scheduled_date_end'].'</td>
+                  <td class="sort-cong-name" id="' . $row['congregation_ID'] . '">'.$row['congregation_name'].'</td>
                 </tr>';
 
   }
   $tableScheduleStr .= '</tbody></table>';
   return $tableScheduleStr;
+}
+
+/*
+* Used to edit the new data for the congregation rotation
+*/ 
+function editSchedule($json){
+  
+  $DBcore = new DBcore();
+  //this will be the json arr that is given
+  $arr = json_decode($json);
+  foreach($arr as $row){
+      $array = get_object_vars($row);
+
+      $congregation_ID = $array["id"];
+      //TODO: clear schedule?
+      $clearResult = $DBcore->clearBlackouts($congregation_ID);
+      if ($clearResult){
+            //good clear
+      }
+      else{
+          return false;
+      }
+  }  
+
+  foreach($arr as $row){
+      $array = get_object_vars($row);
+      $congregation_ID = $array["id"];
+      $start_date = $array["start_date"];
+      $end_date = $array["end_date"];
+      //TODO: insert new schedule?
+      $insertResult = $DBcore->insertBlackouts($congregation_ID, $start_date, $end_date);
+      if ($insertResult){
+            //good clear
+      }
+      else{
+          return false;
+      }    
+  }
+  return true;
 }
 
 

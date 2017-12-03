@@ -199,6 +199,33 @@ var ajax = {
 		}).fail(function(err) {
       // console.log(err);
     });
+  },
+  
+  /* 
+	* Method: submitCongregationSchedule(param, param)
+	*
+	* @param: func: function to be called in the "file" attribute. Ex "returnAdminUsers"
+	* @param: data: optional, data to be passed in with the ajax call.
+	*
+	* Description: submits an entire rotation schedule, full dump and replace
+  */
+	submitCongregationSchedule: function(func, data) {
+		ajax.ajaxCall("POST", {
+			method: func, 
+			data: data,
+      file: "schedule_handler"
+    }).done(function(jsonResponse) {
+			var responseContainer = $('.responseMessage');
+			responseContainer.empty();
+			if(jsonResponse == 1) {
+				responseContainer.append('<p class="success">Sumbmitted Successfully</p>');
+			}
+			else if (jsonResponse == 0) {
+				responseContainer.append('<p class="error">An error occurred</p>');
+			}
+		}).fail(function(err) {
+      // console.log(err);
+    });
 	},
 
 	/* 

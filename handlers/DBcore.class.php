@@ -508,7 +508,7 @@ class DBcore {
 	}//end of selectAllUsers
 
 
-    /*
+  /*
 	* Select previous congregation rotation ID for algorithm
 	*/
 	function selectPreviousRotation(){
@@ -559,7 +559,7 @@ class DBcore {
 
 
 
-/*
+  /*
 	* Select previous congregation rotation ID for algorithm
 	*/
 	function selectCongCount(){
