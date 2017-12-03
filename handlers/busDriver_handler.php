@@ -80,7 +80,8 @@ require_once('DBcore.class.php');
 
         foreach($arr as $row){
             $array = get_object_vars($row);
-            $deleteResult = $DBcore->deleteBusScheduleAssignment($array["day"], $array["time"], $array["isBackup"]);
+            $deleteResult = $DBcore->deleteBusScheduleAssignment($array["day"]);
+            var_dump($array["day"]);
         }
         foreach($arr as $row){
             $array = get_object_vars($row);
