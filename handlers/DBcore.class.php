@@ -73,8 +73,10 @@ class DBcore {
 	* Select all Bus Schedule Events from a single busschedule
 	*/
 	function selectAllBusScheduleEvents(){
+		$today = date('Y-m-d');
 		$data = array();
-		if($stmt = $this->conn->prepare("select u.first_name, u.last_name, bsa.scheduled_day, bsa.scheduled_time_of_day, bsa.backup from BUS_SCHEDULE_ASSIGNMENT bsa JOIN USER u using(user_ID);")){
+		if($stmt = $this->conn->prepare("select u.first_name, u.last_name, bsa.scheduled_day, bsa.scheduled_time_of_day, bsa.backup from BUS_SCHEDULE_ASSIGNMENT bsa JOIN USER u using(user_ID) where bsa.scheduled_day >= :today;")){
+            $stmt->bindParam(':today', $today);
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
@@ -142,13 +144,11 @@ class DBcore {
 		}//end of if
 	}
 
-	function deleteBusScheduleAssignment($day, $time, $isBackup){
+	function deleteBusScheduleAssignment($day){
 
 		//delete all records where $day, $time, $isBackup is the same
-		if($stmt = $this->conn->prepare("delete from BUS_SCHEDULE_ASSIGNMENT where scheduled_day=:scheduled_day, scheduled_time_of_day=:scheduled_time_of_day, backup=:backup;")) {
+		if($stmt = $this->conn->prepare("delete from BUS_SCHEDULE_ASSIGNMENT where scheduled_day=:scheduled_day;")) {
 			$stmt->bindParam(':scheduled_day', $day);
-			$stmt->bindParam(':scheduled_time_of_day', $time);
-			$stmt->bindParam(':backup', $isBackup);
 			$stmt->execute();
 			if ($stmt->rowCount()) {
 				return true;
@@ -240,6 +240,29 @@ class DBcore {
 		}
 
 	}
+
+	/*
+	* insert a the value for a new congregation schedu 
+	*/
+	function createNewCongregationScheduleAssignments($congregation_ID, $congregation_schedule_ID, $scheduled_date_start, $scheduled_date_end){
+		$data = array();
+		if($stmt = $this->conn->prepare("insert into CONGREGATION_SCHEDULE_ASSIGNMENT (congregation_ID, congregation_schedule_ID, scheduled_date_start, scheduled_date_end) values (:congregation_ID, :congregation_schedule_ID, :scheduled_date_start, :scheduled_date_end);")) {
+					$stmt->bindParam(':congregation_ID', $congregation_ID);
+					$stmt->bindParam(':congregation_schedule_ID', $congregation_schedule_ID);
+					$stmt->bindParam(':scheduled_date_start', $scheduled_date_start);
+					$stmt->bindParam(':scheduled_date_end', $scheduled_date_end);
+					$stmt->execute();
+					if ($stmt->rowCount()) {
+						//the record was added
+						return true;
+					} else {
+						return false;
+					}
+				}//end of if
+	}
+
+
+
 
 
 	/*
@@ -340,6 +363,7 @@ class DBcore {
 	*/
 	function createNewCongregationSchedule($congregation_schedule_start_date, $congregation_schedule_end_date){
 		$data = array();
+		$data2 = array();
 		$prevScheduleName = '';
 		//Retrieve the name of the last congregation schedule
 		if($stmt = $this->conn->prepare("select congregation_schedule_name from CONGREGATION_SCHEDULE where congregation_schedule_end_date = (select MAX(congregation_schedule_end_date) as congregation_schedule_end_date FROM CONGREGATION_SCHEDULE);")){
@@ -351,7 +375,6 @@ class DBcore {
 			$newScheduleNameVar = explode(" ", $prevScheduleName);
 			$rotationNum = $newScheduleNameVar[1] + 1;
 			$newScheduleName = 'Rotation '.$rotationNum;
-			var_dump($newScheduleNameVar[1]);
 
 
 			if($stmt = $this->conn->prepare("insert into CONGREGATION_SCHEDULE (congregation_schedule_name, congregation_schedule_start_date, congregation_schedule_end_date) values (:congregation_schedule_name, :congregation_schedule_start_date, :congregation_schedule_end_date);")) {
@@ -360,12 +383,19 @@ class DBcore {
 				$stmt->bindParam(':congregation_schedule_end_date', $congregation_schedule_end_date);
 				$stmt->execute();
 				if ($stmt->rowCount()) {
-					return true;
 				} else {
 					return false;
 				}
 			}
-
+			if($stmt = $this->conn->prepare("select congregation_schedule_ID from CONGREGATION_SCHEDULE where congregation_schedule_name=:congregation_schedule_name;")) {
+				$stmt->bindParam(':congregation_schedule_name', $newScheduleName);
+				$stmt->execute();
+				$data2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				foreach($data2 as $row){
+					$scheduleID = $row['congregation_schedule_ID'];
+				}
+				return $scheduleID;
+			}
 
 		}
 
@@ -512,7 +542,7 @@ class DBcore {
 	* Select previous congregation rotation ID for algorithm
 	*/
 	function selectPreviousRotation(){
-		$data = "";
+		$data = array();
 		$result = array();
 		if($stmt = $this->conn->prepare("select congregation_schedule_ID from CONGREGATION_SCHEDULE where congregation_schedule_end_date = (select MAX(congregation_schedule_end_date) FROM CONGREGATION_SCHEDULE);")){
 			$stmt->execute();
@@ -529,9 +559,15 @@ class DBcore {
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			
-			}			
+			}
+            $final = array();
+            foreach($result as $row){
+				$id = $row['congregation_ID'];
+                array_push($final,$id);
+			}//end of foreach
+
 		}
-		return $result;		
+		return $final;
 	}
     
 

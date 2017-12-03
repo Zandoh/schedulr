@@ -35,15 +35,15 @@ function createBusScheduling(){
                             <tr>
                               <th>Scheduled Day</th>
                               <th>Scheduled Time</th>
-                              <th>Backup?</th>
+                              <th>Role</th>
                               <th>Driver Name</th>
                             </tr>
                           </thead>
                           <tbody>';
   foreach($eventArr as $row){
-    $backup = 'Yes';
+    $backup = 'Backup';
     if($row['backup'] == 0){
-      $backup = 'No';
+      $backup = 'Primary';
     }
     $tableScheduleStr .= '<tr>
                   <td>'.$row['scheduled_day'].'</td>
