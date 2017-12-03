@@ -363,6 +363,7 @@ class DBcore {
 	*/
 	function createNewCongregationSchedule($congregation_schedule_start_date, $congregation_schedule_end_date){
 		$data = array();
+		$data2 = array();
 		$prevScheduleName = '';
 		//Retrieve the name of the last congregation schedule
 		if($stmt = $this->conn->prepare("select congregation_schedule_name from CONGREGATION_SCHEDULE where congregation_schedule_end_date = (select MAX(congregation_schedule_end_date) as congregation_schedule_end_date FROM CONGREGATION_SCHEDULE);")){
@@ -374,7 +375,6 @@ class DBcore {
 			$newScheduleNameVar = explode(" ", $prevScheduleName);
 			$rotationNum = $newScheduleNameVar[1] + 1;
 			$newScheduleName = 'Rotation '.$rotationNum;
-			var_dump($newScheduleNameVar[1]);
 
 
 			if($stmt = $this->conn->prepare("insert into CONGREGATION_SCHEDULE (congregation_schedule_name, congregation_schedule_start_date, congregation_schedule_end_date) values (:congregation_schedule_name, :congregation_schedule_start_date, :congregation_schedule_end_date);")) {
@@ -383,12 +383,19 @@ class DBcore {
 				$stmt->bindParam(':congregation_schedule_end_date', $congregation_schedule_end_date);
 				$stmt->execute();
 				if ($stmt->rowCount()) {
-					return true;
 				} else {
 					return false;
 				}
 			}
-
+			if($stmt = $this->conn->prepare("select congregation_schedule_ID from CONGREGATION_SCHEDULE where congregation_schedule_name=:congregation_schedule_name;")) {
+				$stmt->bindParam(':congregation_schedule_name', $newScheduleName);
+				$stmt->execute();
+				$data2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				foreach($data2 as $row){
+					$scheduleID = $row['congregation_schedule_ID'];
+				}
+				return $scheduleID;
+			}
 
 		}
 
