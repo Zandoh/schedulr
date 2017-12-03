@@ -93,6 +93,7 @@ require_once('DBcore.class.php');
                 $user_ID = $row['user_ID'];
             }
             
+            $deleteResult = $DBcore->deleteBusScheduleAssignment($day, $time, $isBackup);
 
             $insertResult = $DBcore->insertBusScheduleAssignment($user_ID, 1, $day, $time, $isBackup);
             if ($insertResult){
@@ -105,5 +106,5 @@ require_once('DBcore.class.php');
         return true;
     }
 
-    
+
 ?>
