@@ -20,7 +20,7 @@
 <?php  
 
 //echo createBusScheduling();
-echo generateCongregationSchedule();
+//echo generateCongregationSchedule();
   ?>
 
 

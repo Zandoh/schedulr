@@ -219,16 +219,20 @@ function generateCongregationSchedule(){
         $flippyBit = checkBlackoutDates($nextRotationArr,$blackoutArr);
         $flippyBit = checkRepeatedDate($prevCongArr,$nextRotationArr);
     }
-    print_r($nextRotationArr);
+    //print_r($nextRotationArr);
     $scheduleID = $DBcore->createNewCongregationSchedule($nextRotationArr[0][0], $nextRotationArr[count($nextRotationArr)-1][1]);
     $insertResult = '';
-    for($h = 0; $h < count($nextRotationArr); $h++){
-        foreach($nextRotationArr as $row){
-            $insertResult .= $DBcore->createNewCongregationScheduleAssignments($row[$h][2], $scheduleID, $row[$h][0], $row[$h][1]);
-        }
+    for($h = 0; $h < count($nextRotationArr)-1; $h++){
+        $congregation_ID = $nextRotationArr[$h][2];
+        $congregation_schedule_ID = $scheduleID;
+        $scheduled_date_start = $nextRotationArr[$h][0];
+        $scheduled_date_end = $nextRotationArr[$h][1];
+        $insertResult .= $DBcore->createNewCongregationScheduleAssignments($congregation_ID, $congregation_schedule_ID, $scheduled_date_start, $scheduled_date_end);
+        
     }
+    
 
-    return $insertResult;
+    return true;
 }
 
 /*
