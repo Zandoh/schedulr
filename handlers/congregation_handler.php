@@ -224,7 +224,7 @@ function generateCongregationSchedule(){
     $insertResult = '';
     for($h = 0; $h < count($nextRotationArr); $h++){
         foreach($nextRotationArr as $row){
-            $insertResult .= $DBcore->createNewCongregationScheduleAssignments($row[$i][2], $scheduleID, $row[$i][0], $row[$i][1]);
+            $insertResult .= $DBcore->createNewCongregationScheduleAssignments($row[$h][2], $scheduleID, $row[$h][0], $row[$h][1]);
         }
     }
 
