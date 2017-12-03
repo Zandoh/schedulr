@@ -28,6 +28,10 @@
     margin-left: 15px;
   }
 
+  .opacity {
+    opacity: .2;
+  }
+
   .submit {
     @include blue-button;
     cursor: pointer;
