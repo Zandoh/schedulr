@@ -535,7 +535,7 @@ class DBcore {
 	* Select previous congregation rotation ID for algorithm
 	*/
 	function selectPreviousRotation(){
-		$data = "";
+		$data = array();
 		$result = array();
 		if($stmt = $this->conn->prepare("select congregation_schedule_ID from CONGREGATION_SCHEDULE where congregation_schedule_end_date = (select MAX(congregation_schedule_end_date) FROM CONGREGATION_SCHEDULE);")){
 			$stmt->execute();
@@ -552,9 +552,15 @@ class DBcore {
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			
-			}			
+			}
+            $final = array();
+            foreach($result as $row){
+				$id = $row['congregation_ID'];
+                array_push($final,$id);
+			}//end of foreach
+
 		}
-		return $result;		
+		return $final;
 	}
     
 
