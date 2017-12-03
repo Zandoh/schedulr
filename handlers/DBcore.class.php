@@ -33,6 +33,17 @@ class DBcore {
 		return $data;	
 	}//end of selectAllUsers	
 
+	function getUserIDFromName($firstName, $lastName){
+		$data = array();
+		if($stmt = $this->conn->prepare("select user_ID from USER where first_name=:first_name AND last_name=:last_name;")){
+            $stmt->bindParam(':first_name', $firstName);
+            $stmt->bindParam(':last_name', $lastName);
+			$stmt->execute();
+			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $data;
+	}
+
 	/*
 	* Select all Congregation Schedules
 	*/
@@ -96,6 +107,24 @@ class DBcore {
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 		return $data;	
+	}
+
+
+	function insertBusScheduleAssignment($user_ID, $schedule_ID, $day, $time, $isBackup){
+		if($stmt = $this->conn->prepare("insert into BUS_SCHEDULE_ASSIGNMENT (user_ID, bus_schedule_ID, scheduled_day, scheduled_time_of_day, backup) values (:user_ID, :bus_schedule_ID, :scheduled_day, :scheduled_time_of_day, :backup);")) {
+			$stmt->bindParam(':user_ID', $user_ID);
+			$stmt->bindParam(':bus_schedule_ID', $schedule_ID);
+			$stmt->bindParam(':scheduled_day', $day);
+			$stmt->bindParam(':scheduled_time_of_day', $time);
+			$stmt->bindParam(':backup', $isBackup);
+			$stmt->execute();
+			if ($stmt->rowCount()) {
+				//the record was added
+				return true;
+			} else {
+				return false;
+			}
+		}//end of if
 	}
 
 

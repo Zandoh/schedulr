@@ -73,5 +73,37 @@ require_once('DBcore.class.php');
 
     function handleBusDriverSchedule($json) {
         var_dump($json);
+
+        $DBcore = new DBcore();
+        //this will be the json arr that is given
+        $arr = json_decode($json);
+        foreach($arr as $row){
+            $array = get_object_vars($row);
+
+            $isBackup = $array["isBackup"];
+            $day = $array["day"];
+            $driver = $array["driver"];
+            $user_ID = '';
+            $firstName = explode(" ", $driver);
+            $lastName = explode(" ", $driver);
+            $time = $array["time"];
+            $idArr = array();
+            $idArr = $DBcore->getUserIDFromName($firstName[0], $lastName[1]);
+            foreach($idArr as $row){
+                $user_ID = $row['user_ID'];
+            }
+            
+
+            $insertResult = $DBcore->insertBusScheduleAssignment($user_ID, 1, $day, $time, $isBackup);
+            if ($insertResult){
+                 //good insert
+            }
+            else{
+                return false;
+            }
+        }  
+        return true;
+
+
     }
 ?>
