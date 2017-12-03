@@ -32,8 +32,14 @@
           </a>
         </div>
         <div class="col-md-3 text-center landing-boxes">
-          <h2>Schedule</h2>
+          <h2>Edit Schedule</h2>
           <a href="./bus-schedule.php">
+            <span></span>
+          </a>
+        </div>
+        <div class="col-md-3 text-center landing-boxes">
+          <h2>View Schedule</h2>
+          <a href="./bus-schedule-view.php">
             <span></span>
           </a>
         </div>
