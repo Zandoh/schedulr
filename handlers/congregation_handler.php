@@ -185,30 +185,22 @@ function generateCongregationSchedule(){
     $optionStr = "";
     $congCount = "";
     $previousDate = "";
+    $flippyBit = true;
 
     $DBcore = new DBcore();
     $congArr = array();
     $blackoutArr = array();
     $nextRotationArr = array();
 
-
     $currentCongArr = $DBcore->selectAllCongregations();
     $prevCongArr = $DBcore->selectPreviousRotation();
     $last_date = $DBcore->selectMaxRotationDate();
     $congCount = $DBcore->selectCongCount();
 
-    // return congregation ID's of the previous rotation in order by time
-    foreach($prevCongArr as $row){
-        $congregation_ID = $row['congregation_ID'];
-        //$optionStr .= "<p>".$congregation_ID."</p>";
-    }//end of foreach
-
-
     $previousDate = $last_date;
 
     // add start and end dates needed for next rotation (add 1 week to each)
     for($i = 0; $i < $congCount; $i++){
-
         $endDate = date('Y-m-d', strtotime($previousDate."+1 week"));
 
         $dates = array($previousDate, $endDate, $currentCongArr[$i]['congregation_ID']);
@@ -220,14 +212,13 @@ function generateCongregationSchedule(){
         array_push($blackoutArr, $blackout);
 
         $previousDate = $endDate;
-
     }
 
-    //print_r($blackoutArr);
+    while($flippyBit){
+      shuffle($nextRotationArr);
+      $flippyBit = checkBlackoutDates($nextRotationArr,$blackoutArr);
+    }
     //print_r($nextRotationArr);
-
-    $optionStr = checkBlackoutDates($nextRotationArr,$blackoutArr);
-
     //$DBcore->createNewCongregationSchedule($nextRotationArr[0][0], $nextRotationArr[count($nextRotationArr)-1][1]);
 
     return $optionStr;
@@ -260,12 +251,12 @@ function returnBlackouts($id) {
 function checkBlackoutDates($scheduleArray,$blackoutArray){
     $sizeOf = count($scheduleArray);
     $sizeOfBla = count($blackoutArray);
-    $dirtyBit = false;
+    //$dirtyBit = false;
     $returnStr = '';
     
     //for each element in the schedule array
     for($j = 0; $j < $sizeOf; $j++){
-        $returnStr .= "<h2>Week " . $j . " Schedule start day: " . $scheduleArray[$j][0] . " CID : " . $scheduleArray[$j][2] . "</h2>";
+        //$returnStr .= "<h2>Week " . $j . " Schedule start day: " . $scheduleArray[$j][0] . " CID : " . $scheduleArray[$j][2] . "</h2>";
         // for each element in the blackout array
         for($i = 0; $i < $sizeOfBla; $i++){      
             $sizeOf2DBla = count($blackoutArray[$i]);
@@ -273,17 +264,16 @@ function checkBlackoutDates($scheduleArray,$blackoutArray){
              for($k = 0; $k < $sizeOf2DBla; $k++){   
                 if($scheduleArray[$j][2] == $blackoutArray[$i][$k][congregation_ID]){
                     if($scheduleArray[$j][0] == $blackoutArray[$i][$k][blackout_date_start] || $scheduleArray[$j][0] == $blackoutArray[$j][$k][blackout_date_end]){
-                        $returnStr .= "<p>Blackout start day: " . $blackoutArray[$i][$k][blackout_date_start] .
-                        "</p><p>Blackout ID : " . $blackoutArray[$i][$k][congregation_ID] . "</p>";
+                        //$returnStr .= "<p>Blackout start day: " . $blackoutArray[$i][$k][blackout_date_start] .
+                        //"</p><p>Blackout ID : " . $blackoutArray[$i][$k][congregation_ID] . "</p>";
+                        return false;
                     }
                 }
             }   
           }             
         }    
     }
-
-    return $returnStr;
-
+    return true;
 }
 
 
