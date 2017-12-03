@@ -241,6 +241,29 @@ class DBcore {
 
 	}
 
+	/*
+	* insert a the value for a new congregation schedu 
+	*/
+	function createNewCongregationScheduleAssignments($congregation_ID, $congregation_schedule_ID, $scheduled_date_start, $scheduled_date_end){
+		$data = array();
+		if($stmt = $this->conn->prepare("insert into CONGREGATION_SCHEDULE_ASSIGNMENT (congregation_ID, congregation_schedule_ID, scheduled_date_start, scheduled_date_end) values (:congregation_ID, :congregation_schedule_ID, :scheduled_date_start, :scheduled_date_end);")) {
+					$stmt->bindParam(':congregation_ID', $congregation_ID);
+					$stmt->bindParam(':congregation_schedule_ID', $congregation_schedule_ID);
+					$stmt->bindParam(':scheduled_date_start', $scheduled_date_start);
+					$stmt->bindParam(':scheduled_date_end', $scheduled_date_end);
+					$stmt->execute();
+					if ($stmt->rowCount()) {
+						//the record was added
+						return true;
+					} else {
+						return false;
+					}
+				}//end of if
+	}
+
+
+
+
 
 	/*
 	* rewrite new values belonging to a congregation
