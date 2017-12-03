@@ -1,0 +1,26 @@
+@import '../../globals';
+/* Created for the bus driver schedule view page */
+
+.bus-view-container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    h2 {
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    label {
+        font-weight: 600;
+    }
+
+    tbody th {
+        font-weight: normal;
+        vertical-align: middle;
+    }
+
+    thead {
+        font-weight: bold;
+    }
+
+}

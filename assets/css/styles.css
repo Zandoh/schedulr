@@ -192,6 +192,22 @@ footer {
     color: red; }
 
 /* Created to define SCSS values for use throughout the website */
+/* Created for the bus driver schedule view page */
+.bus-view-container {
+  margin-top: 50px;
+  margin-bottom: 50px; }
+  .bus-view-container h2 {
+    margin-bottom: 20px;
+    font-weight: bold; }
+  .bus-view-container label {
+    font-weight: 600; }
+  .bus-view-container tbody th {
+    font-weight: normal;
+    vertical-align: middle; }
+  .bus-view-container thead {
+    font-weight: bold; }
+
+/* Created to define SCSS values for use throughout the website */
 /* Created for the congregation blackout dates */
 .cong-blackout-container {
   margin-top: 50px;
