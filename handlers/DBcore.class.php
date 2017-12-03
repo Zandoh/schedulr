@@ -73,8 +73,10 @@ class DBcore {
 	* Select all Bus Schedule Events from a single busschedule
 	*/
 	function selectAllBusScheduleEvents(){
+		$today = date('Y-m-d');
 		$data = array();
-		if($stmt = $this->conn->prepare("select u.first_name, u.last_name, bsa.scheduled_day, bsa.scheduled_time_of_day, bsa.backup from BUS_SCHEDULE_ASSIGNMENT bsa JOIN USER u using(user_ID);")){
+		if($stmt = $this->conn->prepare("select u.first_name, u.last_name, bsa.scheduled_day, bsa.scheduled_time_of_day, bsa.backup from BUS_SCHEDULE_ASSIGNMENT bsa JOIN USER u using(user_ID) where bsa.scheduled_day >= :today;")){
+            $stmt->bindParam(':today', $today);
 			$stmt->execute();
 			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
@@ -142,13 +144,11 @@ class DBcore {
 		}//end of if
 	}
 
-	function deleteBusScheduleAssignment($day, $time, $isBackup){
+	function deleteBusScheduleAssignment($day){
 
 		//delete all records where $day, $time, $isBackup is the same
-		if($stmt = $this->conn->prepare("delete from BUS_SCHEDULE_ASSIGNMENT where scheduled_day=:scheduled_day, scheduled_time_of_day=:scheduled_time_of_day, backup=:backup;")) {
+		if($stmt = $this->conn->prepare("delete from BUS_SCHEDULE_ASSIGNMENT where scheduled_day=:scheduled_day;")) {
 			$stmt->bindParam(':scheduled_day', $day);
-			$stmt->bindParam(':scheduled_time_of_day', $time);
-			$stmt->bindParam(':backup', $isBackup);
 			$stmt->execute();
 			if ($stmt->rowCount()) {
 				return true;
