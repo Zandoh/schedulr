@@ -26,11 +26,11 @@ var bus_schedule = {
       bus_schedule.submitSchedule();
     });
 
-    var doc = new jsPDF();
-
 		$('#pdfMe').click(function () {
-				doc.fromHTML($('.scheduleToPDF').html(), 15, 15);
-				doc.save('bus_schedule.pdf');
+      var doc = new jsPDF();
+      doc.setFont("times");
+      doc.fromHTML($('.scheduleToPDF').html(), 15, 15);
+      doc.save('bus_schedule.pdf');
 		});
 
   },
