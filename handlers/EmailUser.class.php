@@ -23,7 +23,7 @@ class EmailUser {
     // create a unique user key
     $key = hash("sha256", $salt . $email);
 
-    $url = $home . "/schedulr-master/reset-password.php?key=" . $key;
+    $url = $home . "/reset-password.php?key=" . $key;
     
 
     $mail = new PHPMailer\PHPMailer\PHPMailer();
