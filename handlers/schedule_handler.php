@@ -29,7 +29,7 @@ function createBusScheduling(){
   //first_name, last_name, scheduled_day, scheduled_time_of_day, backup
   $scheduleName = "";
 
-  $tableScheduleStr = '<h2>Bus Schedule</h2>';
+  $tableScheduleStr = '<div class="scheduleToPDF"><h2>Bus Schedule</h2>';
   $tableScheduleStr .= '<table class="table table-striped table-bordered sortCongregations">
                           <thead>
                             <tr>
@@ -52,7 +52,7 @@ function createBusScheduling(){
                   <td class="sort-cong-name">'.$row['first_name'].' '.$row['first_name'].'</td>
                 </tr>';
   }
-  $tableScheduleStr .= '</tbody></table>';
+  $tableScheduleStr .= '</tbody></table></div></div></div><div class="row justify-content-md-center"><button id="pdfMe" class="">Download Schedule</button></div>';
   return $tableScheduleStr;
 }
 

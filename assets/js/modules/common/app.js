@@ -72,7 +72,7 @@ $(document).ready(function() {
 
 	}
 
-	if($("body").hasClass("bus-schedule")) {
+	if($("body").hasClass("bus-schedule")) { 
 		bus_schedule.init();
 
 		// assign and configure a date picker to the div
@@ -96,9 +96,14 @@ $(document).ready(function() {
 
 	}
 
-	if($(".generatePDF")){
-		//bind click events 
-			//utils.saveAsPDF();
+	if($("body").hasClass("guest")) {
+		var doc = new jsPDF();
+		var rotation = $('.scheduleToPDF h2').text().replace(/ /g,'').toLowerCase();
+
+		$('#pdfMe').click(function () {
+				doc.fromHTML($('.scheduleToPDF').html(), 15, 15);
+				doc.save('congregation_schedule_'+rotation+'.pdf');
+		});
 	}
 
 });
