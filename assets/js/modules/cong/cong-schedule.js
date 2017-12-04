@@ -19,6 +19,13 @@ var cong_schedule = {
       e.preventDefault();
       cong_schedule.submitCongregations();
     });
+
+  },
+  /*
+  * Function called when a user creates a new rotation
+  */
+  addRotation: function() {
+    ajax.generateNewRotation('generateCongregationSchedule');
   },
 
   /*

@@ -71,10 +71,10 @@ nav.navbar {
 footer {
   margin-top: 200px; }
 
-.responseMessage .error {
+.responseMessage .error, .rotationResponseMessage .error {
   color: red; }
 
-.responseMessage .success {
+.responseMessage .success, .rotationResponseMessage .success {
   color: green; }
 
 /* Created to define SCSS values for use throughout the website */
@@ -273,7 +273,7 @@ footer {
     font-weight: bold; }
   .cong-schedule-container label {
     font-weight: 600; }
-  .cong-schedule-container .submit-button[type="submit"] {
+  .cong-schedule-container .submit-button {
     -webkit-transition: .1s opacity linear;
     -moz-transition: .1s opacity linear;
     -o-transition: .1s opacity linear;
@@ -290,7 +290,7 @@ footer {
     font-size: 12px;
     margin: 0 auto;
     margin-left: 15px; }
-    .cong-schedule-container .submit-button[type="submit"]:hover {
+    .cong-schedule-container .submit-button:hover {
       opacity: .8; }
   .cong-schedule-container .opacity {
     opacity: .2; }

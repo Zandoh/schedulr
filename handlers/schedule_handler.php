@@ -95,8 +95,11 @@ function getCongregationsToSchedule(){
 
   }//end of foreach
     $congStr .= '</select>
-                <input class="submit-button" type="submit" name="submit">
-                </form></div>';
+                <input class="submit-button" type="submit" name="submit"></div>
+                <input class="submit-button" type="button" id="addRotation" value="Add Rotation" onclick="if(confirm(\'Are you sure you want to do this? Have the congregations submitted their blackout dates?\')) cong_schedule.addRotation();">
+                </form>
+                <div class="rotationResponseMessage"></div>
+                ';
   return $congStr;
 }
 

@@ -218,7 +218,33 @@ var ajax = {
 			var responseContainer = $('.responseMessage');
 			responseContainer.empty();
 			if(jsonResponse == 1) {
-				responseContainer.append('<p class="success">Sumbmitted Successfully</p>');
+				responseContainer.append('<p class="success">Submitted Successfully</p>');
+			}
+			else if (jsonResponse == 0) {
+				responseContainer.append('<p class="error">An error occurred</p>');
+			}
+		}).fail(function(err) {
+      // console.log(err);
+    });
+  },
+  
+  /* 
+	* Method: generateNewRotation()
+	*
+	* @param: func: function to be called in the "file" attribute
+	* @param: data: optional, data to be passed in with the ajax call.
+	*
+	* Description: gets all drivers to populate a select/option element
+  */
+  generateNewRotation: function(func) {
+		ajax.ajaxCall("GET", {
+      method: func, 
+      file: "congregation_handler"
+    }).done(function(jsonResponse) {
+      var responseContainer = $('.rotationResponseMessage');
+			responseContainer.empty();
+			if(jsonResponse == 1) {
+				responseContainer.append('<p class="success">Submitted Successfully</p>');
 			}
 			else if (jsonResponse == 0) {
 				responseContainer.append('<p class="error">An error occurred</p>');

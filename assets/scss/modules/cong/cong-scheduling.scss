@@ -18,7 +18,7 @@
     font-weight: 600;
   }
 
-  .submit-button[type="submit"] {
+  .submit-button {
     @include blue-button;
     cursor: pointer;
     font-weight: 500;
