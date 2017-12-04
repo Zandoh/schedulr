@@ -1,5 +1,6 @@
 <?php
-$dsn='mysql:host=127.0.0.1:3306;dbname=schedulrDB';
-$us='root';
-$ps='undercontrol22';
+$db = 'schedulrDB';
+$host = 'localhost';
+$user='root';
+$pass='undercontrol22';
 ?>
