@@ -29,7 +29,7 @@ function createBusScheduling(){
   //first_name, last_name, scheduled_day, scheduled_time_of_day, backup
   $scheduleName = "";
 
-  $tableScheduleStr = '<h2>Bus Schedule</h2>';
+  $tableScheduleStr = '<div class="scheduleToPDF"><h2>Bus Schedule</h2>';
   $tableScheduleStr .= '<table class="table table-striped table-bordered sortCongregations">
                           <thead>
                             <tr>
@@ -52,7 +52,7 @@ function createBusScheduling(){
                   <td class="sort-cong-name">'.$row['first_name'].' '.$row['first_name'].'</td>
                 </tr>';
   }
-  $tableScheduleStr .= '</tbody></table>';
+  $tableScheduleStr .= '</tbody></table></div></div></div><div class="row justify-content-md-center"><button id="pdfMe" class="">Download Schedule</button></div>';
   return $tableScheduleStr;
 }
 
@@ -154,16 +154,11 @@ function editSchedule($json){
 
       $congregation_schedule_ID = $array['rotation'];
 
-      //$clearResult = $DBcore->clearOneCongregationSchedule($congregation_schedule_ID);
-      if ($clearResult){
-            //good clear
-      }
-      else{
-          //return false;
-          return true;
-      }
+      var_dump($congregation_schedule_ID);
+      $clearResult = $DBcore->clearOneCongregationSchedule($congregation_schedule_ID);
+      
   }  
-  //$scheduleID = $DBcore->createNewCongregationSchedule($startDate, $endDate);
+
   foreach($arr as $row){
       $array = get_object_vars($row);
       $congregation_ID = $array['id'];
@@ -173,7 +168,7 @@ function editSchedule($json){
       var_dump($scheduled_date_start);
       var_dump($scheduled_date_end);
       var_dump($congregation_schedule_ID);
-      //$insertResult .= $DBcore->createNewCongregationScheduleAssignments($congregation_ID, $congregation_schedule_ID, $scheduled_date_start, $scheduled_date_end);
+      $insertResult .= $DBcore->createNewCongregationScheduleAssignments($congregation_ID, $congregation_schedule_ID, $scheduled_date_start, $scheduled_date_end);
         
   }
   return true;

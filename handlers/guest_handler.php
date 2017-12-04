@@ -40,7 +40,7 @@ require_once('DBcore.class.php');
 			$scheduleName = $row['congregation_schedule_name'];
 		}
 
-		$tableScheduleStr = '<h2>'.$scheduleName.'</h2>';
+		$tableScheduleStr = '<div class="scheduleToPDF"><h2>'.$scheduleName.'</h2>';
 		$tableScheduleStr .= '<table class="table table-striped table-bordered">
 								<thead>
 									<tr>
@@ -58,7 +58,7 @@ require_once('DBcore.class.php');
 								  </tr>';
 
 		}
-		$tableScheduleStr .= '</tbody></table></div>';
+		$tableScheduleStr .= '</tbody></table></div></div></div><div class="row justify-content-md-center"<button id="pdfMe" class="">Download Schedule</button></div>';
 		return $tableScheduleStr;
 	}
 

@@ -103,3 +103,21 @@ footer {
     color: green;
   }
 }
+
+#pdfMe {
+  -webkit-transition: .1s opacity linear;
+  -moz-transition: .1s opacity linear;
+  -o-transition: .1s opacity linear;
+  transition: .1s opacity linear;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ffffff;
+  background-color: #0066a3;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 13px 26px;
+  font-size: 12px;
+  margin-right: 15px;
+}

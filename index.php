@@ -34,6 +34,6 @@
     <script src="assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
     <script src="assets/fullcalendar/lib/moment.min.js" type="text/javascript"></script>
     <script src="assets/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-    <script srx="assets/js/vendor/jspdf.min.js" type="text/javascript"></script>
+    <script src="assets/js/vendor/jspdf.min.js" type="text/javascript"></script>
     <script src="assets/js/scripts.min.js" type="text/javascript"></script>
 </html>

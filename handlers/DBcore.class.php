@@ -5,21 +5,17 @@ class DBcore {
 		
 	// Default constructor
 	function __construct(){
-	// will be the path to our dbInfo
-		//require_once(__DIR__ . '../../../../datainfo/dbinfo.php');
-		$db='schedulrDB';
-		// $host='localhost';
-		$host='127.0.0.1:3306';
-		$user='root';
-		$pass='undercontrol22';
-		try{
-        		$this->conn = new PDO('mysql:dbname='.$db.';host='.$host.'', $user, $pass, array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-      		}
-      		catch(PDOException $e){
-        	// used for developing
-        	echo'Connection Failed: '.$e->getMessage();
-      		}
-	}// end of default constructor 
+        // will be the path to our dbInfo
+                require '../../dbinfo.php';
+                try{
+                        $this->conn = new PDO('mysql:dbname='.$db.';host='.$host.'', $user, $pass, array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+                }
+                catch(PDOException $e){
+                // used for developing
+                echo'Connection Failed: '.$e->getMessage();
+                }
+        }// end of default constructor
+ 
   
 	/*
 	* Select all users
