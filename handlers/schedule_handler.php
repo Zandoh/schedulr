@@ -146,33 +146,35 @@ function editSchedule($json){
   $DBcore = new DBcore();
   //this will be the json arr that is given
   $arr = json_decode($json);
+  $startDate = '';
+  $endDate = '';
+  $congregation_schedule_ID = "";
   foreach($arr as $row){
       $array = get_object_vars($row);
 
-      $congregation_ID = $array["id"];
-      //TODO: clear schedule?
-      $clearResult = $DBcore->clearBlackouts($congregation_ID);
+      $congregation_schedule_ID = $array['rotation'];
+
+      //$clearResult = $DBcore->clearOneCongregationSchedule($congregation_schedule_ID);
       if ($clearResult){
             //good clear
       }
       else{
-          return false;
+          //return false;
+          return true;
       }
   }  
-
+  //$scheduleID = $DBcore->createNewCongregationSchedule($startDate, $endDate);
   foreach($arr as $row){
       $array = get_object_vars($row);
-      $congregation_ID = $array["id"];
-      $start_date = $array["start_date"];
-      $end_date = $array["end_date"];
-      //TODO: insert new schedule?
-      $insertResult = $DBcore->insertBlackouts($congregation_ID, $start_date, $end_date);
-      if ($insertResult){
-            //good clear
-      }
-      else{
-          return false;
-      }    
+      $congregation_ID = $array['id'];
+      $scheduled_date_start = $array['start_date'];
+      $scheduled_date_end = $array['end_date'];
+      var_dump($congregation_ID);
+      var_dump($scheduled_date_start);
+      var_dump($scheduled_date_end);
+      var_dump($congregation_schedule_ID);
+      //$insertResult .= $DBcore->createNewCongregationScheduleAssignments($congregation_ID, $congregation_schedule_ID, $scheduled_date_start, $scheduled_date_end);
+        
   }
   return true;
 }
