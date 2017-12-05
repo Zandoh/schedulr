@@ -52,7 +52,7 @@ function createBusScheduling(){
                   <td class="sort-cong-name">'.$row['first_name'].' '.$row['first_name'].'</td>
                 </tr>';
   }
-  $tableScheduleStr .= '</tbody></table></div></div></div><div class="row justify-content-md-center"><button onClick="window.print()">Download Schedule</button></div>';
+  $tableScheduleStr .= '</tbody></table></div></div></div><div class="row justify-content-md-center"><input type="submit" value="Download Schedule" class="submit-button" onClick="window.print()"></div>';
   return $tableScheduleStr;
 }
 

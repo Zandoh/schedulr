@@ -58,7 +58,7 @@ require_once('DBcore.class.php');
 								  </tr>';
 
 		}
-		$tableScheduleStr .= '</tbody></table></div></div></div><div class="row justify-content-md-center"><button onClick="window.print()">Download Schedule</button></div>';
+		$tableScheduleStr .= '</tbody></table></div></div></div><div class="row justify-content-md-center"><input type="submit" value="Download Schedule" class="submit-button" onClick="window.print()"></div>';
 		return $tableScheduleStr;
 	}
 
