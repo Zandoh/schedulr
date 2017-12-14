@@ -49,7 +49,7 @@ function createBusScheduling(){
                   <td>'.$row['scheduled_day'].'</td>
                   <td>'.$row['scheduled_time_of_day'].'</td>
                   <td>'.$backup.'</td>
-                  <td class="sort-cong-name">'.$row['first_name'].' '.$row['first_name'].'</td>
+                  <td class="sort-cong-name">'.$row['first_name'].' '.$row['last_name'].'</td>
                 </tr>';
   }
   $tableScheduleStr .= '</tbody></table></div></div></div><div class="row justify-content-md-center"><input type="submit" value="Download Schedule" class="submit-button" onClick="window.print()"></div>';
