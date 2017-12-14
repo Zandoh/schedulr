@@ -75,6 +75,7 @@ include 'handlers/login_handler.php';
                   <div class="responseMessage">
                   </div>
                   <button type="submit" class="submit" id="driver-avail-submit">Submit</button>
+                  <button type="button" class="submit" id="reset">Clear All Dates</button>
                 </div>
               </form>
             </div>

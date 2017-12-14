@@ -409,7 +409,7 @@ var bus = {
       e.preventDefault();
       
       $("#error-container").empty();
-      
+
       // make sure fields aren't empty
       if($('#bus-name').val() == "") {
         error = true;
@@ -428,8 +428,19 @@ var bus = {
 
       if(!error){
         bus.populateTable();
+
+        // clear the dates in the calendar
+        $('#date-picker').multiDatesPicker('resetDates', 'picked');
       }
 
+    });
+
+    // clear the table
+    $('#reset').on('click', function(e) {
+      if (confirm("Are you sure you want to delete all availability dates?") == true) {
+        e.preventDefault();
+        $('table#list tbody > tr').remove();
+      }
     });
 
     $('#driver-avail-submit').on('click', function(e) {
